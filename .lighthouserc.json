@@ -1,0 +1,63 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "node scripts/serve.js 4099",
+      "startServerReadyPattern": "Serveur statique prêt",
+      "url": [
+        "http://localhost:4099/",
+        "http://localhost:4099/catalogue",
+        "http://localhost:4099/blog",
+        "http://localhost:4099/taches",
+        "http://localhost:4099/contact",
+        "http://localhost:4099/catalogue/plantes-interieur",
+        "http://localhost:4099/catalogue/plantes-interieur/feuillages",
+        "http://localhost:4099/mentions-legales",
+        "http://localhost:4099/donnees-personnelles",
+        "http://localhost:4099/accessibilite",
+        "http://localhost:4099/plan-du-site",
+        "http://localhost:4099/blog/le-mode-accessibilite-renforcee",
+        "http://localhost:4099/produit/monstera-deliciosa"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": "--headless=new --no-sandbox"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.9,
+            "aggregationMethod": "median"
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 1,
+            "aggregationMethod": "median"
+          }
+        ],
+        "categories:seo": [
+          "error",
+          {
+            "minScore": 1,
+            "aggregationMethod": "median"
+          }
+        ],
+        "categories:best-practices": [
+          "warn",
+          {
+            "minScore": 0.9,
+            "aggregationMethod": "median"
+          }
+        ]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci/reports"
+    }
+  }
+}

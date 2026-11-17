@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="fr" data-color-scheme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boilerplate HTML, socle web natif sans build</title>
+    <meta
+      name="description"
+      content="Point de départ HTML, CSS et JavaScript natifs : pages statiques accessibles, carrousel au glisser, formulaire validé et tests automatisés."
+    />
+    <link rel="canonical" href="https://www.example.com/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Boilerplate HTML" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Boilerplate HTML, socle web natif sans build" />
+    <meta
+      property="og:description"
+      content="Point de départ HTML, CSS et JavaScript natifs : pages statiques accessibles, carrousel au glisser, formulaire validé et tests automatisés."
+    />
+    <meta property="og:url" content="https://www.example.com/" />
+    <meta property="og:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boilerplate HTML" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Boilerplate HTML, socle web natif sans build" />
+    <meta
+      name="twitter:description"
+      content="Point de départ HTML, CSS et JavaScript natifs : pages statiques accessibles, carrousel au glisser, formulaire validé et tests automatisés."
+    />
+    <meta name="twitter:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      document.documentElement.dataset.js = ''
+      try {
+        if (localStorage.getItem('a11y-mode') === 'enhanced') {
+          document.documentElement.dataset.a11yMode = 'enhanced'
+        }
+        const colorScheme = localStorage.getItem('color-scheme')
+        if (colorScheme === 'auto' || colorScheme === 'light' || colorScheme === 'dark') {
+          document.documentElement.dataset.colorScheme = colorScheme
+        }
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/vendor/boilerplates-ui.css" />
+    <script type="module" src="/js/shared/a11yModeToggle.js"></script>
+    <script type="module" src="/js/shared/colorSchemeToggle.js"></script>
+    <script type="module" src="/js/shared/categoryMenu.js"></script>
+    <script type="module" src="/js/shared/imageFallback.js"></script>
+    <script type="module" src="/js/modules/cart/ui/cartLink.js" data-sales></script>
+    <script type="module" src="/js/modules/catalog/ui/featuredProducts.js"></script>
+    <script type="module" src="/js/modules/blog/ui/latestArticles.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Boilerplate HTML",
+            "url": "https://www.example.com/",
+            "inLanguage": "fr-FR"
+          },
+          {
+            "@type": "Organization",
+            "name": "Exemple SAS",
+            "url": "https://www.example.com/",
+            "email": "contact@example.com",
+            "logo": "https://www.example.com/icons/icon-512.png"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!--# set var="page" value="accueil" -->
+    <!--# include virtual="/partials/header.html" -->
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title" data-testid="home-hero">
+        <picture class="hero-media">
+          <source
+            type="image/avif"
+            srcset="
+              /images/hero-640.avif   640w,
+              /images/hero-1280.avif 1280w,
+              /images/hero-1920.avif 1920w
+            "
+            sizes="100vw"
+          />
+          <source
+            type="image/webp"
+            srcset="
+              /images/hero-640.webp   640w,
+              /images/hero-1280.webp 1280w,
+              /images/hero-1920.webp 1920w
+            "
+            sizes="100vw"
+          />
+          <img
+            src="/images/hero-1280.webp"
+            alt=""
+            width="1920"
+            height="1080"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+        <div class="container hero-content">
+          <p class="hero-eyebrow">Sans framework, sans build</p>
+          <h1 id="hero-title">Boilerplate HTML</h1>
+          <p class="hero-lead">
+            Boilerplate HTML, CSS et JavaScript natifs, sans framework ni étape de build, outillé
+            pour la validation, les tests end-to-end et l'accessibilité.
+          </p>
+          <p class="hero-actions">
+            <a class="bui-button bui-button--light" href="/taches" data-testid="home-tasks-link"
+              >Voir la démo des tâches</a
+            >
+            <a
+              class="bui-button bui-button--outline-light"
+              href="/contact"
+              data-testid="home-contact-link"
+              >Voir le formulaire</a
+            >
+          </p>
+        </div>
+      </section>
+      <section
+        class="container home-section carousel"
+        aria-labelledby="carousel-title"
+        aria-roledescription="carrousel"
+        data-carousel
+        data-testid="home-carousel"
+        data-label-dot="Aller à la diapositive {number}"
+        data-label-slide="{number} sur {count}"
+      >
+        <div class="carousel-header">
+          <h2 id="carousel-title">À la une</h2>
+          <div class="carousel-controls" data-carousel-controls>
+            <button
+              type="button"
+              class="bui-button bui-button--outline"
+              aria-controls="carousel-track"
+              data-carousel-prev
+              data-testid="carousel-prev"
+              disabled
+            >
+              <svg
+                class="bui-icon bui-icon--md"
+                aria-hidden="true"
+                focusable="false"
+                width="20"
+                height="20"
+              >
+                <use href="/icons.svg#chevron-left"></use>
+              </svg>
+              Précédent
+            </button>
+            <button
+              type="button"
+              class="bui-button bui-button--outline"
+              aria-controls="carousel-track"
+              data-carousel-next
+              data-testid="carousel-next"
+            >
+              Suivant
+              <svg
+                class="bui-icon bui-icon--md"
+                aria-hidden="true"
+                focusable="false"
+                width="20"
+                height="20"
+              >
+                <use href="/icons.svg#chevron-right"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div data-carousel-state>
+          <div class="skeleton-list" role="status" data-testid="home-carousel-loading">
+            <span class="visually-hidden">Chargement du carrousel…</span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+          </div>
+        </div>
+        <noscript>
+          <div class="bui-alert bui-alert--info" data-testid="home-carousel-noscript">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#info"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Information :</span>
+              <div class="bui-alert__body">
+                <p>
+                  Les diapositives sont lues dans l'API par JavaScript. Activez-le pour les
+                  afficher.
+                </p>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <div
+          class="carousel-viewport"
+          id="carousel-track"
+          role="group"
+          aria-label="Diapositives"
+          tabindex="0"
+          data-carousel-viewport
+          data-testid="carousel-track"
+        >
+          <div class="carousel-container" data-carousel-slides></div>
+        </div>
+        <div
+          class="carousel-dots"
+          role="group"
+          aria-label="Choix de la diapositive"
+          data-carousel-dots
+        ></div>
+        <template id="carousel-slide-template">
+          <div
+            class="carousel-slide"
+            role="group"
+            aria-roledescription="diapositive"
+            data-testid="carousel-slide"
+          >
+            <figure>
+              <picture class="bui-picture">
+                <source
+                  type="image/avif"
+                  sizes="(width >= 1024px) 33vw, (width >= 640px) 50vw, 100vw"
+                  data-slide-avif
+                />
+                <source
+                  type="image/webp"
+                  sizes="(width >= 1024px) 33vw, (width >= 640px) 50vw, 100vw"
+                  data-slide-webp
+                />
+                <img
+                  src="/images/hero-640.webp"
+                  alt=""
+                  width="800"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  data-slide-image
+                />
+              </picture>
+              <figcaption>
+                <h3>
+                  <a
+                    class="carousel-link"
+                    href="/catalogue"
+                    draggable="false"
+                    data-testid="carousel-slide-link"
+                    data-slide-title
+                    >Diapositive</a
+                  >
+                </h3>
+                <p data-sales data-slide-text></p>
+              </figcaption>
+            </figure>
+          </div>
+        </template>
+        <template id="carousel-error-template">
+          <div class="bui-alert bui-alert--error" role="alert" data-testid="home-carousel-error">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-alert"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Erreur :</span>
+              <div class="bui-alert__body">
+                <p>Impossible de charger le carrousel pour le moment.</p>
+              </div>
+            </div>
+            <div class="bui-alert__action">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                data-carousel-retry
+                data-testid="home-carousel-retry"
+              >
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </template>
+      </section>
+      <section
+        class="container home-section blog"
+        aria-labelledby="blog-title"
+        data-testid="home-blog"
+      >
+        <h2 id="blog-title">Derniers articles</h2>
+        <div class="blog-state" data-blog-state>
+          <div class="skeleton-list" role="status" data-testid="home-blog-loading">
+            <span class="visually-hidden">Chargement des articles…</span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+          </div>
+        </div>
+        <noscript>
+          <div class="bui-alert bui-alert--info" data-testid="home-blog-noscript">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#info"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Information :</span>
+              <div class="bui-alert__body">
+                <p>
+                  Les articles sont lus dans l'API par JavaScript. Activez-le pour les afficher.
+                </p>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <div class="blog-grid" data-blog-grid></div>
+        <p class="blog-all">
+          <a class="bui-link" href="/blog" data-testid="home-blog-all">Tous les articles</a>
+        </p>
+        <template id="blog-card-template">
+          <article class="blog-card" data-testid="home-blog-card">
+            <picture class="blog-card-media bui-picture">
+              <source
+                type="image/avif"
+                sizes="(width >= 1024px) 460px, (width >= 640px) 50vw, 100vw"
+                data-blog-avif
+              />
+              <source
+                type="image/webp"
+                sizes="(width >= 1024px) 460px, (width >= 640px) 50vw, 100vw"
+                data-blog-webp
+              />
+              <img
+                src="/images/hero-640.webp"
+                alt=""
+                width="960"
+                height="540"
+                loading="lazy"
+                decoding="async"
+                data-blog-image
+              />
+            </picture>
+            <p class="blog-card-section" data-blog-section data-testid="article-section"></p>
+            <h3><a class="blog-card-link" href="/" data-blog-title>Article</a></h3>
+            <p data-blog-excerpt></p>
+            <footer class="blog-card-meta">
+              <time data-blog-date></time>
+            </footer>
+          </article>
+        </template>
+        <template id="blog-error-template">
+          <div class="bui-alert bui-alert--error" role="alert" data-testid="home-blog-error">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-alert"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Erreur :</span>
+              <div class="bui-alert__body">
+                <p>Impossible de charger les articles pour le moment.</p>
+              </div>
+            </div>
+            <div class="bui-alert__action">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                data-blog-retry
+                data-testid="home-blog-retry"
+              >
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </template>
+        <template id="blog-empty-template">
+          <p class="blog-empty" data-testid="home-blog-empty">
+            Aucun article pour le moment. Revenez bientôt, la rédaction est au travail.
+          </p>
+        </template>
+      </section>
+    </main>
+    <!--# include virtual="/partials/footer.html" -->
+  </body>
+</html>

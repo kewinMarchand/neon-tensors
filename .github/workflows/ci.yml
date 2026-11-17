@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: make install
+      - run: make qa
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: qa
+    steps:
+      - uses: actions/checkout@v7
+      - run: git clone --depth 1 https://github.com/kewinMarchand/boilerplate-hono.git .api
+      - run: make -C .api install db-reset
+      - run: make install
+      - run: make test-e2e test-a11y
+        env:
+          API_URL: http://localhost:8091
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+      - run: make metrics
+        env:
+          API_URL: http://localhost:8091
+      - run: make -C .api down
+        if: always()
+
+  prod:
+    runs-on: ubuntu-latest
+    needs: qa
+    steps:
+      - uses: actions/checkout@v7
+      - run: git clone --depth 1 https://github.com/kewinMarchand/boilerplate-hono.git .api
+      - run: make -C .api install db-reset
+      - run: make install
+      - run: make test-prod
+        env:
+          API_URL: http://localhost:8091
+      - run: make -C .api down
+        if: always()

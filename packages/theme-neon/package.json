@@ -1,0 +1,15 @@
+{
+  "name": "@kewinmarchand/theme-neon",
+  "version": "0.1.0",
+  "description": "Theme Neon (tokens + overrides) a appliquer aux composants commons de boilerplates-ui",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.css",
+    "./*": "./src/*"
+  },
+  "files": [
+    "src"
+  ]
+}

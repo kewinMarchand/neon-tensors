@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr" data-color-scheme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Déclaration d'accessibilité · Boilerplate HTML</title>
+    <meta
+      name="description"
+      content="Déclaration d'accessibilité RGAA 4.1.2 : site non conforme, résultats des tests automatisés, mode renforcé, contact et voies de recours."
+    />
+    <link rel="canonical" href="https://www.example.com/accessibilite" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Boilerplate HTML" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Déclaration d'accessibilité · Boilerplate HTML" />
+    <meta
+      property="og:description"
+      content="Déclaration d'accessibilité RGAA 4.1.2 : site non conforme, résultats des tests automatisés, mode renforcé, contact et voies de recours."
+    />
+    <meta property="og:url" content="https://www.example.com/accessibilite" />
+    <meta property="og:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boilerplate HTML" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Déclaration d'accessibilité · Boilerplate HTML" />
+    <meta
+      name="twitter:description"
+      content="Déclaration d'accessibilité RGAA 4.1.2 : site non conforme, résultats des tests automatisés, mode renforcé, contact et voies de recours."
+    />
+    <meta name="twitter:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      document.documentElement.dataset.js = ''
+      try {
+        if (localStorage.getItem('a11y-mode') === 'enhanced') {
+          document.documentElement.dataset.a11yMode = 'enhanced'
+        }
+        const colorScheme = localStorage.getItem('color-scheme')
+        if (colorScheme === 'auto' || colorScheme === 'light' || colorScheme === 'dark') {
+          document.documentElement.dataset.colorScheme = colorScheme
+        }
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/vendor/boilerplates-ui.css" />
+    <script type="module" src="/js/shared/a11yModeToggle.js"></script>
+    <script type="module" src="/js/shared/colorSchemeToggle.js"></script>
+    <script type="module" src="/js/shared/categoryMenu.js"></script>
+    <script type="module" src="/js/modules/cart/ui/cartLink.js" data-sales></script>
+    <script type="module" src="/js/modules/content/ui/legalPage.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://www.example.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Déclaration d'accessibilité",
+            "item": "https://www.example.com/accessibilite"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!--# set var="page" value="accessibilite" -->
+    <!--# include virtual="/partials/header.html" -->
+    <main id="main">
+      <div class="container page prose" data-legal-page="accessibilite">
+        <nav class="bui-breadcrumb" aria-label="Fil d'Ariane" data-testid="layout-breadcrumb">
+          <ol class="bui-breadcrumb__list">
+            <li class="bui-breadcrumb__item"><a class="bui-link" href="/">Accueil</a></li>
+            <li class="bui-breadcrumb__item">
+              <span class="bui-breadcrumb__current" aria-current="page"
+                >Déclaration d'accessibilité</span
+              >
+            </li>
+          </ol>
+        </nav>
+        <h1 data-legal-title>Déclaration d'accessibilité</h1>
+        <div data-legal-state>
+          <div class="skeleton-list" role="status" data-testid="legal-loading">
+            <span class="visually-hidden">Chargement de la page…</span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+            <span class="bui-skeleton" aria-hidden="true"></span>
+          </div>
+        </div>
+        <noscript>
+          <div class="bui-alert bui-alert--info" data-testid="legal-noscript">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#info"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Information :</span>
+              <div class="bui-alert__body">
+                <p>
+                  Le texte de cette page est lu dans l'API par JavaScript. Activez-le pour
+                  l'afficher.
+                </p>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <div data-legal-content></div>
+        <template id="legal-section-template">
+          <section data-testid="legal-section"><h2 data-legal-section-title>Section</h2></section>
+        </template>
+        <template id="legal-error-template">
+          <div class="bui-alert bui-alert--error" role="alert" data-testid="legal-error">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-alert"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Erreur :</span>
+              <div class="bui-alert__body">
+                <p>
+                  Impossible de charger cette page pour le moment. Réessayez dans quelques minutes.
+                </p>
+              </div>
+            </div>
+            <div class="bui-alert__action">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                data-legal-retry
+                data-testid="legal-retry"
+              >
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </main>
+    <!--# include virtual="/partials/footer.html" -->
+  </body>
+</html>

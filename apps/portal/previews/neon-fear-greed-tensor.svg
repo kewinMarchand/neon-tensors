@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-labelledby="title desc">
+  <title id="title">Fear &amp; Greed Tensor</title>
+  <desc id="desc">Graphique de prix Bitcoin et jauge Fear &amp; Greed néon</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10212a"/>
+      <stop offset="1" stop-color="#071018"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#69ffe1"/>
+      <stop offset="1" stop-color="#BADA55"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="720" height="380" rx="24" fill="url(#bg)"/>
+  <rect x="36" y="36" width="648" height="308" rx="16" fill="#0c1a22" stroke="#253842"/>
+  <text x="64" y="78" fill="#f2f7f5" font-family="Space Grotesk,system-ui" font-size="28" font-weight="700"><tspan fill="#BADA55">Fear &amp; Greed</tspan> Tensor</text>
+  <text x="64" y="104" fill="#a9bab8" font-family="DM Mono,monospace" font-size="13">Modèles horaire · journalier · hebdomadaire</text>
+  <g transform="translate(70,130)">
+    <rect x="0" y="0" width="360" height="170" rx="12" fill="#08131a" stroke="#253842"/>
+    <polyline points="20,130 70,110 120,120 170,80 220,90 270,50 320,65 340,40" fill="none" stroke="url(#line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    <polyline points="220,90 270,50 320,65 340,40" fill="none" stroke="#c48cff" stroke-width="3" stroke-dasharray="6 6"/>
+    <line x1="20" y1="140" x2="340" y2="140" stroke="#253842"/>
+    <text x="24" y="162" fill="#a9bab8" font-family="DM Mono,monospace" font-size="11">Historique + prévisions</text>
+  </g>
+  <g transform="translate(455,130)">
+    <rect x="0" y="0" width="195" height="170" rx="12" fill="#08131a" stroke="#253842"/>
+    <path d="M 30 120 A 67 67 0 0 1 165 120" fill="none" stroke="#253842" stroke-width="14" stroke-linecap="round"/>
+    <path d="M 30 120 A 67 67 0 0 1 97 53" fill="none" stroke="#ff5f6d" stroke-width="14" stroke-linecap="round"/>
+    <path d="M 97 53 A 67 67 0 0 1 165 120" fill="none" stroke="#69ffe1" stroke-width="14" stroke-linecap="round"/>
+    <line x1="97" y1="120" x2="135" y2="78" stroke="#BADA55" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+    <circle cx="97" cy="120" r="7" fill="#BADA55"/>
+    <text x="97" y="150" text-anchor="middle" fill="#BADA55" font-family="DM Mono,monospace" font-size="22" font-weight="700">62</text>
+    <text x="97" y="166" text-anchor="middle" fill="#a9bab8" font-family="DM Mono,monospace" font-size="11">Greed</text>
+  </g>
+  <g fill="#9fb0c8" font-family="DM Mono,monospace" font-size="12">
+    <rect x="64" y="320" width="10" height="10" rx="2" fill="#69ffe1"/><text x="80" y="329">TensorFlow.js</text>
+    <rect x="200" y="320" width="10" height="10" rx="2" fill="#c48cff"/><text x="216" y="329">Inférence locale</text>
+    <rect x="360" y="320" width="10" height="10" rx="2" fill="#BADA55"/><text x="376" y="329">Temps réel</text>
+  </g>
+</svg>

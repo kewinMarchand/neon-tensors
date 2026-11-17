@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071018">
+  <meta name="description" content="Neon Tensor — applications de machine learning interactives avec TensorFlow.js.">
+  <title>Neon Tensor — Laboratoire ML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./neon/neon-tokens.css">
+  <link rel="stylesheet" href="./neon/neon-base.css">
+  <link rel="stylesheet" href="./neon/neon-components.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#accueil" aria-label="Neon Tensor, accueil">
+      <span class="brand-icon" aria-hidden="true">N</span>
+      <span><span class="brand-accent">NEON</span> TENSOR</span>
+    </a>
+    <nav aria-label="Navigation principale"><a href="#apps">Les apps</a></nav>
+    <a class="repo-link" href="https://github.com/kewinMarchand/neon-tensor" target="_blank" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub Neon Tensor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="repo-link__label">GitHub</span></a>
+  </header>
+
+  <main id="accueil">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="kicker"><span class="live-dot"></span> TENSORFLOW.JS · APPRENTISSAGE &amp; INFÉRENCE</p>
+        <h1 id="hero-title">Le labo<br><span>Neon Tensor.</span></h1>
+        <p class="intro">Expériences de machine learning interactives, en local dans le navigateur. Entraînez, visualisez et prédisez en temps réel.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div>
+        <div class="hero-core"></div>
+        <div class="hero-node node-a"></div>
+        <div class="hero-node node-b"></div>
+        <div class="hero-star star-one">✧</div>
+        <div class="hero-star star-two">✦</div>
+      </div>
+    </section>
+
+    <section id="apps" class="collection" aria-labelledby="collection-title">
+      <div class="section-title">
+        <div>
+          <p class="kicker">CHOISISSEZ UNE APPLICATION</p>
+          <h2 id="collection-title">Les applications<span class="lime-dot">.</span></h2>
+        </div>
+        <p class="collection-count"><span>02</span> APPS DISPONIBLES</p>
+      </div>
+
+      <div class="game-grid">
+        <article class="game-card">
+          <a class="game-card-link" href="../neon-fear-greed-tensor/index.html" aria-label="Ouvrir Fear &amp; Greed Tensor">
+            <span class="art"><img src="./previews/neon-fear-greed-tensor.svg" alt="Aperçu Fear &amp; Greed Tensor : graphique et jauge" loading="lazy"></span>
+            <span class="game-card-copy">
+              <h3>Fear &amp; Greed <span class="brand-accent">Tensor</span></h3>
+              <p>Indice Fear &amp; Greed, graphiques horaires/journaliers/hebdomadaires, entraînement et prévisions de prix BTC avec TensorFlow.js.</p>
+              <span class="tags"><span class="tag">Séries temporelles</span><span class="tag">Prévision</span><span class="tag">Temps réel</span></span>
+              <span class="card-cta">Ouvrir ↗</span>
+            </span>
+          </a>
+        </article>
+
+        <article class="game-card">
+          <a class="game-card-link" href="../neon-baseball-tensor/index.html" aria-label="Ouvrir Neon Baseball Tensor">
+            <span class="art"><img src="./previews/neon-baseball-tensor.svg" alt="Aperçu Neon Baseball Tensor : trajectoires et réseau de neurones" loading="lazy"></span>
+            <span class="game-card-copy">
+              <h3><span class="brand-accent">Neon</span> Baseball <span class="brand-accent">Tensor</span></h3>
+              <p>Classification des lancers MLB (Statcast) par réseau de neurones : entraînement, visualisation 3D des trajectoires et inférence interactive.</p>
+              <span class="tags"><span class="tag">Classification</span><span class="tag">Deep Learning</span><span class="tag">Visualisation</span></span>
+              <span class="card-cta">Ouvrir ↗</span>
+            </span>
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span><span class="brand-accent">NEON</span> TENSOR <span class="brand-accent">·</span> APPLICATIONS ML INTERACTIVES</span>
+    <span>TensorFlow.js · Boilerplate Neon</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "boilerplate-html",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Boilerplate HTML, CSS et JavaScript natifs, sans framework ni build, avec validation, tests e2e, accessibilité et Lighthouse",
+  "scripts": {
+    "postinstall": "node scripts/vendor.js",
+    "dev": "node scripts/serve.js 4098",
+    "lint": "yarn lint:html && yarn lint:css && yarn lint:js && yarn lint:arch",
+    "lint:html": "node scripts/render-pages.js .cache/rendered && html-validate \".cache/rendered/**/*.html\"",
+    "lint:css": "stylelint \"site/**/*.css\"",
+    "lint:js": "eslint .",
+    "lint:arch": "depcruise site/js lib --config .dependency-cruiser.cjs",
+    "lint:fix": "stylelint \"site/**/*.css\" --fix && eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:unit": "node --import ./tests/unit/siteResolver.js --test \"tests/unit/**/*.test.js\"",
+    "test:e2e": "playwright test tests/e2e",
+    "test:a11y": "playwright test tests/a11y",
+    "lhci": "lhci autorun",
+    "lhci:sombre": "lhci autorun --collect.settings.chromeFlags=\"--headless=new --no-sandbox --blink-settings=preferredColorScheme=0\" --upload.outputDir=.lighthouseci/reports-sombre"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@iconify-json/lucide": "^1.2.143",
+    "@lhci/cli": "^0.16.0",
+    "@playwright/test": "1.64.1",
+    "dependency-cruiser": "^18.7.2",
+    "eslint": "^10.12.0",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "html-validate": "^11.16.2",
+    "prettier": "^3.9.9",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0",
+    "svgstore": "^3.0.1"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=26.13.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@kewinmarchand/boilerplates-ui": "github:kewinMarchand/boilerplates-ui#v0.13.0",
+    "embla-carousel": "^8"
+  },
+  "resolutions": {
+    "**/@sentry/bundler-plugins/glob": "^14.0.3"
+  }
+}

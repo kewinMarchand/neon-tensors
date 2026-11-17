@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="fr" data-color-scheme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Feuillages · Catalogue · Boilerplate HTML</title>
+    <meta
+      name="description"
+      content="Catalogue de démonstration d'une jardinerie tropicale fictive, feuillages : 6 plantes à filtrer par exposition, taille, prix et stock."
+    />
+    <link rel="canonical" href="https://www.example.com/catalogue/plantes-interieur/feuillages" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Boilerplate HTML" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Feuillages · Catalogue · Boilerplate HTML" />
+    <meta
+      property="og:description"
+      content="Catalogue de démonstration d'une jardinerie tropicale fictive, feuillages : 6 plantes à filtrer par exposition, taille, prix et stock."
+    />
+    <meta
+      property="og:url"
+      content="https://www.example.com/catalogue/plantes-interieur/feuillages"
+    />
+    <meta property="og:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boilerplate HTML" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Feuillages · Catalogue · Boilerplate HTML" />
+    <meta
+      name="twitter:description"
+      content="Catalogue de démonstration d'une jardinerie tropicale fictive, feuillages : 6 plantes à filtrer par exposition, taille, prix et stock."
+    />
+    <meta name="twitter:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      document.documentElement.dataset.js = ''
+      try {
+        if (localStorage.getItem('a11y-mode') === 'enhanced') {
+          document.documentElement.dataset.a11yMode = 'enhanced'
+        }
+        const colorScheme = localStorage.getItem('color-scheme')
+        if (colorScheme === 'auto' || colorScheme === 'light' || colorScheme === 'dark') {
+          document.documentElement.dataset.colorScheme = colorScheme
+        }
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/vendor/boilerplates-ui.css" />
+    <script type="module" src="/js/shared/a11yModeToggle.js"></script>
+    <script type="module" src="/js/shared/colorSchemeToggle.js"></script>
+    <script type="module" src="/js/shared/categoryMenu.js"></script>
+    <script type="module" src="/js/shared/imageFallback.js"></script>
+    <script type="module" src="/js/modules/cart/ui/cartLink.js" data-sales></script>
+    <script type="module" src="/js/modules/catalog/ui/catalog.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://www.example.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Catalogue",
+            "item": "https://www.example.com/catalogue"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Plantes d’intérieur",
+            "item": "https://www.example.com/catalogue/plantes-interieur"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Feuillages",
+            "item": "https://www.example.com/catalogue/plantes-interieur/feuillages"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!--# set var="page" value="autre" -->
+    <!--# include virtual="/partials/header.html" -->
+    <main id="main">
+      <div
+        class="container page catalog"
+        data-catalog
+        data-category="feuillages"
+        data-label-results-one="{count} produit"
+        data-label-results-other="{count} produits"
+        data-label-results-show="Voir les {results}"
+        data-label-loading="Chargement des produits…"
+        data-label-prerendered="Sans JavaScript, seule la première page s'affiche, sans filtre ni tri."
+        data-label-page="Page"
+        data-label-previous="Précédent"
+        data-label-next="Suivant"
+        data-label-remove-filter="Retirer le filtre :"
+        data-label-price-min="Prix minimum : {price} €"
+        data-label-price-max="Prix maximum : {price} €"
+        data-label-in-stock="En stock"
+        data-label-exposure-sun="Soleil"
+        data-label-exposure-partial-shade="Mi-ombre"
+        data-label-exposure-shade="Ombre"
+        data-label-size-s="Petite (S)"
+        data-label-size-m="Moyenne (M)"
+        data-label-size-l="Grande (L)"
+      >
+        <nav class="bui-breadcrumb" aria-label="Fil d'Ariane" data-testid="layout-breadcrumb">
+          <ol class="bui-breadcrumb__list">
+            <li class="bui-breadcrumb__item"><a class="bui-link" href="/">Accueil</a></li>
+            <li class="bui-breadcrumb__item">
+              <a class="bui-link" href="/catalogue">Catalogue</a>
+            </li>
+            <li class="bui-breadcrumb__item">
+              <a class="bui-link" href="/catalogue/plantes-interieur">Plantes d’intérieur</a>
+            </li>
+            <li class="bui-breadcrumb__item">
+              <span class="bui-breadcrumb__current" aria-current="page">Feuillages</span>
+            </li>
+          </ol>
+        </nav>
+        <h1 id="catalog-title" tabindex="-1">Feuillages</h1>
+        <ul class="bui-chip-list subcategory-links" aria-label="Sous-catégories">
+          <li>
+            <a class="bui-chip" href="/catalogue/plantes-interieur/feuillages/monstera">Monstera</a>
+          </li>
+          <li>
+            <a class="bui-chip" href="/catalogue/plantes-interieur/feuillages/fougeres">Fougères</a>
+          </li>
+        </ul>
+        <div class="catalog-layout">
+          <aside class="catalog-aside" aria-labelledby="catalog-filters-title" data-catalog-aside>
+            <h2 id="catalog-filters-title" class="catalog-aside-title">Filtres</h2>
+            <form
+              id="catalog-filters-form"
+              class="catalog-filters"
+              method="get"
+              action="/catalogue/plantes-interieur/feuillages"
+              data-catalog-filters
+              data-testid="catalog-filters"
+            >
+              <details class="facet" open>
+                <summary>Catégorie</summary>
+                <ul class="facet-links">
+                  <li>
+                    <a href="/catalogue/plantes-interieur/feuillages/monstera"
+                      >Monstera <span class="facet-count" data-count="category-monstera"></span
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="/catalogue/plantes-interieur/feuillages/fougeres"
+                      >Fougères <span class="facet-count" data-count="category-fougeres"></span
+                    ></a>
+                  </li>
+                </ul>
+              </details>
+              <details class="facet" open>
+                <summary>Exposition</summary>
+                <fieldset>
+                  <legend class="visually-hidden">Exposition</legend>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-exposures-soleil"
+                      name="exposition"
+                      value="soleil"
+                      data-facet="exposures"
+                      data-testid="catalog-filter-exposure-soleil"
+                    />
+                    <label class="bui-checkbox__label" for="filter-exposures-soleil"
+                      >Soleil <span class="facet-count" data-count="exposures-soleil"></span
+                    ></label>
+                  </div>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-exposures-mi-ombre"
+                      name="exposition"
+                      value="mi-ombre"
+                      data-facet="exposures"
+                      data-testid="catalog-filter-exposure-mi-ombre"
+                    />
+                    <label class="bui-checkbox__label" for="filter-exposures-mi-ombre"
+                      >Mi-ombre <span class="facet-count" data-count="exposures-mi-ombre"></span
+                    ></label>
+                  </div>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-exposures-ombre"
+                      name="exposition"
+                      value="ombre"
+                      data-facet="exposures"
+                      data-testid="catalog-filter-exposure-ombre"
+                    />
+                    <label class="bui-checkbox__label" for="filter-exposures-ombre"
+                      >Ombre <span class="facet-count" data-count="exposures-ombre"></span
+                    ></label>
+                  </div>
+                </fieldset>
+              </details>
+              <details class="facet" open>
+                <summary>Taille</summary>
+                <fieldset>
+                  <legend class="visually-hidden">Taille</legend>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-sizes-S"
+                      name="taille"
+                      value="S"
+                      data-facet="sizes"
+                      data-testid="catalog-filter-size-S"
+                    />
+                    <label class="bui-checkbox__label" for="filter-sizes-S"
+                      >Petite (S) <span class="facet-count" data-count="sizes-S"></span
+                    ></label>
+                  </div>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-sizes-M"
+                      name="taille"
+                      value="M"
+                      data-facet="sizes"
+                      data-testid="catalog-filter-size-M"
+                    />
+                    <label class="bui-checkbox__label" for="filter-sizes-M"
+                      >Moyenne (M) <span class="facet-count" data-count="sizes-M"></span
+                    ></label>
+                  </div>
+                  <div class="bui-checkbox">
+                    <input
+                      class="bui-checkbox__input"
+                      type="checkbox"
+                      id="filter-sizes-L"
+                      name="taille"
+                      value="L"
+                      data-facet="sizes"
+                      data-testid="catalog-filter-size-L"
+                    />
+                    <label class="bui-checkbox__label" for="filter-sizes-L"
+                      >Grande (L) <span class="facet-count" data-count="sizes-L"></span
+                    ></label>
+                  </div>
+                </fieldset>
+              </details>
+              <div class="attribute-facets" data-catalog-attribute-facets></div>
+              <details class="facet" open data-sales>
+                <summary>Prix</summary>
+                <fieldset class="price-fields">
+                  <legend class="visually-hidden">Prix en euros</legend>
+                  <div class="bui-field">
+                    <label class="bui-field__label" for="filter-price-min">Minimum (€)</label>
+                    <input
+                      class="bui-field__input"
+                      type="number"
+                      id="filter-price-min"
+                      name="prix_min"
+                      min="0"
+                      step="1"
+                      inputmode="numeric"
+                      data-facet="priceMin"
+                      data-testid="catalog-filter-price-min"
+                    />
+                  </div>
+                  <div class="bui-field">
+                    <label class="bui-field__label" for="filter-price-max">Maximum (€)</label>
+                    <input
+                      class="bui-field__input"
+                      type="number"
+                      id="filter-price-max"
+                      name="prix_max"
+                      min="0"
+                      step="1"
+                      inputmode="numeric"
+                      data-facet="priceMax"
+                      data-testid="catalog-filter-price-max"
+                    />
+                  </div>
+                </fieldset>
+              </details>
+              <div class="bui-switch">
+                <input
+                  class="bui-switch__input"
+                  type="checkbox"
+                  role="switch"
+                  id="filter-in-stock"
+                  name="en_stock"
+                  value="1"
+                  data-facet="inStock"
+                  data-testid="catalog-filter-in-stock"
+                />
+                <label class="bui-switch__label" for="filter-in-stock">En stock uniquement</label>
+              </div>
+              <button
+                type="submit"
+                class="bui-button"
+                data-catalog-apply
+                data-testid="catalog-filters-apply"
+              >
+                Appliquer les filtres
+              </button>
+            </form>
+          </aside>
+          <div class="catalog-main">
+            <div class="catalog-toolbar">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                aria-haspopup="dialog"
+                aria-expanded="false"
+                aria-controls="catalog-filters-dialog"
+                data-catalog-filters-open
+                data-testid="catalog-filters-open"
+              >
+                <svg
+                  class="bui-icon bui-icon--md"
+                  aria-hidden="true"
+                  focusable="false"
+                  width="20"
+                  height="20"
+                >
+                  <use href="/icons.svg#list-filter"></use>
+                </svg>
+                Filtrer <span data-catalog-active-count></span>
+              </button>
+              <p
+                class="catalog-count"
+                role="status"
+                data-catalog-count
+                data-testid="catalog-results-count"
+              >
+                Chargement des produits…
+              </p>
+              <div class="catalog-sort">
+                <label for="catalog-sort">Trier par</label>
+                <select
+                  id="catalog-sort"
+                  name="tri"
+                  form="catalog-filters-form"
+                  data-catalog-sort
+                  data-testid="catalog-sort"
+                >
+                  <option value="pertinence">Pertinence</option>
+                  <option value="prix-asc" data-sales>Prix croissant</option>
+                  <option value="prix-desc" data-sales>Prix décroissant</option>
+                  <option value="nom">Nom</option>
+                </select>
+              </div>
+              <nav class="catalog-view" aria-label="Affichage">
+                <a
+                  href="/catalogue/plantes-interieur/feuillages"
+                  aria-current="page"
+                  data-catalog-view="grille"
+                  data-testid="catalog-view-grid"
+                  ><svg
+                    class="bui-icon bui-icon--md"
+                    aria-hidden="true"
+                    focusable="false"
+                    width="20"
+                    height="20"
+                  >
+                    <use href="/icons.svg#layout-grid"></use>
+                  </svg>
+                  Grille</a
+                >
+                <a
+                  href="/catalogue/plantes-interieur/feuillages?vue=liste"
+                  data-catalog-view="liste"
+                  data-testid="catalog-view-list"
+                  ><svg
+                    class="bui-icon bui-icon--md"
+                    aria-hidden="true"
+                    focusable="false"
+                    width="20"
+                    height="20"
+                  >
+                    <use href="/icons.svg#list"></use>
+                  </svg>
+                  Liste</a
+                >
+              </nav>
+            </div>
+            <div
+              class="active-filters"
+              data-catalog-active-filters
+              data-testid="catalog-active-filters"
+              hidden
+            >
+              <ul class="bui-chip-list" data-catalog-chips></ul>
+              <button
+                type="button"
+                class="bui-link bui-link--button"
+                data-catalog-clear
+                data-testid="catalog-clear-filters"
+              >
+                Tout effacer
+              </button>
+            </div>
+            <div class="catalog-state" data-catalog-state>
+              <div class="product-skeletons" role="status" data-testid="catalog-loading">
+                <span class="visually-hidden">Chargement des produits…</span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+                <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+              </div>
+            </div>
+            <noscript>
+              <div class="bui-alert bui-alert--info" data-testid="catalog-noscript">
+                <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+                  <use href="/icons.svg#info"></use>
+                </svg>
+                <div class="bui-alert__content">
+                  <span class="bui-visually-hidden">Information :</span>
+                  <div class="bui-alert__body">
+                    <p>
+                      Les produits sont lus dans l'API par JavaScript. Activez-le pour afficher le
+                      catalogue.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </noscript>
+            <ul class="product-list" data-catalog-list data-view="grille"></ul>
+            <template id="catalog-product-template">
+              <li class="product-item">
+                <article class="product-card" data-testid="catalog-product" data-product-card>
+                  <picture class="bui-picture">
+                    <source
+                      type="image/avif"
+                      sizes="(width >= 1024px) 280px, (width >= 480px) 45vw, 100vw"
+                      data-product-avif
+                    />
+                    <source
+                      type="image/webp"
+                      sizes="(width >= 1024px) 280px, (width >= 480px) 45vw, 100vw"
+                      data-product-webp
+                    />
+                    <img
+                      src="/images/hero-640.webp"
+                      alt=""
+                      width="400"
+                      height="400"
+                      decoding="async"
+                      data-product-image
+                    />
+                  </picture>
+                  <div class="product-body">
+                    <h2 class="product-name">
+                      <a
+                        class="product-link"
+                        href="/catalogue"
+                        data-product-link
+                        data-testid="catalog-product-link"
+                        data-product-name
+                        >Produit</a
+                      >
+                    </h2>
+                    <p
+                      class="product-price"
+                      data-sales
+                      data-testid="catalog-product-price"
+                      data-product-price
+                    ></p>
+                    <dl class="product-specs">
+                      <div>
+                        <dt>Exposition</dt>
+                        <dd data-product-exposure></dd>
+                      </div>
+                      <div>
+                        <dt>Taille</dt>
+                        <dd data-product-size></dd>
+                      </div>
+                    </dl>
+                    <p data-product-out-of-stock>
+                      <span class="bui-badge bui-badge--error">Rupture de stock</span>
+                    </p>
+                  </div>
+                </article>
+              </li>
+            </template>
+            <nav
+              class="bui-pagination"
+              aria-label="Pagination"
+              data-catalog-pagination
+              data-testid="catalog-pagination"
+              hidden
+            >
+              <ul class="bui-pagination__list"></ul>
+            </nav>
+          </div>
+        </div>
+        <dialog
+          class="bui-modal bui-modal--drawer"
+          id="catalog-filters-dialog"
+          aria-labelledby="catalog-filters-dialog-title"
+          data-catalog-filters-dialog
+        >
+          <div class="bui-modal__header">
+            <h2 class="bui-modal__title" id="catalog-filters-dialog-title">Filtres</h2>
+            <button
+              type="button"
+              class="bui-modal__close"
+              aria-label="Fermer les filtres"
+              data-catalog-dialog-close
+            >
+              <svg class="bui-icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#x"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="bui-modal__body" data-catalog-dialog-body></div>
+          <div class="bui-modal__footer">
+            <button
+              type="button"
+              class="bui-button"
+              data-catalog-dialog-done
+              data-testid="catalog-filters-done"
+            >
+              Voir les produits
+            </button>
+          </div>
+        </dialog>
+        <template id="catalog-loading-template">
+          <div class="product-skeletons" role="status" data-testid="catalog-loading">
+            <span class="visually-hidden">Chargement des produits…</span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+            <span class="bui-skeleton skeleton-card" aria-hidden="true"></span>
+          </div>
+        </template>
+        <template id="catalog-error-template">
+          <div class="bui-alert bui-alert--error" role="alert" data-testid="catalog-error">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-alert"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Erreur :</span>
+              <div class="bui-alert__body">
+                <p>Impossible de charger les produits pour le moment.</p>
+              </div>
+            </div>
+            <div class="bui-alert__action">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                data-catalog-retry
+                data-testid="catalog-retry"
+              >
+                <svg
+                  class="bui-icon bui-icon--md"
+                  aria-hidden="true"
+                  focusable="false"
+                  width="20"
+                  height="20"
+                >
+                  <use href="/icons.svg#rotate-cw"></use>
+                </svg>
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </template>
+        <template id="catalog-empty-template">
+          <div class="bui-alert bui-alert--info" data-testid="catalog-empty">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#info"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Information :</span>
+              <div class="bui-alert__body"><p>Aucun produit ne correspond à ces filtres.</p></div>
+            </div>
+            <div class="bui-alert__action">
+              <button
+                type="button"
+                class="bui-button bui-button--outline"
+                data-catalog-empty-clear
+                data-testid="catalog-empty-clear"
+              >
+                Tout effacer
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </main>
+    <!--# include virtual="/partials/footer.html" -->
+  </body>
+</html>

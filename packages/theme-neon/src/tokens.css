@@ -1,0 +1,127 @@
+/*
+ * Theme Neon — tokens et overrides.
+ *
+ * Le theme Neon n'est PAS une brique de composants : il attache un theme
+ * (tokens / variables CSS / overrides) aux composants commons de
+ * `boilerplates-ui` (`--bui-*`, classes `bui-*`).
+ *
+ * Tout identite visuelle Neon est portee par ce theme ; toute brique UI reutilise
+ * un composant commun.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Neutres / surfaces (Neon) */
+  --bui-color-text: #f2f7f5;
+  --bui-color-text-muted: #a9bab8;
+  --bui-color-surface: #071018;
+  --bui-color-surface-muted: #0c1a22;
+  --bui-color-border: #253842;
+  --bui-color-border-subtle: #182635;
+  --bui-color-backdrop: rgb(4 16 18 / 0.7);
+
+  /* Couleurs d'accent Neon */
+  --bui-color-primary: #69ffe1;
+  --bui-color-primary-dark: #3fe6cb;
+  --bui-color-on-primary: #061412;
+  --bui-color-primary-surface-subtle: #0e2a28;
+  --bui-color-primary-surface: #123a37;
+  --bui-color-primary-surface-strong: #185049;
+  --bui-color-secondary: #ff72bb;
+  --bui-color-secondary-dark: #d95ba8;
+  --bui-color-on-secondary: #14060f;
+  --bui-color-secondary-surface-subtle: #31101f;
+  --bui-color-secondary-surface: #3d1528;
+  --bui-color-secondary-surface-strong: #4c1a33;
+
+  --bui-color-error: #ff5f6d;
+  --bui-color-error-surface: #33121a;
+  --bui-color-success: #BADA55;
+  --bui-color-success-surface: #1c2410;
+  --bui-color-info: #3a86ff;
+  --bui-color-info-surface: #101f3d;
+  --bui-color-warning: #ffd166;
+  --bui-color-warning-surface: #2c2210;
+
+  /* Typographie */
+  --bui-font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --bui-font-family-mono: "DM Mono", ui-monospace, monospace;
+
+  /* Espacements, tailles, radii, ombres, focus, motion */
+  --bui-font-size-h1: 40px;
+  --bui-font-size-h2: 28px;
+  --bui-font-size-h3: 22px;
+  --bui-font-size-h4: 18px;
+  --bui-font-size-title: 20px;
+  --bui-font-size-lead: 18px;
+  --bui-font-size-body: 16px;
+  --bui-font-size-body-sm: 14px;
+  --bui-font-size-caption: 12px;
+  --bui-font-size-overline: 14px;
+  --bui-font-weight-regular: 400;
+  --bui-font-weight-medium: 500;
+  --bui-font-weight-semibold: 600;
+  --bui-font-weight-bold: 700;
+  --bui-font-line-height-tight: 1.2;
+  --bui-font-line-height-normal: 1.5;
+  --bui-space-1: 4px;
+  --bui-space-2: 8px;
+  --bui-space-3: 12px;
+  --bui-space-4: 16px;
+  --bui-space-6: 24px;
+  --bui-space-8: 32px;
+  --bui-space-12: 48px;
+  --bui-size-touch: 44px;
+  --bui-size-control-sm: 36px;
+  --bui-size-control-lg: 52px;
+  --bui-size-icon-sm: 16px;
+  --bui-size-icon: 20px;
+  --bui-size-icon-lg: 24px;
+  --bui-radius-md: 10px;
+  --bui-radius-full: 9999px;
+  --bui-shadow-sm: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --bui-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --bui-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --bui-focus-width: 3px;
+  --bui-focus-offset: 2px;
+  --bui-motion-duration: 180ms;
+  --bui-motion-duration-slow: 250ms;
+  --bui-motion-easing: cubic-bezier(0.2, 0, 0, 1);
+  --bui-container-content: 1440px;
+  --bui-container-prose: 720px;
+  --bui-container-form: 560px;
+  --bui-container-modal: 560px;
+  --bui-container-drawer: 360px;
+  --bui-container-tooltip: 280px;
+  --bui-z-index-dropdown: 1000;
+  --bui-z-index-overlay: 1100;
+  --bui-z-index-modal: 1200;
+  --bui-z-index-toast: 1300;
+  --bui-z-index-skip-link: 1500;
+}
+
+[data-a11y-mode="enhanced"] {
+  --bui-font-size-h1: 50px;
+  --bui-font-size-h2: 35px;
+  --bui-font-size-h3: 28px;
+  --bui-font-size-h4: 23px;
+  --bui-font-size-title: 25px;
+  --bui-font-size-lead: 23px;
+  --bui-font-size-body: 20px;
+  --bui-font-size-body-sm: 18px;
+  --bui-font-size-caption: 15px;
+  --bui-font-size-overline: 18px;
+  --bui-color-primary: #3fe6cb;
+  --bui-color-on-primary: #061412;
+  --bui-focus-width: 4px;
+  --bui-motion-duration: 0s;
+  --bui-motion-duration-slow: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --bui-motion-duration: 0s;
+    --bui-motion-duration-slow: 0s;
+  }
+}

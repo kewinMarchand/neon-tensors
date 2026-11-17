@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a151d"/>
+      <stop offset="1" stop-color="#071018"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <rect x="8" y="8" width="784" height="404" rx="18" fill="#10212a" stroke="#253842"/>
+
+  <!-- Titre -->
+  <text x="40" y="52" fill="#f2f7f5" font-size="20" font-weight="bold">Fear &amp; Greed <tspan fill="#BADA55">BTC/USD</tspan> — TensorFlow.js</text>
+  <text x="40" y="74" fill="#a9bab8" font-size="11">Laboratoire Néon &amp; Inférence · Kraken / Coinbase · LSTM pas-à-pas</text>
+  <circle cx="740" cy="48" r="5" fill="#69ffe1"/>
+  <text x="640" y="52" fill="#a9bab8" font-size="11">connecté</text>
+
+  <!-- Jauge -->
+  <g transform="translate(400,240)">
+    <path d="M -150 0 A 150 150 0 0 1 -93 -117" fill="none" stroke="#ff72bb" stroke-width="24" stroke-linecap="round"/>
+    <path d="M -86 -122 A 150 150 0 0 1 -13 -149" fill="none" stroke="#ff9d5c" stroke-width="24"/>
+    <path d="M -6 -150 A 150 150 0 0 1 63 -136" fill="none" stroke="#ffd166" stroke-width="24"/>
+    <path d="M 70 -133 A 150 150 0 0 1 128 -78" fill="none" stroke="#a2ff8f" stroke-width="24"/>
+    <path d="M 132 -73 A 150 150 0 0 1 150 0" fill="none" stroke="#BADA55" stroke-width="24" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-64" y2="-92" stroke="#f2f7f5" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="9" fill="#f2f7f5"/>
+  </g>
+  <text x="400" y="300" text-anchor="middle" fill="#ffd166" font-size="34" font-weight="bold">42</text>
+  <text x="400" y="324" text-anchor="middle" fill="#ff9d5c" font-size="13" letter-spacing="2">PEUR</text>
+
+  <!-- Composantes -->
+  <g font-size="10" fill="#a9bab8">
+    <text x="60" y="130">Momentum 24 h</text>
+    <rect x="60" y="138" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
+    <rect x="60" y="138" width="66" height="7" rx="4" fill="url(#bg)"/>
+    <text x="60" y="168">Tendance EMA</text>
+    <rect x="60" y="176" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
+    <text x="60" y="206">Volatilité</text>
+    <rect x="60" y="214" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
+    <text x="60" y="244">Volume</text>
+    <rect x="60" y="252" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
+    <text x="60" y="282">RSI (14)</text>
+    <rect x="60" y="290" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
+  </g>
+  <g font-size="10" fill="#69ffe1" font-weight="bold">
+    <text x="230" y="146">35</text>
+    <text x="230" y="184">48</text>
+    <text x="230" y="222">52</text>
+    <text x="230" y="260">40</text>
+    <text x="230" y="298">38</text>
+  </g>
+
+  <!-- Prix -->
+  <g font-family="monospace">
+    <text x="560" y="140" fill="#f2f7f5" font-size="22" font-weight="bold">97 432.10 $</text>
+    <text x="560" y="162" fill="#69ffe1" font-size="12">▲ 1.24 % / 24 h</text>
+  </g>
+
+  <!-- Courbe -->
+  <g>
+    <rect x="560" y="185" width="190" height="120" rx="10" fill="#0a151d" stroke="#253842"/>
+    <polyline points="570,280 590,262 608,270 626,240 644,250 662,225 680,235 700,210 718,222 740,200" fill="none" stroke="#69ffe1" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="575" y="295" width="6" height="5" fill="#69ffe1" opacity="0.4"/>
+    <rect x="597" y="295" width="6" height="9" fill="#ff72bb" opacity="0.4"/>
+    <rect x="619" y="295" width="6" height="6" fill="#69ffe1" opacity="0.4"/>
+    <rect x="641" y="295" width="6" height="12" fill="#ff72bb" opacity="0.4"/>
+    <rect x="663" y="295" width="6" height="7" fill="#69ffe1" opacity="0.4"/>
+    <rect x="685" y="295" width="6" height="10" fill="#69ffe1" opacity="0.4"/>
+    <rect x="707" y="295" width="6" height="5" fill="#ff72bb" opacity="0.4"/>
+    <rect x="729" y="295" width="6" height="8" fill="#69ffe1" opacity="0.4"/>
+  </g>
+
+  <!-- Terminal -->
+  <rect x="60" y="330" width="680" height="62" rx="10" fill="#050b10" stroke="#253842"/>
+  <text x="76" y="352" fill="#a9bab8" font-size="10">[10:12:33] Marché rafraîchi (Kraken) : 720 bougies, indice 42/100 (Peur)</text>
+  <text x="76" y="368" fill="#a9bab8" font-size="10">[10:12:34] Époque 3/10 terminée ➔ loss 0.6831 | test 51.2%</text>
+  <text x="76" y="384" fill="#c48cff" font-size="10">[10:12:35] Époque 3/10 : Détection du momentum. Suites de bougies vertes...</text>
+</svg>

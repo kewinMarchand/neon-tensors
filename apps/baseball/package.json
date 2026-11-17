@@ -1,0 +1,28 @@
+{
+  "name": "neon-baseball-tensor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run start-server\" \"npm run start-client\"",
+    "start": "node server.js",
+    "start-server": "node server.js",
+    "stop-server": "node stop.js server",
+    "build-client": "webpack",
+    "start-client": "webpack serve",
+    "stop-client": "node stop.js client",
+    "stop": "node stop.js all"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.5",
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.3.1",
+    "webpack-dev-server": "^5.2.7"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0",
+    "socket.io": "^2.4.1"
+  }
+}

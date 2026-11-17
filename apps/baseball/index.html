@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Baseball Tensor - Laboratoire Néon & Inférence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Thème Neon (boilerplate-neon) -->
+  <link rel="stylesheet" href="./neon/neon-tokens.css">
+  <link rel="stylesheet" href="./neon/neon-base.css">
+  <link rel="stylesheet" href="./neon/neon-components.css">
+  <style>
+    /* Styles spécifiques à l'app (complètent le thème neon) */
+    :root {
+      color-scheme: dark;
+      --bg: #071018;
+      --surface: #0c1a22;
+      --surface-card: #10212a;
+      --line: #253842;
+      --text: #f2f7f5;
+      --muted: #a9bab8;
+      --lime: #BADA55;
+      --lime-ink: #17200a;
+      --mint: #69ffe1;
+      --pink: #ff72bb;
+      --violet: #c48cff;
+      --yellow: #ffd166;
+      --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.55;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HEADER ARCADE NÉON */
+    header {
+      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1.5px solid var(--lime);
+      border-radius: 12px;
+      color: var(--lime);
+      font-size: 1.4rem;
+      box-shadow: 0 0 14px rgba(186, 218, 85, 0.35);
+      background: rgba(186, 218, 85, 0.08);
+    }
+
+    .header-title h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .header-title h1 span {
+      color: var(--lime);
+      text-shadow: 0 0 14px rgba(186, 218, 85, 0.5);
+    }
+
+    .header-title p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 3px;
+    }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font: 500 0.82rem var(--mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .status-idle {
+      background: rgba(169, 186, 184, 0.1);
+      color: var(--muted);
+      border-color: var(--line);
+    }
+
+    .status-connecting {
+      background: rgba(255, 209, 102, 0.12);
+      color: var(--yellow);
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+
+    .status-training {
+      background: rgba(105, 255, 225, 0.12);
+      color: var(--mint);
+      border-color: rgba(105, 255, 225, 0.4);
+      box-shadow: 0 0 15px rgba(105, 255, 225, 0.2);
+    }
+
+    .status-ready {
+      background: rgba(186, 218, 85, 0.15);
+      color: var(--lime);
+      border-color: var(--lime);
+      box-shadow: 0 0 16px rgba(186, 218, 85, 0.35);
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 12px var(--lime);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* BUTTONS ARCADE NÉON */
+    .btn-action {
+      background: var(--lime);
+      color: var(--lime-ink);
+      border: 1px solid var(--lime);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-family: var(--font);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 14px rgba(186, 218, 85, 0.35);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 22px rgba(186, 218, 85, 0.6);
+      background: #cbf063;
+    }
+
+    .btn-action:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-reset {
+      background: rgba(255, 114, 187, 0.12);
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-reset:hover {
+      background: rgba(255, 114, 187, 0.22);
+      box-shadow: 0 0 14px rgba(255, 114, 187, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .badge-pill {
+      background: rgba(105, 255, 225, 0.1);
+      color: var(--mint);
+      border: 1px solid rgba(105, 255, 225, 0.35);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font: 500 0.78rem var(--mono);
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .badge-pill:hover {
+      background: rgba(105, 255, 225, 0.2);
+      box-shadow: 0 0 10px rgba(105, 255, 225, 0.3);
+    }
+
+    /* COLLAPSIBLE CARDS */
+    .collapsible-card {
+      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .collapsible-header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .collapsible-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* GRILLE ET CARTES */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.02em;
+    }
+
+    /* FADE-IN FADE-OUT ANNOUNCEMENT BOX NÉON */
+    .epoch-message-box {
+      background: linear-gradient(90deg, rgba(105, 255, 225, 0.12) 0%, rgba(186, 218, 85, 0.08) 100%);
+      border: 1px solid rgba(105, 255, 225, 0.35);
+      border-left: 4px solid var(--mint);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: #e3faf4;
+      line-height: 1.55;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      min-height: 52px;
+      box-shadow: 0 0 15px rgba(105, 255, 225, 0.1);
+    }
+
+    .epoch-message-box.fade-out {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    .epoch-message-box.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* PROGRESS NÉON */
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: #060e15;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--mint), var(--lime));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+      box-shadow: 0 0 10px var(--lime);
+    }
+
+    /* TABLE PRÉCISION NÉON */
+    .accuracy-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .accuracy-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #08131a;
+      color: var(--muted);
+      font: 500 0.72rem var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .accuracy-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(37, 56, 66, 0.6);
+    }
+
+    .accuracy-bar-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bar-bg {
+      flex: 1;
+      height: 7px;
+      background: #08131a;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #162a34;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--lime);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.3s;
+      box-shadow: 0 0 8px rgba(186, 218, 85, 0.7);
+    }
+
+    .bar-val {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      width: 44px;
+      text-align: right;
+      color: var(--mint);
+    }
+
+    /* PRESETS NÉON */
+    .presets-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+
+    .btn-preset {
+      background: #08131a;
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .btn-preset span.desc {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .btn-preset:hover {
+      border-color: var(--mint);
+      background: rgba(105, 255, 225, 0.08);
+    }
+
+    .btn-preset.active {
+      border-color: var(--lime);
+      background: rgba(186, 218, 85, 0.12);
+      color: var(--lime);
+      box-shadow: 0 0 12px rgba(186, 218, 85, 0.3);
+    }
+
+    /* SENSORS DETAILS */
+    .sensor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .sensor-item {
+      background: #08131a;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .sensor-values {
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+    }
+
+    .sensor-norm {
+      font-size: 0.72rem;
+      color: var(--mint);
+    }
+
+    /* RESULT NÉON */
+    .result-box {
+      background: #08131a;
+      border: 2px solid var(--mint);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 0 25px rgba(105, 255, 225, 0.25);
+    }
+
+    .result-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-name {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--mint);
+      text-shadow: 0 0 12px rgba(105, 255, 225, 0.5);
+    }
+
+    .confidence-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 8px;
+      background: rgba(186, 218, 85, 0.15);
+      color: var(--lime);
+      border: 1px solid var(--lime);
+      box-shadow: 0 0 12px rgba(186, 218, 85, 0.35);
+      font-family: var(--mono);
+    }
+
+    .dist-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+    }
+
+    .dist-label {
+      width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dist-bar-track {
+      flex: 1;
+      height: 8px;
+      background: #0c1a22;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .dist-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--mint), var(--lime));
+      width: 0%;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 6px var(--lime);
+    }
+
+    .dist-percent {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      width: 48px;
+      text-align: right;
+    }
+
+    /* GUIDE BOXES */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .guide-box {
+      background: #08131a;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guide-box-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--lime);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-box-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .guide-box-desc strong {
+      color: var(--text);
+    }
+
+    /* SENSORS DICTIONARY TABLE */
+    .dict-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+      margin-top: 10px;
+    }
+
+    .dict-table th {
+      text-align: left;
+      padding: 9px 12px;
+      background: #08131a;
+      color: var(--mint);
+      font: 500 0.75rem var(--mono);
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dict-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(37, 56, 66, 0.5);
+      vertical-align: top;
+    }
+
+    /* 3D BASEBALL SCENE SVG NÉON */
+    .baseball-3d-card {
+      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .svg-scene-container {
+      width: 100%;
+      background: #050d13;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .baseball-3d-svg {
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+      display: block;
+    }
+
+    .traj-line {
+      cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, stroke-width 0.3s ease;
+    }
+
+    .traj-line:hover,
+    .traj-line.active {
+      opacity: 1 !important;
+      stroke-width: 4.5px !important;
+    }
+
+    .svg-nav-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-traj-pill {
+      background: #08131a;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font: 500 0.78rem var(--mono);
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-traj-pill:hover {
+      color: var(--text);
+      border-color: var(--mint);
+    }
+
+    .btn-traj-pill.active {
+      color: #fff;
+      border-color: currentColor;
+      background: rgba(105, 255, 225, 0.12);
+      box-shadow: 0 0 14px rgba(105, 255, 225, 0.25);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+
+    /* ADMIN TERMINAL NÉON */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .admin-stat-card {
+      background: #08131a;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    .admin-stat-val {
+      font-family: var(--mono);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--mint);
+      margin-top: 4px;
+      text-shadow: 0 0 10px rgba(105, 255, 225, 0.4);
+    }
+
+    .terminal-window {
+      background: #04090e;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--mint);
+      max-height: 190px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- EN-TÊTE NÉON -->
+    <header>
+      <div class="brand-group">
+        <div class="brand-icon">⚾</div>
+        <div class="header-title">
+          <h1><span style="color:var(--lime)">Neon</span> Baseball <span>Tensor</span></h1>
+          <p>Classification des lancers MLB par réseau de neurones (TensorFlow.js)</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <a class="repo-link" href="https://github.com/kewinMarchand/neon-baseball-tensor" target="_blank" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub Neon Baseball Tensor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="repo-link__label">GitHub</span></a>
+        <div id="statusBadge" class="status-badge status-idle">
+          <span class="live-dot"></span>
+          <span id="statusText">Modèle non préparé</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1 : GUIDE DÉBUTANT MACHINE LEARNING -->
+    <div class="collapsible-card">
+      <div class="collapsible-header" id="guideToggle">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:1.3rem; color:var(--lime);">💡</span>
+          <div>
+            <h2>Guide Débutant : Comprendre le Machine Learning &amp; les Enjeux</h2>
+            <p style="font-size:0.82rem; color:var(--muted);">L'analogie de la table de mixage, du contrôle surprise, et du code If/Else.</p>
+          </div>
+        </div>
+        <button id="guideToggleBtn" class="badge-pill">Ouvrir le guide ▼</button>
+      </div>
+
+      <div id="guideContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
+        <div class="guide-grid">
+          
+          <div class="guide-box">
+            <div class="guide-box-title">1. Code Classique vs Machine Learning</div>
+            <div class="guide-box-desc">
+              <p><strong>En programmation classique (If / Else) :</strong> Le développeur doit concevoir et taper à la main toutes les règles : <em>"Si vitesse &gt; 92 mph et trajectoire plonge de 20 cm, alors c'est une Fastball"</em>. Impossible dans la vraie vie : le vent, la fatigue, la prise en main créent des cas particuliers infinis !</p>
+              <p style="margin-top:8px;"><strong>En Machine Learning :</strong> On ne donne <strong>aucune règle</strong> à l'ordinateur. On lui montre <strong>7 000 exemples</strong> réels avec leur étiquette, et l'ordinateur <em>découvre tout seul</em> les équations mathématiques reliant la physique au type de lancer.</p>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">2. L'analogie de la table de mixage (Les 73 632 Poids)</div>
+            <div class="guide-box-desc">
+              <p>Le réseau de neurones contient <strong>73 632 boutons de réglage</strong> virtuels (les <em>poids</em> et <em>biais</em>).</p>
+              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Au départ :</strong> Tous les boutons sont réglés au hasard. Le modèle devine au pif (~14% de précision, soit 1 chance sur 7).</li>
+                <li><strong>Pendant l'entraînement :</strong> Le modèle calcule son erreur (la <em>Loss / Perte</em>).</li>
+                <li><strong>L'Optimiseur Adam :</strong> Il ajuste très finement chaque bouton dans le bon sens pour faire moins d'erreurs au lancer suivant (la <em>Descente de Gradient</em>).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">3. L'analogie des Révisions et de l'Examen</div>
+            <div class="guide-box-desc">
+              <p>Pourquoi découper nos données en deux jeux séparés ?</p>
+              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Jeu d'Entraînement (7 000 lancers) :</strong> Les annales et devoirs corrigés. L'ordinateur révise dessus.</li>
+                <li><strong>Jeu de Test (700 lancers) :</strong> L'examen final ! Le modèle n'a JAMAIS vu ces 700 lancers pendant ses révisions.</li>
+                <li><strong>Le Surapprentissage (Overfitting) :</strong> Si un élève apprend par cœur sans comprendre, il a 20/20 en révisions mais échoue à l'examen. Mesurer la précision sur le test garantit que le modèle sait <em>généraliser</em> !</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">4. Pourquoi TensorFlow dans le Navigateur ?</div>
+            <div class="guide-box-desc">
+              <p>Avec <strong>TensorFlow.js</strong>, l'intelligence artificielle s'exécute directement en JavaScript :</p>
+              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Confidentialité totale :</strong> L'inférence tourne localement dans le navigateur client sans envoyer de données privées sur un serveur distant.</li>
+                <li><strong>Zéro coût d'infrastructure GPU :</strong> C'est la machine de l'utilisateur qui calcule la prédiction en quelques millisecondes.</li>
+                <li><strong>Zéro installation :</strong> Un simple lien web suffit à distribuer un modèle de Deep Learning au monde entier.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 : DICTIONNAIRE DES VARIABLES ET COORDONNÉES STATCAST -->
+    <div class="collapsible-card">
+      <div class="collapsible-header" id="varsToggle">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:1.3rem; color:var(--mint);">📐</span>
+          <div>
+            <h2>Dictionnaire des Variables &amp; Système de Coordonnées MLB Statcast</h2>
+            <p style="font-size:0.82rem; color:var(--muted);">Le repère 3D, le sens des signes (+ / -), l'effet Magnus et les conversions d'unités.</p>
+          </div>
+        </div>
+        <button id="varsToggleBtn" class="badge-pill">Voir le référentiel ▼</button>
+      </div>
+
+      <div id="varsContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
+        <div style="background:#08131a; padding:16px; border-radius:12px; border:1px solid var(--line); font-size:0.85rem; line-height:1.6; margin-bottom:14px;">
+          <strong style="color:var(--mint);">🎯 Le Repère 3D Statcast de la MLB :</strong><br>
+          L'origine $(0,0,0)$ est fixée au niveau du marbre (*Home Plate*), où se tient le receveur. Le monticule du lanceur est situé à 18,44 mètres (60,5 pieds).<br>
+          • <strong>Axe Y (Distance) :</strong> Orienté du marbre vers le lanceur. Comme la balle vole <em>du lanceur vers le marbre</em>, <strong>sa vitesse $v_y$ est toujours négative</strong> (entre $-86$ et $-152$ ft/s). La résistance de l'air freine la balle, d'où une décélération $a_y &gt; 0$.<br>
+          • <strong>Axe X (Largeur) :</strong> Déplacement latéral horizontal (droite/gauche du receveur). L'accélération $a_x$ résulte de l'effet Magnus causé par la rotation de la balle.<br>
+          • <strong>Axe Z (Hauteur) :</strong> Axe vertical. La gravité attire la balle vers le sol avec $-32,2\text{ ft/s}^2$. 
+          Si $a_z = -45\text{ ft/s}^2$, la balle plonge plus vite que la gravité (balle tombante plongeante / <em>Curveball</em>). 
+          Si $a_z = -14\text{ ft/s}^2$, la portance aérodynamique s'oppose à la chute (balle rapide qui reste haute / <em>Fastball</em>).
+        </div>
+
+        <table class="dict-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Désignation</th>
+              <th>Unité</th>
+              <th>Intervalle [Min, Max]</th>
+              <th>Explication Physique &amp; Rôle en ML</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>vx0</code></td>
+              <td>Vélocité initiale X</td>
+              <td>ft/s</td>
+              <td>[-18.88, +18.06]</td>
+              <td>Vitesse latérale au lâcher. Cruciale pour distinguer les balles à rupture latérale (Slider).</td>
+            </tr>
+            <tr>
+              <td><code>vy0</code></td>
+              <td>Vélocité initiale Y</td>
+              <td>ft/s</td>
+              <td>[-152.46, -86.37]</td>
+              <td>Vitesse en direction du frappeur. Négative par convention car se dirige vers l'origine $(Y=0)$.</td>
+            </tr>
+            <tr>
+              <td><code>vz0</code></td>
+              <td>Vélocité initiale Z</td>
+              <td>ft/s</td>
+              <td>[-15.51, +9.97]</td>
+              <td>Angle initial vers le haut (+) ou vers le bas (-) lors du lâcher de la balle.</td>
+            </tr>
+            <tr>
+              <td><code>ax</code></td>
+              <td>Accélération latérale X</td>
+              <td>ft/s²</td>
+              <td>[-48.03, +30.59]</td>
+              <td>Force latérale induite par l'effet Magnus (rotation de la balle). Fait bifurquer la balle vers la gauche ou la droite.</td>
+            </tr>
+            <tr>
+              <td><code>ay</code></td>
+              <td>Décélération Y</td>
+              <td>ft/s²</td>
+              <td>[+9.40, +49.18]</td>
+              <td>Frottement aérodynamique qui ralentit la progression de la balle en vol.</td>
+            </tr>
+            <tr>
+              <td><code>az</code></td>
+              <td>Accélération verticale Z</td>
+              <td>ft/s²</td>
+              <td>[-49.34, +2.95]</td>
+              <td>Somme de la gravité (-32.2 ft/s²) et de la portance/plongeon de rotation. <strong>Signe déterminant pour séparer Fastball et Curveball.</strong></td>
+            </tr>
+            <tr>
+              <td><code>start_speed</code></td>
+              <td>Vitesse au pistolet radar</td>
+              <td>mph</td>
+              <td>[59.0, 104.4]</td>
+              <td>Vitesse pure enregistrée au lâcher ($1\text{ mph} \approx 1,467\text{ ft/s} \approx 1,609\text{ km/h}$). Fastball &gt; 92 mph, Curveball &lt; 80 mph.</td>
+            </tr>
+            <tr>
+              <td><code>left_handed_pitcher</code></td>
+              <td>Latéralité du lanceur</td>
+              <td>0 ou 1</td>
+              <td>[0, 1]</td>
+              <td>0 = Lanceur droitier, 1 = Lanceur gaucher. Inverse les effets latéraux $a_x$ et $v_{x0}$.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NOUVELLE SECTION : VISUALISATION 3D DU TERRAIN & DES TRAJECTOIRES SVG -->
+    <div class="baseball-3d-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 style="font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+            <span style="color:var(--lime);">🏟️</span> Visualisation 3D du Terrain &amp; Trajectoires des Lancers (MLB Statcast)
+          </h2>
+          <p style="font-size:0.82rem; color:var(--muted); margin-top:2px;">
+            Perspective 3D : distance réelle de 18,44 m (60,5 pieds), zone de prises au marbre et déviations causées par l'effet Magnus.
+          </p>
+        </div>
+
+        <div class="svg-nav-buttons">
+          <button class="btn-traj-pill active" data-traj="all" style="color:#f8fafc;">
+            <span>Tous les lancers</span>
+          </button>
+          <button class="btn-traj-pill" data-traj="curveball" style="color:var(--pink);">
+            <span class="pill-dot" style="background:var(--pink);"></span>
+            <span>🌪️ Curveball</span>
+          </button>
+          <button class="btn-traj-pill" data-traj="fastball" style="color:var(--mint);">
+            <span class="pill-dot" style="background:var(--mint);"></span>
+            <span>⚡ Fastball</span>
+          </button>
+          <button class="btn-traj-pill" data-traj="slider" style="color:var(--yellow);">
+            <span class="pill-dot" style="background:var(--yellow);"></span>
+            <span>⚡ Slider</span>
+          </button>
+          <button class="btn-traj-pill" data-traj="changeup" style="color:var(--violet);">
+            <span class="pill-dot" style="background:var(--violet);"></span>
+            <span>⏳ Changeup</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SCÈNE SVG 3D NÉON -->
+      <div class="svg-scene-container">
+        <svg viewBox="0 0 940 390" class="baseball-3d-svg" id="pitchSceneSvg">
+          <defs>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <radialGradient id="fieldGrad" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stop-color="#0f2b1d" />
+              <stop offset="100%" stop-color="#04120b" />
+            </radialGradient>
+            <linearGradient id="dirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#78350f" />
+              <stop offset="100%" stop-color="#451a03" />
+            </linearGradient>
+          </defs>
+
+          <!-- Sol du terrain en perspective isométrique -->
+          <polygon points="110,60 830,60 920,370 20,370" fill="url(#fieldGrad)" stroke="#1e3a2b" stroke-width="1.5" />
+          
+          <!-- Lignes de repère au sol (profondeur) -->
+          <line x1="210" y1="95" x2="710" y2="330" stroke="rgba(255,255,255,0.12)" stroke-dasharray="4,4" />
+          <line x1="110" y1="165" x2="830" y2="165" stroke="rgba(255,255,255,0.06)" />
+          <line x1="60" y1="260" x2="880" y2="260" stroke="rgba(255,255,255,0.06)" />
+
+          <!-- Repère de distance sur l'axe Y -->
+          <text x="360" y="215" fill="#64748b" font-size="11" font-family="'DM Mono', monospace" letter-spacing="0.05em">Axe Y (Distance) : 60,5 pieds (18,44 mètres)</text>
+
+          <!-- Monticule du Lanceur (Pitcher's Mound) -->
+          <ellipse cx="210" cy="95" rx="46" ry="17" fill="url(#dirtGrad)" stroke="#92400e" stroke-width="1.5" />
+          <rect x="200" y="92" width="20" height="4" fill="#ffffff" rx="1" />
+          <!-- Silhouette du lanceur -->
+          <circle cx="210" cy="68" r="6.5" fill="var(--mint)" />
+          <line x1="210" y1="74" x2="210" y2="92" stroke="var(--mint)" stroke-width="3" stroke-linecap="round" />
+          <text x="145" y="58" fill="var(--mint)" font-size="11" font-weight="700">Lanceur (Mound)</text>
+
+          <!-- Marbre (Home Plate) -->
+          <polygon points="710,325 725,335 710,345 695,335" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" />
+          <text x="665" y="365" fill="#f8fafc" font-size="11" font-weight="700">Marbre (Y = 0)</text>
+
+          <!-- Zone de Prises (Strike Zone Box) -->
+          <rect x="685" y="235" width="50" height="85" fill="rgba(105, 255, 225, 0.08)" stroke="var(--mint)" stroke-width="1.5" stroke-dasharray="3,3" rx="4" />
+          <text x="745" y="280" fill="var(--mint)" font-size="10" font-family="'DM Mono', monospace">Zone de Prises</text>
+
+          <!-- Repère 3D d'axes Statcast (Origine au marbre) -->
+          <g transform="translate(60, 290)">
+            <line x1="0" y1="0" x2="0" y2="-45" stroke="var(--pink)" stroke-width="2" />
+            <text x="6" y="-38" fill="var(--pink)" font-size="10" font-family="'DM Mono', monospace">+Z (Hauteur)</text>
+            <line x1="0" y1="0" x2="45" y2="18" stroke="var(--mint)" stroke-width="2" />
+            <text x="50" y="20" fill="var(--mint)" font-size="10" font-family="'DM Mono', monospace">+X (Latéral)</text>
+            <line x1="0" y1="0" x2="-35" y2="-18" stroke="var(--lime)" stroke-width="2" />
+            <text x="-65" y="-18" fill="var(--lime)" font-size="10" font-family="'DM Mono', monospace">-Y (Vers marbre)</text>
+          </g>
+
+          <!-- TRAJECTOIRES 3D DES 4 PRINCIPAUX LANCERS NÉON -->
+          <!-- 1. Fastball : quasi-rectiligne, haute, puissante (backspin portant) -->
+          <path id="svgTrajFastball" d="M 210,75 Q 460,165 710,255" fill="none" stroke="var(--mint)" stroke-width="3" filter="url(#glow)" class="traj-line active" />
+
+          <!-- 2. Curveball : part haut puis plonge brutalement sous l'effet Magnus négatif -->
+          <path id="svgTrajCurveball" d="M 210,75 Q 420,95 560,180 T 710,318" fill="none" stroke="var(--pink)" stroke-width="3" filter="url(#glow)" class="traj-line active" />
+
+          <!-- 3. Slider : rupture latérale vive vers la droite à l'approche du marbre -->
+          <path id="svgTrajSlider" d="M 210,75 Q 460,165 745,295" fill="none" stroke="var(--yellow)" stroke-width="3" filter="url(#glow)" class="traj-line active" />
+
+          <!-- 4. Changeup : décélération précoce et tombée modérée -->
+          <path id="svgTrajChangeup" d="M 210,75 Q 450,185 700,290" fill="none" stroke="var(--violet)" stroke-width="3" filter="url(#glow)" class="traj-line active" />
+
+          <!-- Balle de baseball animée en vol le long de la trajectoire -->
+          <circle id="svgBaseball" r="6.5" fill="#ffffff" stroke="var(--pink)" stroke-width="2">
+            <animateMotion id="svgBallMotion" dur="1.7s" repeatCount="indefinite" path="M 210,75 Q 460,165 710,255" />
+          </circle>
+        </svg>
+      </div>
+
+      <!-- LEGENDE DYNAMIQUE DE LA TRAJECTOIRE SELECTIONNEE -->
+      <div id="trajPhysicsLegend" style="background:#08131a; border:1px solid var(--line); border-radius:12px; padding:12px 16px; font-size:0.83rem; line-height:1.5;">
+        <strong id="legendTitle" style="color:var(--mint);">⚡ Fastball 4-seam (94,5 mph) :</strong>
+        <span id="legendDesc">Trajectoire tendue et directe. La rotation arrière rapide (backspin) crée une portance aérodynamique (effet Magnus vers le haut, $a_z \approx -14\text{ ft/s}^2$) qui compense la gravité : la balle semble défier la pesanteur et reste en haut de la zone de prises.</span>
+      </div>
+    </div>
+
+    <!-- GRILLE PRINCIPALE -->
+    <div class="main-grid">
+      
+      <!-- CARTE GAUCHE : SUIVI & PRÉPARATION MANUELLE DU MODÈLE (SANS CTA PAS-À-PAS) -->
+      <div class="card">
+        <div class="card-title">
+          <span>📊 Préparation du Modèle</span>
+          <span id="epochCounter" style="font-size:0.85rem; font-family:var(--mono); color:var(--mint);">0 / 10 Époques</span>
+        </div>
+
+        <!-- BARRE DE CONTRÔLE MANUELLE : PAS-À-PAS RETIRÉ -->
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button id="btnStartFull" class="btn-action">
+            ▶️ Lancer Entraînement (10 Époques)
+          </button>
+          <button id="btnResetModel" class="btn-reset" title="Réinitialiser les poids à des valeurs aléatoires">
+            🔄 Réinitialiser
+          </button>
+        </div>
+
+        <!-- NOTIFICATION ANIMÉE AVEC EFFET DE FONDU -->
+        <div id="epochMessageBox" class="epoch-message-box epoch-message fade-in">
+          <span style="font-size:1.3rem;">ℹ️</span>
+          <span id="epochMessageText">Le modèle est en attente. Cliquez sur <strong>« Lancer Entraînement »</strong> pour débuter l'apprentissage des 73 632 poids sur les 7 000 lancers.</span>
+        </div>
+
+        <!-- JAUGE DE PROGRESSION -->
+        <div class="progress-section">
+          <div class="progress-meta">
+            <span id="progressLabel">En attente de démarrage...</span>
+            <span id="progressPercent" style="font-family:var(--mono); color:var(--lime);">0%</span>
+          </div>
+          <div class="progress-bar-container progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+
+        <div style="font-size:0.85rem; color:var(--muted);">
+          Précision mesurée par classe sur les <strong>700 lancers du jeu de test</strong> (jamais vus pendant les révisions) :
+        </div>
+
+        <table class="accuracy-table">
+          <thead>
+            <tr>
+              <th>Type de Lancer</th>
+              <th style="width: 50%;">Précision Validation (Test)</th>
+            </tr>
+          </thead>
+          <tbody id="accuracyTableBody">
+            <tr><td colspan="2" style="text-align:center; color:var(--muted); padding:16px;">Modèle non entraîné (Poids aléatoires).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CARTE DROITE : BAC A SABLE D'INFERENCE -->
+      <div class="card">
+        <div class="card-title">
+          <span>🎯 Bac à Sable d'Inférence</span>
+          <button id="btnPredict" class="btn-action" disabled>
+            ⚡ Classifier ce Lancer
+          </button>
+        </div>
+
+        <!-- SÉLECTEUR DE PRESETS -->
+        <div>
+          <span style="font-size:0.85rem; font-weight:600; color:var(--muted);">Choisir un lancer réel issu de la MLB :</span>
+          <div class="presets-buttons" style="margin-top:8px;">
+            <button class="btn-preset active" data-preset="curveball">
+              🌪️ Curveball
+              <span class="desc">Plongeante (az: -45.2 ft/s², 78 mph)</span>
+            </button>
+            <button class="btn-preset" data-preset="fastball">
+              ⚡ Fastball (4-seam)
+              <span class="desc">Ultra rapide droite (94.5 mph)</span>
+            </button>
+            <button class="btn-preset" data-preset="slider">
+              ⚡ Slider
+              <span class="desc">Rupture latérale vive (ax: +8.2)</span>
+            </button>
+            <button class="btn-preset" data-preset="changeup">
+              ⏳ Changeup
+              <span class="desc">Ralentie trompeuse (82 mph)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- DETAIL DES 8 CAPTEURS -->
+        <div>
+          <span style="font-size:0.85rem; font-weight:600; color:var(--muted);">Tenseur d'entrée normalisé [0, 1] transmis au réseau :</span>
+          <div id="sensorList" class="sensor-list" style="margin-top:8px;">
+            <!-- Rempli dynamiquement -->
+          </div>
+        </div>
+
+        <!-- RESULTAT DE LA PREDICTION -->
+        <div id="resultContainer" class="result-box" style="display:none;">
+          <div class="result-hero">
+            <div>
+              <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); font-family:var(--mono);">Prédiction Réseau de Neurones</div>
+              <div id="predictedPitchName" class="result-name">-</div>
+            </div>
+            <div id="confidenceBadge" class="confidence-badge">-%</div>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; font-family:var(--mono);">
+              Distribution des Probabilités Softmax (7 classes)
+            </div>
+            <div id="softmaxList" style="display:flex; flex-direction:column; gap:6px;">
+              <!-- Rempli dynamiquement -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SECTION DEEP-DIVE : MATHÉMATIQUES DU DEEP LEARNING (RELU, POIDS & BIAIS, NEURONES, ADAM, SOFTMAX, ÉPOQUES) -->
+    <div class="collapsible-card">
+      <div class="collapsible-header" id="dlMathsToggle">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:1.3rem; color:var(--violet);">🔬</span>
+          <div>
+            <h2>Comprendre les Algorithmes du Deep Learning : Neurones, Poids, Biais, ReLU, Adam &amp; Softmax</h2>
+            <p style="font-size:0.82rem; color:var(--muted);">Explications claires, imagées et intuitives des briques motrices de TensorFlow.js.</p>
+          </div>
+        </div>
+        <button id="dlMathsToggleBtn" class="badge-pill">Ouvrir les algorithmes ▼</button>
+      </div>
+
+      <div id="dlMathsContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
+        <div class="guide-grid">
+          
+          <div class="guide-box">
+            <div class="guide-box-title">🧠 1. Le Neurone Artificiel : Comment ça marche ?</div>
+            <div class="guide-box-desc">
+              <p>Un neurone artificiel est une <strong>petite calculatrice mathématique</strong> ultra simple :</p>
+              <p style="margin-top:6px;">1. Il reçoit plusieurs signaux d'entrée ($x_1, x_2, \dots, x_n$), par exemple la vitesse et l'accélération de la balle.</p>
+              <p style="margin-top:4px;">2. Il multiplie chaque entrée par un coefficient d'importance appelé le <strong>Poids ($w$)</strong>.</p>
+              <p style="margin-top:4px;">3. Il ajoute un réglage constant appelé le <strong>Biais ($b$)</strong>.</p>
+              <p style="margin-top:4px;">4. Il passe le total dans une fonction d'activation (comme <strong>ReLU</strong>) pour décider du signal de sortie :</p>
+              <p style="font-family:var(--mono); color:var(--lime); margin-top:6px;">Sortie = Activation( w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + b )</p>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">🎛️ 2. Les Poids (Weights) et les Biais (Biases)</div>
+            <div class="guide-box-desc">
+              <p>Ce sont les <strong>73 632 variables modifiables</strong> que le modèle ajuste pendant les 10 époques :</p>
+              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:6px;">
+                <li><strong>Le Poids ($w$) :</strong> Il mesure la <em>force</em> ou l'<em>influence</em> d'une caractéristique. Si le poids associé à l'accélération $a_z$ est très négatif et élevé, une forte chute verticale déclenchera fortement les neurones de la Curveball.</li>
+                <li><strong>Le Biais ($b$) :</strong> C'est le <em>seuil de sensibilité</em> intrinsèque du neurone (comme le thermostat d'un radiateur). Même si toutes les entrées valent 0, le biais permet de décaler la décision pour que le neurone s'active plus ou moins facilement.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">🔀 3. La Fonction d'Activation ReLU (max(0, x))</div>
+            <div class="guide-box-desc">
+              <p>Dans nos couches cachées, chaque neurone applique la fonction <strong>ReLU (Rectified Linear Unit)</strong> :</p>
+              <p style="font-family:var(--mono); color:var(--mint); margin-top:4px;">f(x) = max(0, x)  ➔  Si x &le; 0 alors 0, sinon x</p>
+              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Pourquoi est-elle magique ?</strong> Sans elle, empiler 10 couches denses reviendrait à une seule droite mathématique ($y = ax + b$). Une droite est incapable d'isoler 7 trajectoires courbes ! ReLU brise la linéarité.</li>
+                <li><strong>Pas de saturation :</strong> Contrairement à la Sigmoïde qui s'aplatit aux extrêmes (*vanishing gradient*), ReLU laisse passer les signaux forts sans écraser les gradients, permettant au réseau d'apprendre vite.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">⚡ 4. L'Optimiseur Adam (L'Élan + L'Accélérateur)</div>
+            <div class="guide-box-desc">
+              <p>Adam est le mécanicien qui règle les 73 632 poids à chaque lot de 100 lancers :</p>
+              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Le Momentum :</strong> Conserve la vitesse des pas précédents pour franchir les faux-plats sans s'arrêter.</li>
+                <li><strong>Le RMSProp :</strong> Si un poids oscille trop vite d'un signe à l'autre, Adam réduit la taille de son pas. S'il progresse calmement, Adam accélère.</li>
+              </ul>
+              <p style="margin-top:6px;"><em>Résultat :</em> Adam permet au modèle de converger en seulement 10 époques avec ~80% de précision.</p>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">📊 5. La Fonction Softmax (Distribution 0 à 100%)</div>
+            <div class="guide-box-desc">
+              <p>Les 7 neurones de sortie calculent des scores bruts (logits, positifs ou négatifs).</p>
+              <p style="margin-top:4px;"><strong>La formule Softmax :</strong> $P(i) = \frac{e^{z_i}}{\sum e^{z_j}}$</p>
+              <ul style="margin-left:16px; margin-top:4px; display:flex; flex-direction:column; gap:4px;">
+                <li>$e^z$ rend toutes les valeurs strictement positives et amplifie l'écart du vainqueur ($e^{4.8} \approx 121$ vs $e^{1.1} \approx 3$).</li>
+                <li>La division par la somme garantit que le total des 7 barres fait <strong>exactement 100%</strong>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">🔄 6. Anatomie d'une Époque (Epochs, Batches, Steps)</div>
+            <div class="guide-box-desc">
+              <p><strong>1 Époque = 1 passage complet sur les 7 000 lancers du jeu d'entraînement.</strong></p>
+              <ul style="margin-left:16px; margin-top:4px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Lots de 100 (Batches) :</strong> Le réseau lit 100 lancers, calcule la moyenne d'erreur, et effectue un réglage de poids.</li>
+                <li><strong>1 Époque = 70 pas (steps)</strong> ($7000 / 100$).</li>
+                <li><strong>10 Époques = 700 réglages successifs</strong> de nos 73 632 poids.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION CULTURE & GLOSSAIRE DU BASEBALL -->
+    <div class="collapsible-card">
+      <div class="collapsible-header" id="baseballGlossaryToggle">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:1.3rem; color:var(--yellow);">⚾</span>
+          <div>
+            <h2>Glossaire Technique du Baseball &amp; Physique des Lancers</h2>
+            <p style="font-size:0.82rem; color:var(--muted);">Le duel lanceur-frappeur, l'effet Magnus et les 7 types de lancers réels.</p>
+          </div>
+        </div>
+        <button id="baseballGlossaryToggleBtn" class="badge-pill">Voir le glossaire ▼</button>
+      </div>
+
+      <div id="baseballGlossaryContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
+        <div class="guide-grid">
+          
+          <div class="guide-box">
+            <div class="guide-box-title">🏟️ Les Lieux Clés du Duel</div>
+            <div class="guide-box-desc">
+              <p><strong>Le Monticule (Mound) :</strong> Butte de terre surélevée de 25 cm située à 18,44 mètres (60,5 pieds) du marbre d'où le lanceur prend appui sur une plaque en caoutchouc blanc.</p>
+              <p style="margin-top:6px;"><strong>Le Marbre (Home Plate) :</strong> Dalle pentagonale blanche au sol où se tient le receveur accroupi et le frappeur.</p>
+              <p style="margin-top:6px;"><strong>La Zone de Prises (Strike Zone) :</strong> Rectangle imaginaire au-dessus du marbre, situé entre les genoux et les aisselles du frappeur. Si le lancer passe dedans sans que le frappeur ne touche la balle, c'est une <em>prise (strike)</em>.</p>
+            </div>
+          </div>
+
+          <div class="guide-box">
+            <div class="guide-box-title">💨 L'Effet Magnus (La physique du mouvement)</div>
+            <div class="guide-box-desc">
+              <p>Une balle de baseball possède <strong>108 doubles coutures</strong> en fil rouge surélevées. En tournant à plus de 2 000 tours/minute (RPM), ces coutures entraînent l'air d'un côté et créent une différence de pression (effet Magnus) :</p>
+              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Backspin (rotation arrière) :</strong> L'air pousse vers le haut ➔ la balle "résiste" à la gravité et reste haute (Fastball).</li>
+                <li><strong>Topspin (rotation avant) :</strong> L'air pousse vers le bas ➔ la balle plonge brutalement vers le sol (Curveball).</li>
+                <li><strong>Sidespin (rotation latérale) :</strong> La balle dévie horizontalement (Slider).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-box" style="grid-column: span 2;">
+            <div class="guide-box-title">🎯 Les 7 Types de Lancers Analysés par notre Réseau</div>
+            <div class="guide-box-desc" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-top:6px;">
+              <div>
+                <strong style="color:var(--mint);">1. Fastball 4-seam (Balle rapide 4 coutures) :</strong>
+                <p>94 à 102 mph. La balle la plus véloce du sport. Backspin intense (~2400 RPM), trajectoire tendue qui donne l'illusion de "monter".</p>
+              </div>
+              <div>
+                <strong style="color:var(--lime);">2. Fastball 2-seam / Sinker :</strong>
+                <p>91 à 96 mph. Tenue le long des coutures. Plonge et s'enfonce au dernier instant pour forcer un coup de batte mou au sol.</p>
+              </div>
+              <div>
+                <strong style="color:#d9f99d;">3. Fastball (Cutter) :</strong>
+                <p>88 à 93 mph. Balle rapide coupée qui bifurque latéralement de 10 à 20 cm juste avant la batte, brisant souvent le manche.</p>
+              </div>
+              <div>
+                <strong style="color:var(--pink);">4. Curveball (Balle courbe) :</strong>
+                <p>75 à 82 mph. Trajectoire en arc de cercle avec cassure verticale vertigineuse ($a_z &lt; -45\text{ ft/s}^2$) trompant complètement la hauteur de frappe.</p>
+              </div>
+              <div>
+                <strong style="color:var(--yellow);">5. Slider (Balle glissante) :</strong>
+                <p>82 à 89 mph. Rotation en vrille (*gyrospin*). Ressemble à une balle rapide jusqu'aux trois quarts du trajet, puis glisse violemment sur le côté.</p>
+              </div>
+              <div>
+                <strong style="color:var(--violet);">6. Changeup (Changement de vitesse) :</strong>
+                <p>80 à 86 mph. Même geste fulgurant qu'une balle rapide, mais tenue au creux de la paume. Le frappeur amorce son élan trop tôt et frappe dans le vent.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 : CONSOLE D'ADMINISTRATION TECHNIQUE & TÉLÉMÉTRIE NÉON -->
+    <div class="collapsible-card">
+      <div class="collapsible-header" id="adminToggle">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:1.3rem; color:var(--mint);">🛠️</span>
+          <div>
+            <h2>Console d'Administration Technique &amp; Télémétrie Système</h2>
+            <p style="font-size:0.82rem; color:var(--muted);">Paramètres internes du modèle, mémoire Heap Node.js, et flux de logs en direct.</p>
+          </div>
+        </div>
+        <button id="adminToggleBtn" class="badge-pill">Ouvrir l'administration ▼</button>
+      </div>
+
+      <div id="adminContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px; display:flex; flex-direction:column; gap:16px;">
+        
+        <!-- STATS GRILLE NÉON -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div style="font-size:0.75rem; color:var(--muted); font-family:var(--mono); text-transform:uppercase;">Poids du Modèle</div>
+            <div id="adminTotalParams" class="admin-stat-val">73 632</div>
+            <div style="font-size:0.72rem; color:var(--muted); margin-top:2px;">Paramètres entraînables</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="font-size:0.75rem; color:var(--muted); font-family:var(--mono); text-transform:uppercase;">Backend TensorFlow</div>
+            <div id="adminTfBackend" class="admin-stat-val">CPU</div>
+            <div style="font-size:0.72rem; color:var(--muted); margin-top:2px;">Moteur de calcul JavaScript</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="font-size:0.75rem; color:var(--muted); font-family:var(--mono); text-transform:uppercase;">Mémoire Heap Node</div>
+            <div id="adminHeap" class="admin-stat-val">- MB</div>
+            <div style="font-size:0.72rem; color:var(--muted); margin-top:2px;">RAM allouée au runtime</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="font-size:0.75rem; color:var(--muted); font-family:var(--mono); text-transform:uppercase;">Port WebSocket</div>
+            <div class="admin-stat-val" style="color:var(--lime);">8001</div>
+            <div style="font-size:0.72rem; color:var(--muted); margin-top:2px;">Canal bidirectionnel Socket.io</div>
+          </div>
+        </div>
+
+        <!-- DÉTAIL DES COUCHES DU RÉSEAU DENSE -->
+        <div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--mint); margin-bottom:8px;">Architecture interne des Couches Denses (Sequential) :</div>
+          <table class="dict-table">
+            <thead>
+              <tr>
+                <th>Couche</th>
+                <th>Type</th>
+                <th>Neurones (Units)</th>
+                <th>Activation</th>
+                <th>Poids &amp; Biais</th>
+                <th>Rôle Mathématique</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Couche 1 (Input)</strong></td>
+                <td>Dense</td>
+                <td>250</td>
+                <td>ReLU</td>
+                <td>2 250 (8 × 250 + 250)</td>
+                <td>Projection des 8 signaux physiques vers l'espace latent multidimensionnel.</td>
+              </tr>
+              <tr>
+                <td><strong>Couche 2 (Cachée)</strong></td>
+                <td>Dense</td>
+                <td>175</td>
+                <td>ReLU</td>
+                <td>43 925 (250 × 175 + 175)</td>
+                <td>Combinaisons non-linéaires des vélocités et accélérations.</td>
+              </tr>
+              <tr>
+                <td><strong>Couche 3 (Cachée)</strong></td>
+                <td>Dense</td>
+                <td>150</td>
+                <td>ReLU</td>
+                <td>26 400 (175 × 150 + 150)</td>
+                <td>Représentation abstraite des familles de trajectoires.</td>
+              </tr>
+              <tr>
+                <td><strong>Couche 4 (Sortie)</strong></td>
+                <td>Dense</td>
+                <td>7</td>
+                <td>Softmax</td>
+                <td>1 057 (150 × 7 + 7)</td>
+                <td>Transformation des 7 logits en probabilités normalisées sommées à 1.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TERMINAL DE LOGS SERVEUR NÉON -->
+        <div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--mint); margin-bottom:8px;">Flux de logs serveur en direct (avec détail des 7 classes) :</div>
+          <div id="adminTerminal" class="terminal-window">
+            <div>[00:00:00] Initialisation du terminal d'administration...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Configuration backend (Render). Sur GitHub Pages -> Render, sinon localhost (dev). -->
+  <script>window.NEON_BACKEND_URL = (location.hostname.endsWith('github.io'))
+    ? 'https://neon-baseball-tensor.onrender.com'
+    : '';</script>
+  <script src="dist/bundle.js"></script>
+</body>
+</html>

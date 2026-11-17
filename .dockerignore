@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+test-results
+playwright-report
+.lighthouseci
+tests
+!tests/unit/siteResolver.js
+site/vendor
+site/charte-graphique
+site/js/views/styleguide
+.cache
+.api

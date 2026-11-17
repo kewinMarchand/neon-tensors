@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="fr" data-color-scheme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulaire de contact natif · Boilerplate HTML</title>
+    <meta
+      name="description"
+      content="Formulaire de contact en amélioration progressive : validation native du navigateur, messages d'erreur clairs liés aux champs et confirmation annoncée."
+    />
+    <link rel="canonical" href="https://www.example.com/contact" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Boilerplate HTML" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Formulaire de contact natif · Boilerplate HTML" />
+    <meta
+      property="og:description"
+      content="Formulaire de contact en amélioration progressive : validation native du navigateur, messages d'erreur clairs liés aux champs et confirmation annoncée."
+    />
+    <meta property="og:url" content="https://www.example.com/contact" />
+    <meta property="og:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boilerplate HTML" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Formulaire de contact natif · Boilerplate HTML" />
+    <meta
+      name="twitter:description"
+      content="Formulaire de contact en amélioration progressive : validation native du navigateur, messages d'erreur clairs liés aux champs et confirmation annoncée."
+    />
+    <meta name="twitter:image" content="https://www.example.com/images/og-image.jpg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      document.documentElement.dataset.js = ''
+      try {
+        if (localStorage.getItem('a11y-mode') === 'enhanced') {
+          document.documentElement.dataset.a11yMode = 'enhanced'
+        }
+        const colorScheme = localStorage.getItem('color-scheme')
+        if (colorScheme === 'auto' || colorScheme === 'light' || colorScheme === 'dark') {
+          document.documentElement.dataset.colorScheme = colorScheme
+        }
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/vendor/boilerplates-ui.css" />
+    <script type="module" src="/js/shared/a11yModeToggle.js"></script>
+    <script type="module" src="/js/shared/colorSchemeToggle.js"></script>
+    <script type="module" src="/js/shared/categoryMenu.js"></script>
+    <script type="module" src="/js/modules/cart/ui/cartLink.js" data-sales></script>
+    <script type="module" src="/js/modules/contact/ui/contactForm.js"></script>
+    <script type="module" src="/js/shared/modals.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://www.example.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact",
+            "item": "https://www.example.com/contact"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!--# set var="page" value="contact" -->
+    <!--# include virtual="/partials/header.html" -->
+    <main id="main">
+      <div class="container page">
+        <nav class="bui-breadcrumb" aria-label="Fil d'Ariane" data-testid="layout-breadcrumb">
+          <ol class="bui-breadcrumb__list">
+            <li class="bui-breadcrumb__item"><a class="bui-link" href="/">Accueil</a></li>
+            <li class="bui-breadcrumb__item">
+              <span class="bui-breadcrumb__current" aria-current="page">Contact</span>
+            </li>
+          </ol>
+        </nav>
+        <h1>Contact</h1>
+        <p>
+          Une question sur ce boilerplate ? Écrivez-nous.
+          <button
+            type="button"
+            class="bui-link bui-link--button"
+            aria-haspopup="dialog"
+            aria-controls="privacy-dialog"
+            data-bui-modal-open="privacy-dialog"
+            data-testid="contact-privacy-open"
+          >
+            Comment vos données sont-elles utilisées ?
+          </button>
+        </p>
+        <noscript>
+          <div class="bui-alert bui-alert--info" data-testid="contact-noscript">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#info"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Information :</span>
+              <div class="bui-alert__body">
+                <p>
+                  Sans JavaScript, ce formulaire ne peut pas être envoyé : ce site n'a pas de
+                  serveur pour le traiter. Écrivez-nous directement à
+                  <a href="mailto:contact@example.com">contact@example.com</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <div class="contact-layout">
+          <form
+            class="contact-form"
+            method="post"
+            data-contact-form
+            data-label-inquiry-subject="Votre demande concerne :"
+            data-label-inquiry-success="Votre demande de renseignement a bien été envoyée."
+            data-testid="contact-form"
+          >
+            <fieldset>
+              <legend>Vos coordonnées</legend>
+              <div class="bui-field">
+                <label class="bui-field__label" for="contact-name"
+                  >Nom<span class="bui-field__required"> (obligatoire)</span></label
+                >
+                <input
+                  class="bui-field__input"
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                  minlength="2"
+                  aria-describedby="contact-name-error"
+                  data-label-invalid="Indiquez votre nom (2 caractères minimum)."
+                  data-testid="contact-name"
+                />
+                <p
+                  class="bui-field__error"
+                  id="contact-name-error"
+                  data-testid="contact-name-error"
+                ></p>
+              </div>
+              <div class="bui-field">
+                <label class="bui-field__label" for="contact-email"
+                  >E-mail<span class="bui-field__required"> (obligatoire)</span></label
+                >
+                <input
+                  class="bui-field__input"
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  aria-describedby="contact-email-error"
+                  data-label-invalid="Indiquez une adresse e-mail valide, par exemple nom@domaine.fr."
+                  data-testid="contact-email"
+                />
+                <p
+                  class="bui-field__error"
+                  id="contact-email-error"
+                  data-testid="contact-email-error"
+                ></p>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Votre demande</legend>
+              <div class="bui-field">
+                <label class="bui-field__label" for="contact-message"
+                  >Message<span class="bui-field__required"> (obligatoire)</span></label
+                >
+                <textarea
+                  class="bui-field__input bui-field__input--multiline"
+                  id="contact-message"
+                  name="message"
+                  rows="5"
+                  required
+                  minlength="10"
+                  aria-describedby="contact-message-error"
+                  data-label-invalid="Votre message doit contenir au moins 10 caractères."
+                  data-testid="contact-message"
+                ></textarea>
+                <p
+                  class="bui-field__error"
+                  id="contact-message-error"
+                  data-testid="contact-message-error"
+                ></p>
+              </div>
+            </fieldset>
+            <button type="submit" class="bui-button" data-testid="contact-submit">Envoyer</button>
+            <div class="form-status" aria-live="polite" data-contact-status></div>
+          </form>
+          <aside class="contact-aside" aria-labelledby="contact-aside-title">
+            <h2 id="contact-aside-title">Autres moyens de nous joindre</h2>
+            <address>
+              Exemple SAS<br />
+              10 rue de l'Exemple, 13100 Aix-en-Provence<br />
+              <a href="mailto:contact@example.com">contact@example.com</a>
+            </address>
+          </aside>
+        </div>
+        <template id="contact-success-template">
+          <div class="bui-alert bui-alert--success" data-testid="contact-success">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-check"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Succès :</span>
+              <div class="bui-alert__body"><p>Merci, votre message a bien été envoyé.</p></div>
+            </div>
+          </div>
+        </template>
+        <template id="contact-error-template">
+          <div class="bui-alert bui-alert--error" data-testid="contact-error">
+            <svg class="bui-icon bui-alert__icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#circle-alert"></use>
+            </svg>
+            <div class="bui-alert__content">
+              <span class="bui-visually-hidden">Erreur :</span>
+              <div class="bui-alert__body">
+                <p>L'envoi a échoué. Réessayez dans quelques instants.</p>
+              </div>
+            </div>
+          </div>
+        </template>
+        <dialog
+          class="bui-modal"
+          id="privacy-dialog"
+          aria-labelledby="privacy-dialog-title"
+          data-testid="contact-privacy-dialog"
+        >
+          <div class="bui-modal__header">
+            <h2 class="bui-modal__title" id="privacy-dialog-title">Utilisation de vos données</h2>
+            <button type="button" class="bui-modal__close" aria-label="Fermer" data-bui-modal-close>
+              <svg class="bui-icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#x"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="bui-modal__body">
+            <p>
+              Votre nom, votre e-mail et votre message servent uniquement à répondre à votre
+              demande. Ils sont conservés trois ans au plus après notre dernier échange, puis
+              supprimés.
+            </p>
+            <p><a href="/donnees-personnelles">Lire la politique de données personnelles</a></p>
+          </div>
+          <div class="bui-modal__footer">
+            <button
+              type="button"
+              class="bui-button"
+              data-bui-modal-close
+              data-testid="contact-privacy-close"
+            >
+              Fermer
+            </button>
+          </div>
+        </dialog>
+      </div>
+    </main>
+    <!--# include virtual="/partials/footer.html" -->
+  </body>
+</html>

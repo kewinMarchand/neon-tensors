@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-labelledby="title desc">
+  <title id="title">Baseball Tensor</title>
+  <desc id="desc">Classification de lancers de baseball par réseau de neurones</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10212a"/>
+      <stop offset="1" stop-color="#071018"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="720" height="380" rx="24" fill="url(#bg)"/>
+  <rect x="36" y="36" width="648" height="308" rx="16" fill="#0c1a22" stroke="#253842"/>
+  <text x="64" y="78" fill="#f2f7f5" font-family="Space Grotesk,system-ui" font-size="28" font-weight="700">Baseball <tspan fill="#BADA55">Tensor</tspan></text>
+  <text x="64" y="104" fill="#a9bab8" font-family="DM Mono,monospace" font-size="13">Classification des lancers MLB · Deep Learning</text>
+  <g transform="translate(70,130)">
+    <rect x="0" y="0" width="330" height="170" rx="12" fill="#08131a" stroke="#253842"/>
+    <path d="M 30 140 Q 150 120 170 60 Q 190 120 300 40" fill="none" stroke="#69ffe1" stroke-width="3" stroke-dasharray="6 5" filter="url(#glow)"/>
+    <path d="M 30 140 Q 140 130 180 90 Q 220 130 300 110" fill="none" stroke="#ff72bb" stroke-width="3" stroke-dasharray="6 5"/>
+    <path d="M 30 140 Q 160 110 210 70 Q 250 100 300 80" fill="none" stroke="#ffd166" stroke-width="3" stroke-dasharray="6 5"/>
+    <circle cx="30" cy="140" r="8" fill="#f2f7f5" stroke="#BADA55" stroke-width="2"/>
+    <rect x="285" y="32" width="10" height="26" rx="3" fill="#253842" stroke="#69ffe1"/>
+    <text x="20" y="162" fill="#a9bab8" font-family="DM Mono,monospace" font-size="11">Trajectoires · zone de prises</text>
+  </g>
+  <g transform="translate(425,130)" font-family="DM Mono,monospace">
+    <rect x="0" y="0" width="225" height="170" rx="12" fill="#08131a" stroke="#253842"/>
+    <text x="16" y="28" fill="#a9bab8" font-size="11">RÉSEAU DE NEURONES</text>
+    <g stroke="#253842" stroke-width="1.5">
+      <line x1="40" y1="55" x2="110" y2="70"/><line x1="40" y1="55" x2="110" y2="100"/><line x1="40" y1="55" x2="110" y2="130"/>
+      <line x1="40" y1="100" x2="110" y2="70"/><line x1="40" y1="100" x2="110" y2="100"/><line x1="40" y1="100" x2="110" y2="130"/>
+      <line x1="40" y1="145" x2="110" y2="70"/><line x1="40" y1="145" x2="110" y2="100"/><line x1="40" y1="145" x2="110" y2="130"/>
+      <line x1="110" y1="70" x2="180" y2="85"/><line x1="110" y1="70" x2="180" y2="115"/>
+      <line x1="110" y1="100" x2="180" y2="85"/><line x1="110" y1="100" x2="180" y2="115"/>
+      <line x1="110" y1="130" x2="180" y2="85"/><line x1="110" y1="130" x2="180" y2="115"/>
+    </g>
+    <g filter="url(#glow)">
+      <circle cx="40" cy="55" r="8" fill="#0c1a22" stroke="#69ffe1" stroke-width="2"/>
+      <circle cx="40" cy="100" r="8" fill="#0c1a22" stroke="#69ffe1" stroke-width="2"/>
+      <circle cx="40" cy="145" r="8" fill="#0c1a22" stroke="#69ffe1" stroke-width="2"/>
+      <circle cx="110" cy="70" r="8" fill="#0c1a22" stroke="#BADA55" stroke-width="2"/>
+      <circle cx="110" cy="100" r="8" fill="#0c1a22" stroke="#BADA55" stroke-width="2"/>
+      <circle cx="110" cy="130" r="8" fill="#0c1a22" stroke="#BADA55" stroke-width="2"/>
+      <circle cx="180" cy="85" r="8" fill="#0c1a22" stroke="#ff72bb" stroke-width="2"/>
+      <circle cx="180" cy="115" r="8" fill="#0c1a22" stroke="#c48cff" stroke-width="2"/>
+    </g>
+    <text x="168" y="150" fill="#BADA55" font-size="11">Softmax</text>
+  </g>
+  <g fill="#9fb0c8" font-family="DM Mono,monospace" font-size="12">
+    <rect x="64" y="320" width="10" height="10" rx="2" fill="#69ffe1"/><text x="80" y="329">TensorFlow.js</text>
+    <rect x="200" y="320" width="10" height="10" rx="2" fill="#ffd166"/><text x="216" y="329">Statcast MLB</text>
+    <rect x="340" y="320" width="10" height="10" rx="2" fill="#BADA55"/><text x="356" y="329">7 types de lancers</text>
+  </g>
+</svg>

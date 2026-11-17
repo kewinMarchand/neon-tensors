@@ -1,0 +1,8 @@
+{
+  "name": "@kewinmarchand/shared",
+  "version": "0.1.0",
+  "description": "Utilitaires et ressources partagees des monorepos Neon (URLs, config jeu, helpers)",
+  "license": "MIT",
+  "type": "module",
+  "private": true
+}

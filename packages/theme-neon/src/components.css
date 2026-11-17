@@ -1,0 +1,53 @@
+/*
+ * Theme Neon — composants (overrides visuels) sur les composants commons `bui-*`.
+ * Les classes demontables (`.bui-button`, `.bui-card`, `.bui-link`, ...) gardent leur
+ * logique ; le theme n'introduit aucune brique Neon metier.
+ */
+
+@layer components {
+  .bui-button {
+    border-radius: var(--bui-radius-md, 10px);
+    box-shadow: var(--bui-shadow-sm, 0 8px 30px rgba(0, 0, 0, 0.45));
+  }
+
+  .bui-button--outline,
+  .bui-button--ghost {
+    box-shadow: none;
+  }
+
+  .bui-card {
+    background: var(--bui-color-surface-muted, #0c1a22);
+    border: 1px solid var(--bui-color-border-subtle, #182635);
+    border-radius: var(--bui-radius-md, 10px);
+    padding: var(--bui-space-6, 24px);
+  }
+
+  .bui-link {
+    color: var(--bui-color-primary, #69ffe1);
+  }
+
+  .bui-badge,
+  .bui-chip {
+    background: var(--bui-color-primary-surface-subtle, #0e2a28);
+    color: var(--bui-color-primary, #69ffe1);
+    border: 1px solid var(--bui-color-primary-surface-strong, #185049);
+    border-radius: var(--bui-radius-full, 9999px);
+  }
+
+  /* Panneaux lateraux du shell de jeu : contenus specifiques au jeu, sans modifier le cadre. */
+  .neon-panel__title {
+    margin: 0;
+    color: var(--bui-color-primary, #69ffe1);
+    font-size: var(--bui-font-size-h4, 18px);
+    font-weight: var(--bui-font-weight-bold, 700);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .neon-panel__value,
+  .neon-panel__text {
+    margin: 0;
+    color: var(--bui-color-text, #f2f7f5);
+    font-size: var(--bui-font-size-body-sm, 14px);
+  }
+}

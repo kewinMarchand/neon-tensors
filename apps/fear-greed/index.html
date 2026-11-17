@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fear &amp; Greed BTC/USD — Laboratoire Néon &amp; Inférence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Thème Neon (boilerplate-neon) -->
+  <link rel="stylesheet" href="./neon/neon-tokens.css">
+  <link rel="stylesheet" href="./neon/neon-base.css">
+  <link rel="stylesheet" href="./neon/neon-components.css">
+  <style>
+    /* Styles spécifiques à l'app (complètent le thème neon) */
+    :root {
+      color-scheme: dark;
+      --bg: #071018;
+      --surface: #0c1a22;
+      --surface-card: #10212a;
+      --line: #253842;
+      --text: #f2f7f5;
+      --muted: #a9bab8;
+      --lime: #BADA55;
+      --lime-ink: #17200a;
+      --mint: #69ffe1;
+      --pink: #ff72bb;
+      --coral: #ff5f6d;
+      --violet: #c48cff;
+      --yellow: #ffd166;
+      --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.55;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HEADER LABORATOIRE */
+    header {
+      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    header h1 .accent { color: var(--lime); }
+
+    header p.subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: var(--mono);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #5a6f6a;
+      transition: background 0.3s;
+    }
+
+    .badge.online { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+
+    /* BANDE DE MARCHÉ */
+    .market-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: baseline;
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 30px;
+      font-family: var(--mono);
+    }
+
+    .market-bar .price { font-size: 1.7rem; font-weight: 700; color: var(--text); }
+    .change { font-size: 0.95rem; font-weight: 600; }
+    .change.up { color: var(--mint); }
+    .change.down { color: var(--coral); }
+    .change.fear { color: var(--pink); }
+    .market-meta { color: var(--muted); font-size: 0.78rem; margin-left: auto; }
+
+    .dominance { display: flex; align-items: baseline; gap: 8px; font-size: 0.95rem; }
+    .dominance-k { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    #dominanceValue { font-weight: 600; color: var(--violet); }
+
+    /* CARTES DE PRÉVISION */
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .forecast-card {
+      background: #0a151d;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .forecast-card.weekly { border-color: var(--violet); }
+    .forecast-card.weekly .forecast-h { color: var(--violet); }
+
+    .forecast-h { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-family: var(--mono); }
+    .forecast-price { font-size: 0.92rem; font-weight: 700; margin-top: 4px; }
+    .forecast-ret { font-size: 0.7rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+
+    .legend { display: flex; gap: 18px; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 10px; }
+    .legend .swatch { display: inline-block; width: 18px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+
+    /* GRILLE PRINCIPALE */
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .card h2 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-family: var(--mono);
+      margin-bottom: 18px;
+    }
+
+    .card.full { grid-column: 1 / -1; }
+
+    /* JAUGE SEMI-CIRCULAIRE */
+    .gauge-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gauge {
+      position: relative;
+      width: 300px;
+      height: 165px;
+      overflow: hidden;
+    }
+
+    .gauge svg { display: block; }
+
+    .needle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      height: 118px;
+      background: linear-gradient(to top, var(--text), transparent 85%);
+      transform-origin: 50% 100%;
+      transform: translateX(-50%) rotate(-90deg);
+      transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+      border-radius: 3px;
+    }
+
+    .needle-pivot {
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text);
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(242,247,245,0.5);
+    }
+
+    .gauge-score {
+      font-size: 2.6rem;
+      font-weight: 700;
+      font-family: var(--mono);
+      line-height: 1;
+    }
+
+    .gauge-label {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* COMPOSANTES */
+    .component-item { margin-bottom: 16px; }
+
+    .component-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.85rem;
+    }
+
+    .component-label { font-weight: 600; color: var(--text); }
+    .component-raw { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-left: 8px; }
+    .component-score { font-family: var(--mono); color: var(--mint); font-weight: 600; }
+    .component-desc { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+    .bar {
+      height: 8px;
+      background: #0a151d;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--yellow), var(--lime));
+      border-radius: 6px;
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* GRAPHIQUE */
+    #chartCanvas, #weeklyCanvas, #dailyCanvas { width: 100%; height: 280px; display: block; }
+
+    /* ENTRAÎNEMENT */
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+
+    button {
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover:not(:disabled) { border-color: var(--lime); color: var(--lime); }
+
+    button.primary {
+      background: var(--lime);
+      color: var(--lime-ink);
+      border-color: var(--lime);
+    }
+
+    button.primary:hover:not(:disabled) { background: #cbe96e; color: var(--lime-ink); }
+
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .progress-track {
+      height: 10px;
+      background: #0a151d;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--mint), var(--lime));
+      transition: width 0.5s;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .epoch-message {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: #173543;
+      border-left: 4px solid var(--lime);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px #2a4a5a;
+      min-height: 44px;
+      transition: opacity 0.4s ease;
+    }
+    .epoch-message span { color: var(--text); }
+
+    .fade-in { animation: fadeIn 0.45s ease both; }
+    .fade-out { animation: fadeOut 0.25s ease both; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    th, td {
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th { color: var(--muted); font-weight: 500; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.1em; }
+
+    /* PRÉDICTION */
+    .proba-track {
+      height: 18px;
+      background: #0a151d;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    #probaBar {
+      height: 100%;
+      width: 0%;
+      background: var(--yellow);
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #predictedLabel { font-size: 1.15rem; font-weight: 700; }
+    #predictionNote { font-size: 0.78rem; color: var(--muted); font-family: var(--mono); }
+
+    .proba-scale {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+
+    /* ADMINISTRATION */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .admin-stat {
+      background: #0a151d;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .admin-stat .k { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-family: var(--mono); }
+    .admin-stat .v { font-family: var(--mono); font-size: 0.95rem; color: var(--text); font-weight: 600; }
+
+    #adminTerminal {
+      background: #050b10;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      height: 170px;
+      overflow-y: auto;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .terminal-line { padding: 1px 0; white-space: pre-wrap; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      padding-bottom: 12px;
+    }
+
+    footer a { color: var(--mint); }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .market-meta { margin-left: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- EN-TÊTE -->
+    <header>
+      <div>
+        <h1>Fear &amp; Greed <span class="accent">BTC/USD</span> — TensorFlow.js</h1>
+        <p class="subtitle">Laboratoire Néon &amp; Inférence · Kraken / Coinbase · modèle LSTM entraîné pas-Ã -pas</p>
+      </div>
+      <div class="status">
+        <a class="repo-link" href="https://github.com/kewinMarchand/neon-fear-greed-tensor" target="_blank" rel="noopener noreferrer" aria-label="Voir le dépôt GitHub Neon Fear &amp; Greed Tensor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="repo-link__label">GitHub</span></a>
+        <span class="badge" id="statusBadge"></span>
+        <span id="statusText">Connexion au serveur...</span>
+      </div>
+    </header>
+
+    <!-- BANDE DE MARCHÉ -->
+    <div class="market-bar">
+      <span class="price" id="priceValue">—</span>
+      <span class="change" id="priceChange"></span>
+      <span class="dominance">
+        <span class="dominance-k">Dominance BTC</span>
+        <span id="dominanceValue">—</span>
+        <span class="change" id="dominanceChange"></span>
+      </span>
+      <span class="market-meta">
+        Source : <span id="marketSource">—</span> · maj <span id="updatedAt">—</span>
+      </span>
+    </div>
+
+    <!-- JAUGE + COMPOSANTES -->
+    
+    <div class="grid">
+      <div class="card">
+        <h2>Indice Fear &amp; Greed</h2>
+        <p style="margin-bottom:8px; font-size:0.85rem;">Indice composite (0 = peur, 100 = avidité) calculé sur les données de marché — disponible dès le chargement, même sans entraîner le modèle.</p>
+        <div class="gauge-wrap">
+          <div class="gauge">
+            <svg width="300" height="165" viewBox="0 0 300 165">
+              <path d="M 30 150 A 120 120 0 0 1 66 65" fill="none" stroke="#ff72bb" stroke-width="18" stroke-linecap="round"/>
+              <path d="M 70 61 A 120 120 0 0 1 128 31" fill="none" stroke="#ff9d5c" stroke-width="18"/>
+              <path d="M 133 31 A 120 120 0 0 1 195 40" fill="none" stroke="#ffd166" stroke-width="18"/>
+              <path d="M 200 44 A 120 120 0 0 1 251 89" fill="none" stroke="#a2ff8f" stroke-width="18"/>
+              <path d="M 254 93 A 120 120 0 0 1 270 150" fill="none" stroke="#BADA55" stroke-width="18" stroke-linecap="round"/>
+              <text x="22" y="163" fill="#a9bab8" font-size="10" font-family="DM Mono">0</text>
+              <text x="276" y="163" fill="#a9bab8" font-size="10" font-family="DM Mono">100</text>
+            </svg>
+            <div class="needle" id="gaugeNeedle"></div>
+            <div class="needle-pivot"></div>
+          </div>
+          <div class="gauge-score" id="gaugeScore">—</div>
+          <div class="gauge-label" id="gaugeLabel">En attente de données</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Composantes de l'indice</h2>
+        <p style="margin-bottom:10px;">Ces composantes sont des <strong>indicateurs de marché</strong> calculés en temps réel sur les bougies (momentum, tendance, volatilité, volume, RSI, dominance BTC) : elles sont disponibles <strong>avant tout entraînement</strong>. La composante «&nbsp;Biais du modèle&nbsp;» (LSTM) n'apparaît qu'après entraînement ou restauration des poids.</p>
+        <div id="componentsList"></div>
+      </div>
+
+      <!-- HORAIRE -->
+      <div class="card full" id="section-hourly">
+        <h2>Graphique horaire — BTC/USD (bougies 1 h) + prévisions</h2>
+        <canvas id="chartCanvas"></canvas>
+        <div class="legend">
+          <span><span class="swatch candle-up" style="background:var(--mint);"></span>bougie haussière</span>
+          <span><span class="swatch" style="background:var(--coral);"></span>bougie baissière</span>
+          <span><span class="swatch" style="background:var(--violet);"></span>bougies futures (rollout LSTM 12 h)</span>
+          <span><span class="swatch" style="background:var(--yellow);"></span>prévision passée vs réalité (MAE)</span>
+        </div>
+
+        <h2 style="margin-top:18px;">Entraînement &amp; tests — modèle horaire (LSTM 24 h / 6 features)</h2>
+        <div class="btn-row">
+          <button class="primary" id="btnTrainFull">▶ Entraîner (10 époques)</button>
+          <button id="btnTrainStep">⏭ Pas-à-pas (1 époque)</button>
+          <button id="btnPredict">🔮 Prédire</button>
+          <button id="btnResetModel">↺ Réinitialiser</button>
+        </div>
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        <div class="progress-meta">
+          <span id="epochCounter">Époque 0 / 10</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="epoch-message fade-in" id="epochMessageBox">
+          <span id="epochMessageText">L'entraînement est manuel : lancez « Pas-à-pas » pour observer l'apprentissage époque par époque, ou « Entraîner » pour les 10 époques complètes.</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Époque</th><th>Loss direction</th><th>Acc. train</th><th>Acc. test</th><th>Loss prévision</th><th>MAE prix</th>
+            </tr>
+          </thead>
+          <tbody id="metricsTableBody"></tbody>
+        </table>
+
+        <h2 style="margin-top:18px;">Prévision (fin de graphique horaire)</h2>
+        <div id="predictedLabel">En attente d'entraînement</div>
+        <div class="proba-track"><div id="probaBar"></div></div>
+        <div class="proba-scale"><span>P(hausse) 0%</span><span id="probaPercent">—</span><span>100%</span></div>
+        <p id="predictionNote" style="margin-top:12px;">La probabilité P(hausse) du LSTM est produite par sa couche sigmoïde (fenêtre 24 h). Ce biais alimente aussi la jauge en haut de page.</p>
+        <div class="forecast-grid" id="forecastList"></div>
+        <p id="backtestNote" style="margin-top:12px; font-size:0.75rem; color:var(--muted); font-family:var(--mono);">Prévision rétrospective en attente de données.</p>
+      </div>
+
+      <!-- JOURNALIER -->
+      <div class="card full" id="section-daily">
+        <h2>Graphique journalier — BTC/USD (bougies 1 j) + prévisions</h2>
+        <canvas id="dailyCanvas"></canvas>
+        <div class="legend">
+          <span><span class="swatch candle-up" style="background:var(--mint);"></span>jour haussier</span>
+          <span><span class="swatch" style="background:var(--coral);"></span>jour baissier</span>
+          <span><span class="swatch" style="background:var(--violet);"></span>prévisions daily (rollout 30 j)</span>
+          <span><span class="swatch" style="background:var(--yellow);"></span>prévision passée vs réalité (MAE)</span>
+        </div>
+
+        <h2 style="margin-top:18px;">Entraînement &amp; tests — modèle journalier (fenêtre 30 j)</h2>
+        <div class="btn-row">
+          <button class="primary" id="btnDailyTrainFull">▶ Entraîner daily (10 époques)</button>
+          <button id="btnDailyTrainStep">⏭ Pas-à-pas daily</button>
+          <button id="btnDailyPredict">🔮 Prédire daily</button>
+          <button id="btnDailyResetModel">↺ Réinitialiser daily</button>
+        </div>
+        <div class="progress-track"><div id="dailyProgressBar" class="progress-bar"></div></div>
+        <div class="progress-meta">
+          <span id="dailyEpochCounter">Époque 0 / 10</span>
+          <span id="dailyProgressPercent">0%</span>
+        </div>
+        <div class="epoch-message fade-in" id="dailyEpochMessageBox">
+          <span id="dailyEpochMessageText">Lancez l'entraînement du modèle journalier pour observer l'apprentissage, puis demandez une prédiction.</span>
+        </div>
+
+        <h2 style="margin-top:18px;">Prévision (fin de graphique journalier)</h2>
+        <p id="dailyPredictionNote" style="margin-top:4px; font-family:var(--mono); font-size:0.8rem; color:var(--muted);">Modèle daily en attente d'entraînement/prédiction.</p>
+        <div class="forecast-grid" id="dailyForecastList"></div>
+        <p id="dailyBacktestNote" style="margin-top:12px; font-size:0.75rem; color:var(--muted); font-family:var(--mono);">Prévision rétrospective en attente de données.</p>
+      </div>
+
+      <!-- HEBDOMADAIRE -->
+      <div class="card full" id="section-weekly">
+        <h2>Graphique hebdomadaire — BTC/USD (bougies 1 semaine) + semaine prédite</h2>
+        <canvas id="weeklyCanvas"></canvas>
+        <div class="legend">
+          <span><span class="swatch candle-up" style="background:var(--mint);"></span>semaine haussière</span>
+          <span><span class="swatch" style="background:var(--coral);"></span>semaine baissière</span>
+          <span><span class="swatch" style="background:var(--violet);"></span>semaine prédite (+7 jours, sortie directe du modèle horaire)</span>
+        </div>
+
+        <h2 style="margin-top:18px;">Entraînement &amp; prévision — semaine (+7 j)</h2>
+        <p style="font-size:0.82rem; color:var(--muted); margin-bottom:8px;">Ce graphique affiche la prévision directe à +7 jours produite par le modèle horaire. Les actions ci-dessous pilotent ce modèle pour cette prévision hebdomadaire.</p>
+                <div class="btn-row">
+          <button class="primary" id="btnWeeklyTrainFull">▶ Entraîner la prévision hebdo (10 époques)</button>
+          <button id="btnWeeklyTrainStep">⏭ Pas-à-pas (prévision hebdo)</button>
+          <button id="btnWeeklyPredict">🔮 Prédire la semaine (+7 j)</button>
+          <button id="btnWeeklyResetModel">↺ Réinitialiser le modèle</button>
+        </div>
+        <div class="progress-track"><div id="weeklyProgressBar" class="progress-bar"></div></div>
+        <div class="progress-meta">
+          <span id="weeklyEpochCounter">Époque 0 / 10</span>
+          <span id="weeklyProgressPercent">0%</span>
+        </div>
+        <div class="epoch-message fade-in" id="weeklyEpochMessageBox">
+          <span id="weeklyEpochMessageText">Lancez l'entraînement pour la prévision hebdomadaire (modèle horaire) afin de suivre la progression ici.</span>
+        </div>
+<h2 style="margin-top:18px;">Prévision (fin de graphique hebdomadaire)</h2>
+        <div class="forecast-grid" id="weeklyForecastList"></div>
+        <p id="weeklyPredictionNote" style="margin-top:8px; font-size:0.78rem; color:var(--muted); font-family:var(--mono);">Aucune prévision hebdomadaire disponible. Lancez une prédiction du modèle horaire.</p>
+      </div>
+
+      <!-- ADMINISTRATION -->
+      <div class="card">
+        <h2>Console d'administration</h2>
+        <div class="admin-grid">
+          <div class="admin-stat"><div class="k">Paramètres</div><div class="v" id="adminTotalParams">—</div></div>
+          <div class="admin-stat"><div class="k">Modèles</div><div class="v" id="adminModels">—</div></div>
+          <div class="admin-stat"><div class="k">Backend TF</div><div class="v" id="adminTfBackend">—</div></div>
+          <div class="admin-stat"><div class="k">Dataset</div><div class="v" id="adminDataset">—</div></div>
+          <div class="admin-stat"><div class="k">Heap Node</div><div class="v" id="adminHeap">—</div></div>
+        </div>
+        <div id="adminTerminal"></div>
+      </div>
+    </div>
+
+<footer>
+      Données : API publiques Kraken &amp; Coinbase Exchange ·
+      Ceci n'est pas un conseil en investissement.
+    </footer>
+  </div>
+
+  <!-- Configuration backend (Render). Laisser vide en local (fallback localhost:8002).
+       Pour GitHub Pages, mettre l'URL publique de votre Web Service Render. -->
+  <script>window.NEON_BACKEND_URL = (location.hostname.endsWith('github.io'))
+    ? 'https://neon-fear-greed-tensor.onrender.com'
+    : '';</script>
+  <script src="dist/bundle.js"></script>
+</body>
+</html>
+
+

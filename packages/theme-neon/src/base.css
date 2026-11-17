@@ -1,0 +1,154 @@
+/*
+ * Theme Neon — base (reset visuel + fond + cadre de jeu).
+ * Le theme n'introduit aucune brique Neon metier : le cadre (.neon-frame--game) est
+ * defini ici, de facon generique, et consomme les tokens `--bui-*`.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), #071018;
+  color: var(--bui-color-text);
+  font-family: var(--bui-font-family, 'Space Grotesk', system-ui, sans-serif);
+  line-height: 1.55;
+}
+
+body.game {
+  overflow: hidden;
+}
+
+.neon-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.neon-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bui-space-6, 24px);
+}
+
+/* Cadre de jeu commun a tous les jeux (ADR-004) : 100vh, pas de scroll de page. */
+.neon-frame--game {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.neon-frame__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bui-space-4, 16px);
+  flex-wrap: wrap;
+}
+
+.neon-frame__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.neon-frame__mark {
+  color: var(--bui-color-secondary, #ff72bb);
+  font-size: 1.15rem;
+  text-shadow: 0 0 16px var(--bui-color-primary, #69ffe1);
+}
+
+.neon-frame__title {
+  margin: 0;
+  color: var(--bui-color-primary, #69ffe1);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 900;
+  letter-spacing: 0.19em;
+  line-height: 1.1;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--bui-color-primary, #69ffe1) 53%, transparent), 0 0 36px color-mix(in srgb, var(--bui-color-primary, #69ffe1) 43%, transparent);
+}
+
+.neon-frame__subtitle {
+  margin: 10px 0 0;
+  color: var(--bui-color-text-muted, #a9bab8);
+  font-family: var(--bui-font-family-mono, 'DM Mono', monospace);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.neon-frame__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: var(--bui-space-4, 16px);
+}
+
+.neon-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bui-space-4, 16px);
+  min-width: 0;
+}
+
+.neon-side--left {
+  width: 280px;
+}
+
+.neon-side--right {
+  width: 280px;
+}
+
+.neon-screen {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--bui-color-primary, #69ffe1) 55%, transparent);
+  border-radius: var(--bui-radius-md, 10px);
+  background: #04100e;
+}
+
+.neon-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bui-space-3, 12px);
+  padding: var(--bui-space-4, 16px);
+  border: 1px solid var(--bui-color-border-subtle, #182635);
+  border-radius: var(--bui-radius-md, 10px);
+  background: var(--bui-color-surface-muted, #0c1a22);
+}
+
+.neon-footer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: var(--bui-space-6, 24px);
+  color: var(--bui-color-text-muted, #a9bab8);
+  font-family: var(--bui-font-family-mono, 'DM Mono', monospace);
+  font-size: var(--bui-font-size-caption, 12px);
+}
+
+@media (max-width: 900px) {
+  .neon-frame--game {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .neon-frame__body {
+    flex-direction: column;
+  }
+
+  .neon-side,
+  .neon-side--left,
+  .neon-side--right {
+    width: 100%;
+  }
+}
