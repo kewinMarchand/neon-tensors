@@ -108,7 +108,7 @@ const adminTerminal = document.getElementById('adminTerminal');
 /**
  * Affiche un message informatif avec effet de fondu (fade-out puis fade-in).
  *
- * @param {string} text - Message Ã  afficher.
+ * @param {string} text - Message à afficher.
  */
 function displayEpochMessageWithFade(text) {
   if (!epochMessageBox || !epochMessageText) return;
@@ -122,12 +122,12 @@ function displayEpochMessageWithFade(text) {
 }
 
 /**
- * Met Ã  jour la jauge SVG Fear & Greed (aiguille, score, libellé).
+ * Met à jour la jauge SVG Fear & Greed (aiguille, score, libellé).
  *
  * @param {{score:number, label:string, color:string}} fg - Résultat de l'indice.
  */
 function renderGauge(fg) {
-  // L'aiguille pivote de -90° (score 0) Ã  +90° (score 100)
+  // L'aiguille pivote de -90° (score 0) à +90° (score 100)
   const angle = -90 + (fg.score / 100) * 180;
   gaugeNeedle.style.transform = `rotate(${angle}deg)`;
   gaugeScore.textContent = fg.score;
@@ -137,7 +137,7 @@ function renderGauge(fg) {
 }
 
 /**
- * Met Ã  jour l'en-tête de marché (prix, variation 24 h, dominance, source).
+ * Met à jour l'en-tête de marché (prix, variation 24 h, dominance, source).
  *
  * @param {Object} data - Données de marché diffusées par le serveur.
  */
@@ -145,7 +145,7 @@ function renderMarketHeader(data) {
   const price = data.fg.price;
   priceValue.textContent = price.toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' $';
   const change = data.fg.changePct24h * 100;
-  priceChange.textContent = `${change >= 0 ? 'â–²' : 'â–¼'} ${change.toFixed(2)} % / 24 h`;
+  priceChange.textContent = `${change >= 0 ? '▲' : '▼'} ${change.toFixed(2)} % / 24 h`;
   priceChange.className = change >= 0 ? 'change up' : 'change down';
   if (data.dominance && Number.isFinite(data.dominance.pct)) {
     dominanceValue.textContent = data.dominance.pct.toFixed(2) + ' %';
@@ -165,7 +165,7 @@ function renderMarketHeader(data) {
 }
 
 /**
- * Met Ã  jour la liste des 5 composantes de l'indice avec leurs barres.
+ * Met à jour la liste des 5 composantes de l'indice avec leurs barres.
  *
  * @param {Array} components - Composantes calculées côté serveur.
  */
@@ -225,7 +225,7 @@ function renderChart(candles) {
   const retro = lastBacktest && lastBacktest.steps && lastBacktest.actual
     ? { steps: lastBacktest.steps.filter(s => s.t <= lastT), actual: lastBacktest.actual.filter(a => a.t <= lastT) }
     : null;
-  // Zone réservée Ã  droite pour les bougies futures prévues (toujours présente)
+  // Zone réservée à droite pour les bougies futures prévues (toujours présente)
   const FUTURE_ZONE = 12;
   const total = candles.length + FUTURE_ZONE;
 
@@ -245,7 +245,7 @@ function renderChart(candles) {
   const x = i => M.l + (i / (total - 1)) * plotW;
   const y = v => M.t + plotH - ((v - lo) / (hi - lo)) * plotH;
 
-  // Grille + axe des prix (5 repères, étiquettes Ã  droite)
+  // Grille + axe des prix (5 repères, étiquettes à droite)
   ctx.font = '10px DM Mono, monospace';
   ctx.textBaseline = 'middle';
   for (let g = 0; g <= 4; g++) {
@@ -262,7 +262,7 @@ function renderChart(candles) {
     ctx.fillText(price.toLocaleString('fr-FR', { maximumFractionDigits: 0 }), M.l + plotW + 6, gy);
   }
 
-  // Axe du temps : une étiquette par jour (bougie Ã  minuit UTC)
+  // Axe du temps : une étiquette par jour (bougie à minuit UTC)
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
   candles.forEach((candle, i) => {
@@ -339,7 +339,7 @@ function renderChart(candles) {
 
 /**
  * Dessine le graphique HEBDOMADAIRE : une bougie par semaine (â‰ˆ 1 an d'historique),
- * suivie de la bougie de la semaine Ã  venir PRÉDITE par le modèle (en violet) :
+ * suivie de la bougie de la semaine à venir PRÉDITE par le modèle (en violet) :
  * ouverture = dernier prix réel, clôture = prévision +7 jours, mèches = min/max des deux.
  *
  * @param {Array<{t:number,o:number,h:number,l:number,c:number,v:number}>} candles - Bougies hebdomadaires chronologiques.
@@ -360,7 +360,7 @@ function renderWeeklyChart(candles, weeklyForecast) {
   ctx.clearRect(0, 0, width, height);
   if (!candles || candles.length < 2) return;
 
-  // Bougie prédite : o = dernière clôture réelle, c = prix prédit Ã  +7 jours
+  // Bougie prédite : o = dernière clôture réelle, c = prix prédit à +7 jours
   const lastClose = candles[candles.length - 1].c;
   const predicted = lastWeeklyForecast && Number.isFinite(lastWeeklyForecast.price)
     ? { o: lastClose, c: lastWeeklyForecast.price, h: Math.max(lastClose, lastWeeklyForecast.price), l: Math.min(lastClose, lastWeeklyForecast.price) }
@@ -369,7 +369,7 @@ function renderWeeklyChart(candles, weeklyForecast) {
   const M = { l: 8, r: 62, t: 10, b: 26 };
   const plotW = width - M.l - M.r;
   const plotH = height - M.t - M.b;
-  // Toujours réserver un emplacement Ã  droite pour la bougie de la semaine prédite
+  // Toujours réserver un emplacement à droite pour la bougie de la semaine prédite
   const total = candles.length + 1;
 
   // Échelle de prix : englobe mèches réelles et bougie prédite
@@ -480,7 +480,7 @@ function renderWeeklyChart(candles, weeklyForecast) {
 }
 
 /**
- * Met Ã  jour la barre de progression de l'entraînement.
+ * Met à jour la barre de progression de l'entraînement.
  *
  * @param {number} iteration - Époque courante.
  * @param {number} total - Nombre total d'époques.
@@ -647,7 +647,7 @@ function appendMetricsRow(iteration, metrics) {
 }
 
 /**
- * Met Ã  jour le panneau de prédiction : biais de marché + chemin de bougies futures.
+ * Met à jour le panneau de prédiction : biais de marché + chemin de bougies futures.
  *
  * @param {Object} prediction - { probaUp, label, color, trained, epochs, forecast }.
  */
@@ -676,7 +676,7 @@ function renderPrediction(prediction) {
       card.innerHTML = `
         <div class="forecast-h">${idx === 0 ? '+1 h' : '+' + (idx + 1) + ' h'}</div>
         <div class="forecast-price" style="color:${up ? 'var(--mint)' : 'var(--coral)'}">
-          ${up ? 'â–²' : 'â–¼'} ${step.price.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} $
+          ${up ? '▲' : '▼'} ${step.price.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} $
         </div>
         <div class="forecast-ret">${up ? '+' : ''}${step.retPct.toFixed(2)} %</div>
       `;
@@ -691,7 +691,7 @@ function renderPrediction(prediction) {
     card.innerHTML = `
       <div class="forecast-h">+7 jours (direct)</div>
       <div class="forecast-price" style="color:${up ? 'var(--mint)' : 'var(--coral)'}">
-        ${up ? 'â–²' : 'â–¼'} ${w.price.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} $
+        ${up ? '▲' : '▼'} ${w.price.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} $
       </div>
       <div class="forecast-ret">${up ? '+' : ''}${w.retPct.toFixed(2)} %</div>
     `;
@@ -813,7 +813,7 @@ socket.on('stepPaused', payload => {
   btnTrainFull.disabled = false;
   if (btnWeeklyTrainStep) btnWeeklyTrainStep.disabled = false;
   if (btnWeeklyTrainFull) btnWeeklyTrainFull.disabled = false;
-  statusText.textContent = `Pause Ã  l'époque ${payload.currentIteration}/${payload.totalIterations}`;
+  statusText.textContent = `Pause à l'époque ${payload.currentIteration}/${payload.totalIterations}`;
 });
 
 socket.on('trainingComplete', payload => {
@@ -838,7 +838,7 @@ socket.on('modelReset', payload => {
   probaPercent.textContent = '—';
   predictedLabel.textContent = 'En attente d\'entraînement';
   predictedLabel.style.color = 'var(--muted)';
-  predictionNote.textContent = 'Réinitialisez puis lancez l\'entraînement pas-Ã -pas pour observer l\'apprentissage.';
+  predictionNote.textContent = 'Réinitialisez puis lancez l\'entraînement pas-à-pas pour observer l\'apprentissage.';
   forecastList.innerHTML = '';
   backtestNote.textContent = 'Pas encore assez d\'historique pour rejouer une prévision passée.';
   lastForecast = null;

@@ -14,7 +14,7 @@
   <rect width="800" height="420" fill="url(#bg)"/>
   <rect x="12" y="12" width="776" height="396" rx="18" fill="#151d27" stroke="#263241"/>
 
-  <text x="36" y="50" fill="#e6edf3" font-family="'Space Grotesk', system-ui, sans-serif" font-size="22" font-weight="700">Fear &amp; Greed <tspan fill="#6f93b8">BTC/USD</tspan></text>
+  <text x="36" y="50" fill="#e6edf3" font-family="'Space Grotesk', system-ui, sans-serif" font-size="22" font-weight="700">Fear &amp; Greed <tspan fill="#6f93b8">Tensor</tspan></text>
   <text x="36" y="72" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="12">Laboratoire d&#39;inférence · TensorFlow.js · séries temporelles</text>
   <circle cx="742" cy="46" r="5" fill="#8fb3cc"/>
   <text x="706" y="50" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="11" text-anchor="end">live</text>

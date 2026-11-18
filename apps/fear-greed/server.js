@@ -336,38 +336,57 @@ function broadcastDailyPrediction(io) {
 }
 
 async function trainDailyEpochs(io, epochsToRun = 10) {
-  if (isTrainingDaily) return;
+  if (isTrainingDaily) {
+    logToAdmin(io, 'Entraînement daily déjà en cours.');
+    io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
+    return;
+  }
   if (!dailyMarketState.candles.length) {
     logToAdmin(io, 'Entraînement daily impossible : aucune bougie chargée.');
+    io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
+    return;
+  }
+  try {
+    // S'assurer que le dataset est préparé (données semées au démarrage ou après échec de refresh).
+    sentimentDaily.prepareData(dailyMarketState.candles);
+  } catch (err) {
+    logToAdmin(io, 'Préparation des données daily impossible : ' + err.message);
+    io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
     return;
   }
   isTrainingDaily = true;
   io.emit('dailyTrainingStarted', { epochsToRun, currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS });
 
-  const targetIteration = Math.min(TOTAL_ITERATIONS, currentIterationDaily + epochsToRun);
-  while (currentIterationDaily < targetIteration) {
-    currentIterationDaily++;
-    const epochMsg = `Époque ${currentIterationDaily}/${TOTAL_ITERATIONS} (daily, fenêtre ${sentimentDaily.WINDOW} j, horizons ${sentimentDaily.HORIZONS.join('/')} j)`;
-    logToAdmin(io, `Époque daily ${currentIterationDaily}/${TOTAL_ITERATIONS} en cours...`);
-    const metrics = await sentimentDaily.trainEpoch();
-    lastMetricsDaily = metrics;
-    logToAdmin(io, `Époque daily ${currentIterationDaily}/${TOTAL_ITERATIONS} terminée ➔ direction ${metrics.direction.loss.toFixed(4)} (test ${(metrics.direction.testAccuracy * 100).toFixed(1)}%) | MAE ${metrics.forecast.maePct.toFixed(2)}%`);
-    io.emit('dailyEpochUpdate', { iteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics, message: epochMsg });
-    await sleep(TIMEOUT_BETWEEN_EPOCHS_MS);
-  }
+  try {
+    const targetIteration = Math.min(TOTAL_ITERATIONS, currentIterationDaily + epochsToRun);
+    while (currentIterationDaily < targetIteration) {
+      currentIterationDaily++;
+      const epochMsg = `Époque ${currentIterationDaily}/${TOTAL_ITERATIONS} (daily, fenêtre ${sentimentDaily.WINDOW} j, horizons ${sentimentDaily.HORIZONS.join('/')} j)`;
+      logToAdmin(io, `Époque daily ${currentIterationDaily}/${TOTAL_ITERATIONS} en cours...`);
+      const metrics = await sentimentDaily.trainEpoch();
+      lastMetricsDaily = metrics;
+      logToAdmin(io, `Époque daily ${currentIterationDaily}/${TOTAL_ITERATIONS} terminée — direction ${metrics.direction.loss.toFixed(4)} (test ${(metrics.direction.testAccuracy * 100).toFixed(1)}%) | MAE ${metrics.forecast.maePct.toFixed(2)}%`);
+      io.emit('dailyEpochUpdate', { iteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics, message: epochMsg });
+      await sleep(TIMEOUT_BETWEEN_EPOCHS_MS);
+    }
 
-  isTrainingDaily = false;
-  isTrainingCompleteDaily = (currentIterationDaily >= TOTAL_ITERATIONS);
-  if (isTrainingCompleteDaily) {
-    const saved = await sentimentDaily.saveModels();
-    hasTrainedWeightsDaily = true;
-    logToAdmin(io, `Poids daily sauvegardés ➔ ${path.basename(saved.classifier)} et ${path.basename(saved.forecaster)}`);
-    io.emit('dailyTrainingComplete', { totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily, message: 'Entraînement daily terminé.' });
-    await refreshDailyMarket(io, REFRESH_DAYS_DAILY);
-    broadcastDailyPrediction(io);
-  } else {
+    isTrainingCompleteDaily = (currentIterationDaily >= TOTAL_ITERATIONS);
+    if (isTrainingCompleteDaily) {
+      const saved = await sentimentDaily.saveModels();
+      hasTrainedWeightsDaily = true;
+      logToAdmin(io, `Poids daily sauvegardés — ${path.basename(saved.classifier)} et ${path.basename(saved.forecaster)}`);
+      io.emit('dailyTrainingComplete', { totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily, message: 'Entraînement daily terminé.' });
+      await refreshDailyMarket(io, REFRESH_DAYS_DAILY);
+      broadcastDailyPrediction(io);
+    } else {
+      io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
+      broadcastDailyPrediction(io);
+    }
+  } catch (err) {
+    logToAdmin(io, 'Erreur pendant l\'entraînement daily : ' + (err && err.message ? err.message : err));
     io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
-    broadcastDailyPrediction(io);
+  } finally {
+    isTrainingDaily = false;
   }
 }
 
@@ -390,9 +409,22 @@ function resetDailyModelSession(io) {
  * @param {number} epochsToRun - Nombre d'époques à exécuter (1 pour pas-à-pas, ou jusqu'à 10)
  */
 async function trainEpochs(io, epochsToRun = 10) {
-  if (isTraining) return;
+  if (isTraining) {
+    logToAdmin(io, 'Entraînement horaire déjà en cours.');
+    io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
+    return;
+  }
   if (!marketState.candles.length) {
     logToAdmin(io, 'Impossible d\'entraîner : aucune donnée de marché disponible.');
+    io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
+    return;
+  }
+  try {
+    // S'assurer que le dataset est préparé (données semées au démarrage ou après échec de refresh).
+    sentiment.prepareData(marketState.candles);
+  } catch (err) {
+    logToAdmin(io, 'Préparation des données horaire impossible : ' + err.message);
+    io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
     return;
   }
   isTraining = true;
@@ -403,55 +435,61 @@ async function trainEpochs(io, epochsToRun = 10) {
     currentIteration: currentIteration
   });
 
-  const targetIteration = Math.min(TOTAL_ITERATIONS, currentIteration + epochsToRun);
+  try {
+    const targetIteration = Math.min(TOTAL_ITERATIONS, currentIteration + epochsToRun);
 
-  while (currentIteration < targetIteration) {
-    currentIteration++;
-    const epochMsg = EPOCH_MESSAGES[currentIteration - 1] || `Époque ${currentIteration}/${TOTAL_ITERATIONS}`;
+    while (currentIteration < targetIteration) {
+      currentIteration++;
+      const epochMsg = EPOCH_MESSAGES[currentIteration - 1] || `Époque ${currentIteration}/${TOTAL_ITERATIONS}`;
 
-    logToAdmin(io, `Époque ${currentIteration}/${TOTAL_ITERATIONS} en cours...`);
+      logToAdmin(io, `Époque ${currentIteration}/${TOTAL_ITERATIONS} en cours...`);
 
-    // Entraîne 1 époque des deux modèles (direction + rendements futurs)
-    lastMetrics = await sentiment.trainEpoch();
+      // Entraîne 1 époque des deux modèles (direction + rendements futurs)
+      lastMetrics = await sentiment.trainEpoch();
 
-    logToAdmin(io, `Époque ${currentIteration}/${TOTAL_ITERATIONS} terminée ➔ direction ${lastMetrics.direction.loss.toFixed(4)} (test ${(lastMetrics.direction.testAccuracy * 100).toFixed(1)}%) | MAE prévision ${lastMetrics.forecast.maePct.toFixed(2)}%`);
+      logToAdmin(io, `Époque ${currentIteration}/${TOTAL_ITERATIONS} terminée — direction ${lastMetrics.direction.loss.toFixed(4)} (test ${(lastMetrics.direction.testAccuracy * 100).toFixed(1)}%) | MAE prévision ${lastMetrics.forecast.maePct.toFixed(2)}%`);
 
-    // Diffusion temps réel avec message explicatif
-    io.emit('epochUpdate', {
-      iteration: currentIteration,
-      totalIterations: TOTAL_ITERATIONS,
-      metrics: lastMetrics,
-      message: epochMsg
-    });
+      // Diffusion temps réel avec message explicatif
+      io.emit('epochUpdate', {
+        iteration: currentIteration,
+        totalIterations: TOTAL_ITERATIONS,
+        metrics: lastMetrics,
+        message: epochMsg
+      });
 
-    await sleep(TIMEOUT_BETWEEN_EPOCHS_MS);
-  }
+      await sleep(TIMEOUT_BETWEEN_EPOCHS_MS);
+    }
 
-  isTraining = false;
-  isTrainingComplete = (currentIteration >= TOTAL_ITERATIONS);
+    isTrainingComplete = (currentIteration >= TOTAL_ITERATIONS);
 
-  if (isTrainingComplete) {
-    // Sauvegarde des poids : les modèles survivent aux redémarrages
-    const saved = await sentiment.saveModels();
-    hasTrainedWeights = true;
-    logToAdmin(io, `Poids sauvegardés ➔ ${saved.classifier.replace(__dirname + path.sep, '')} et ${saved.forecaster.replace(__dirname + path.sep, '')}`);
-    logToAdmin(io, 'Entraînement complet des 10 époques achevé ! Inférence prête.');
-    io.emit('trainingComplete', {
-      totalIterations: TOTAL_ITERATIONS,
-      metrics: lastMetrics,
-      message: EPOCH_MESSAGES[9]
-    });
-    // L'indice et le graphique sont immédiatement recalculés et diffusés (avec biais du modèle)
-    await refreshMarket(io, REFRESH_DAYS);
-    broadcastPrediction(io);
-  } else {
-    logToAdmin(io, `Pause du mode pas-à-pas à l'époque ${currentIteration}/${TOTAL_ITERATIONS}.`);
-    io.emit('stepPaused', {
-      currentIteration: currentIteration,
-      totalIterations: TOTAL_ITERATIONS,
-      metrics: lastMetrics
-    });
-    broadcastPrediction(io);
+    if (isTrainingComplete) {
+      // Sauvegarde des poids : les modèles survivent aux redémarrages
+      const saved = await sentiment.saveModels();
+      hasTrainedWeights = true;
+      logToAdmin(io, `Poids sauvegardés — ${saved.classifier.replace(__dirname + path.sep, '')} et ${saved.forecaster.replace(__dirname + path.sep, '')}`);
+      logToAdmin(io, 'Entraînement complet des 10 époques achevé ! Inférence prête.');
+      io.emit('trainingComplete', {
+        totalIterations: TOTAL_ITERATIONS,
+        metrics: lastMetrics,
+        message: EPOCH_MESSAGES[9]
+      });
+      // L'indice et le graphique sont immédiatement recalculés et diffusés (avec biais du modèle)
+      await refreshMarket(io, REFRESH_DAYS);
+      broadcastPrediction(io);
+    } else {
+      logToAdmin(io, `Pause du mode pas-à-pas à l'époque ${currentIteration}/${TOTAL_ITERATIONS}.`);
+      io.emit('stepPaused', {
+        currentIteration: currentIteration,
+        totalIterations: TOTAL_ITERATIONS,
+        metrics: lastMetrics
+      });
+      broadcastPrediction(io);
+    }
+  } catch (err) {
+    logToAdmin(io, 'Erreur pendant l\'entraînement horaire : ' + (err && err.message ? err.message : err));
+    io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
+  } finally {
+    isTraining = false;
   }
 }
 

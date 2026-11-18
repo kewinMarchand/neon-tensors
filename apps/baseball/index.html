@@ -754,77 +754,13 @@
         </div>
       </div>
       <div class="header-status">
-        <a class="repo-link" href="https://github.com/kewinMarchand/tensor-lab/tree/main/apps/baseball" target="_blank" rel="noopener noreferrer" aria-label="Voir le code source de Baseball Tensor sur GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="repo-link__label">Code source</span></a>
+        <a class="repo-link repo-link--icon" href="https://github.com/kewinMarchand/tensor-lab/tree/main/apps/baseball" target="_blank" rel="noopener noreferrer" aria-label="Code source de Baseball Tensor sur GitHub" title="Code source"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
         <div id="statusBadge" class="status-badge status-idle">
           <span class="live-dot"></span>
           <span id="statusText">Modèle non préparé</span>
         </div>
       </div>
     </header>
-
-    <!-- SECTION 1 : GUIDE DÉBUTANT MACHINE LEARNING -->
-    <div class="collapsible-card">
-      <div class="collapsible-header" id="guideToggle">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <span style="font-size:1.3rem; color:var(--lime);">💡</span>
-          <div>
-            <h2>Guide Débutant : Comprendre le Machine Learning &amp; les Enjeux</h2>
-            <p style="font-size:0.82rem; color:var(--muted);">L'analogie de la table de mixage, du contrôle surprise, et du code If/Else.</p>
-          </div>
-        </div>
-        <button id="guideToggleBtn" class="badge-pill">Ouvrir le guide ▼</button>
-      </div>
-
-      <div id="guideContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
-        <div class="guide-grid">
-          
-          <div class="guide-box">
-            <div class="guide-box-title">1. Code Classique vs Machine Learning</div>
-            <div class="guide-box-desc">
-              <p><strong>En programmation classique (If / Else) :</strong> Le développeur doit concevoir et taper à la main toutes les règles : <em>"Si vitesse &gt; 92 mph et trajectoire plonge de 20 cm, alors c'est une Fastball"</em>. Impossible dans la vraie vie : le vent, la fatigue, la prise en main créent des cas particuliers infinis !</p>
-              <p style="margin-top:8px;"><strong>En Machine Learning :</strong> On ne donne <strong>aucune règle</strong> à l'ordinateur. On lui montre <strong>7 000 exemples</strong> réels avec leur étiquette, et l'ordinateur <em>découvre tout seul</em> les équations mathématiques reliant la physique au type de lancer.</p>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">2. L'analogie de la table de mixage (Les 73 632 Poids)</div>
-            <div class="guide-box-desc">
-              <p>Le réseau de neurones contient <strong>73 632 boutons de réglage</strong> virtuels (les <em>poids</em> et <em>biais</em>).</p>
-              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Au départ :</strong> Tous les boutons sont réglés au hasard. Le modèle devine au pif (~14% de précision, soit 1 chance sur 7).</li>
-                <li><strong>Pendant l'entraînement :</strong> Le modèle calcule son erreur (la <em>Loss / Perte</em>).</li>
-                <li><strong>L'Optimiseur Adam :</strong> Il ajuste très finement chaque bouton dans le bon sens pour faire moins d'erreurs au lancer suivant (la <em>Descente de Gradient</em>).</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">3. L'analogie des Révisions et de l'Examen</div>
-            <div class="guide-box-desc">
-              <p>Pourquoi découper nos données en deux jeux séparés ?</p>
-              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Jeu d'Entraînement (7 000 lancers) :</strong> Les annales et devoirs corrigés. L'ordinateur révise dessus.</li>
-                <li><strong>Jeu de Test (700 lancers) :</strong> L'examen final ! Le modèle n'a JAMAIS vu ces 700 lancers pendant ses révisions.</li>
-                <li><strong>Le Surapprentissage (Overfitting) :</strong> Si un élève apprend par cœur sans comprendre, il a 20/20 en révisions mais échoue à l'examen. Mesurer la précision sur le test garantit que le modèle sait <em>généraliser</em> !</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">4. Pourquoi TensorFlow dans le Navigateur ?</div>
-            <div class="guide-box-desc">
-              <p>Avec <strong>TensorFlow.js</strong>, l'intelligence artificielle s'exécute directement en JavaScript :</p>
-              <ul style="margin-left:18px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Confidentialité totale :</strong> L'inférence tourne localement dans le navigateur client sans envoyer de données privées sur un serveur distant.</li>
-                <li><strong>Zéro coût d'infrastructure GPU :</strong> C'est la machine de l'utilisateur qui calcule la prédiction en quelques millisecondes.</li>
-                <li><strong>Zéro installation :</strong> Un simple lien web suffit à distribuer un modèle de Deep Learning au monde entier.</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
 
     <!-- SECTION 2 : DICTIONNAIRE DES VARIABLES ET COORDONNÉES STATCAST -->
     <div class="collapsible-card">
@@ -1158,97 +1094,6 @@
 
       </div>
 
-    </div>
-
-    <!-- SECTION DEEP-DIVE : MATHÉMATIQUES DU DEEP LEARNING (RELU, POIDS & BIAIS, NEURONES, ADAM, SOFTMAX, ÉPOQUES) -->
-    <div class="collapsible-card">
-      <div class="collapsible-header" id="dlMathsToggle">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <span style="font-size:1.3rem; color:var(--violet);">🔬</span>
-          <div>
-            <h2>Comprendre les Algorithmes du Deep Learning : Neurones, Poids, Biais, ReLU, Adam &amp; Softmax</h2>
-            <p style="font-size:0.82rem; color:var(--muted);">Explications claires, imagées et intuitives des briques motrices de TensorFlow.js.</p>
-          </div>
-        </div>
-        <button id="dlMathsToggleBtn" class="badge-pill">Ouvrir les algorithmes ▼</button>
-      </div>
-
-      <div id="dlMathsContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
-        <div class="guide-grid">
-          
-          <div class="guide-box">
-            <div class="guide-box-title">🧠 1. Le Neurone Artificiel : Comment ça marche ?</div>
-            <div class="guide-box-desc">
-              <p>Un neurone artificiel est une <strong>petite calculatrice mathématique</strong> ultra simple :</p>
-              <p style="margin-top:6px;">1. Il reçoit plusieurs signaux d'entrée ($x_1, x_2, \dots, x_n$), par exemple la vitesse et l'accélération de la balle.</p>
-              <p style="margin-top:4px;">2. Il multiplie chaque entrée par un coefficient d'importance appelé le <strong>Poids ($w$)</strong>.</p>
-              <p style="margin-top:4px;">3. Il ajoute un réglage constant appelé le <strong>Biais ($b$)</strong>.</p>
-              <p style="margin-top:4px;">4. Il passe le total dans une fonction d'activation (comme <strong>ReLU</strong>) pour décider du signal de sortie :</p>
-              <p style="font-family:var(--mono); color:var(--lime); margin-top:6px;">Sortie = Activation( w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + b )</p>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">🎛️ 2. Les Poids (Weights) et les Biais (Biases)</div>
-            <div class="guide-box-desc">
-              <p>Ce sont les <strong>73 632 variables modifiables</strong> que le modèle ajuste pendant les 10 époques :</p>
-              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:6px;">
-                <li><strong>Le Poids ($w$) :</strong> Il mesure la <em>force</em> ou l'<em>influence</em> d'une caractéristique. Si le poids associé à l'accélération $a_z$ est très négatif et élevé, une forte chute verticale déclenchera fortement les neurones de la Curveball.</li>
-                <li><strong>Le Biais ($b$) :</strong> C'est le <em>seuil de sensibilité</em> intrinsèque du neurone (comme le thermostat d'un radiateur). Même si toutes les entrées valent 0, le biais permet de décaler la décision pour que le neurone s'active plus ou moins facilement.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">🔀 3. La Fonction d'Activation ReLU (max(0, x))</div>
-            <div class="guide-box-desc">
-              <p>Dans nos couches cachées, chaque neurone applique la fonction <strong>ReLU (Rectified Linear Unit)</strong> :</p>
-              <p style="font-family:var(--mono); color:var(--mint); margin-top:4px;">f(x) = max(0, x)  ➔  Si x &le; 0 alors 0, sinon x</p>
-              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Pourquoi est-elle magique ?</strong> Sans elle, empiler 10 couches denses reviendrait à une seule droite mathématique ($y = ax + b$). Une droite est incapable d'isoler 7 trajectoires courbes ! ReLU brise la linéarité.</li>
-                <li><strong>Pas de saturation :</strong> Contrairement à la Sigmoïde qui s'aplatit aux extrêmes (*vanishing gradient*), ReLU laisse passer les signaux forts sans écraser les gradients, permettant au réseau d'apprendre vite.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">⚡ 4. L'Optimiseur Adam (L'Élan + L'Accélérateur)</div>
-            <div class="guide-box-desc">
-              <p>Adam est le mécanicien qui règle les 73 632 poids à chaque lot de 100 lancers :</p>
-              <ul style="margin-left:16px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Le Momentum :</strong> Conserve la vitesse des pas précédents pour franchir les faux-plats sans s'arrêter.</li>
-                <li><strong>Le RMSProp :</strong> Si un poids oscille trop vite d'un signe à l'autre, Adam réduit la taille de son pas. S'il progresse calmement, Adam accélère.</li>
-              </ul>
-              <p style="margin-top:6px;"><em>Résultat :</em> Adam permet au modèle de converger en seulement 10 époques avec ~80% de précision.</p>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">📊 5. La Fonction Softmax (Distribution 0 à 100%)</div>
-            <div class="guide-box-desc">
-              <p>Les 7 neurones de sortie calculent des scores bruts (logits, positifs ou négatifs).</p>
-              <p style="margin-top:4px;"><strong>La formule Softmax :</strong> $P(i) = \frac{e^{z_i}}{\sum e^{z_j}}$</p>
-              <ul style="margin-left:16px; margin-top:4px; display:flex; flex-direction:column; gap:4px;">
-                <li>$e^z$ rend toutes les valeurs strictement positives et amplifie l'écart du vainqueur ($e^{4.8} \approx 121$ vs $e^{1.1} \approx 3$).</li>
-                <li>La division par la somme garantit que le total des 7 barres fait <strong>exactement 100%</strong>.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-box">
-            <div class="guide-box-title">🔄 6. Anatomie d'une Époque (Epochs, Batches, Steps)</div>
-            <div class="guide-box-desc">
-              <p><strong>1 Époque = 1 passage complet sur les 7 000 lancers du jeu d'entraînement.</strong></p>
-              <ul style="margin-left:16px; margin-top:4px; display:flex; flex-direction:column; gap:4px;">
-                <li><strong>Lots de 100 (Batches) :</strong> Le réseau lit 100 lancers, calcule la moyenne d'erreur, et effectue un réglage de poids.</li>
-                <li><strong>1 Époque = 70 pas (steps)</strong> ($7000 / 100$).</li>
-                <li><strong>10 Époques = 700 réglages successifs</strong> de nos 73 632 poids.</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </div>
 
     <!-- SECTION CULTURE & GLOSSAIRE DU BASEBALL -->
