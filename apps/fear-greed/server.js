@@ -337,12 +337,16 @@ function broadcastDailyPrediction(io) {
 
 async function trainDailyEpochs(io, epochsToRun = 10) {
   if (isTrainingDaily) {
-    logToAdmin(io, 'Entraînement daily déjà en cours.');
+    const message = 'Entraînement daily déjà en cours.';
+    logToAdmin(io, message);
+    io.emit('dailyTrainingRefused', { message, currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS });
     io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
     return;
   }
   if (!dailyMarketState.candles.length) {
-    logToAdmin(io, 'Entraînement daily impossible : aucune bougie chargée.');
+    const message = 'Entraînement daily impossible : aucune donnée de marché disponible.';
+    logToAdmin(io, message);
+    io.emit('dailyTrainingRefused', { message, currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS });
     io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
     return;
   }
@@ -350,7 +354,9 @@ async function trainDailyEpochs(io, epochsToRun = 10) {
     // S'assurer que le dataset est préparé (données semées au démarrage ou après échec de refresh).
     sentimentDaily.prepareData(dailyMarketState.candles);
   } catch (err) {
-    logToAdmin(io, 'Préparation des données daily impossible : ' + err.message);
+    const message = 'Préparation des données daily impossible : ' + err.message;
+    logToAdmin(io, message);
+    io.emit('dailyTrainingRefused', { message, currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS });
     io.emit('dailyStepPaused', { currentIteration: currentIterationDaily, totalIterations: TOTAL_ITERATIONS, metrics: lastMetricsDaily });
     return;
   }
@@ -410,12 +416,16 @@ function resetDailyModelSession(io) {
  */
 async function trainEpochs(io, epochsToRun = 10) {
   if (isTraining) {
-    logToAdmin(io, 'Entraînement horaire déjà en cours.');
+    const message = 'Entraînement horaire déjà en cours.';
+    logToAdmin(io, message);
+    io.emit('trainingRefused', { message, currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS });
     io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
     return;
   }
   if (!marketState.candles.length) {
-    logToAdmin(io, 'Impossible d\'entraîner : aucune donnée de marché disponible.');
+    const message = 'Impossible d\'entraîner : aucune donnée de marché disponible.';
+    logToAdmin(io, message);
+    io.emit('trainingRefused', { message, currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS });
     io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
     return;
   }
@@ -423,7 +433,9 @@ async function trainEpochs(io, epochsToRun = 10) {
     // S'assurer que le dataset est préparé (données semées au démarrage ou après échec de refresh).
     sentiment.prepareData(marketState.candles);
   } catch (err) {
-    logToAdmin(io, 'Préparation des données horaire impossible : ' + err.message);
+    const message = 'Préparation des données horaire impossible : ' + err.message;
+    logToAdmin(io, message);
+    io.emit('trainingRefused', { message, currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS });
     io.emit('stepPaused', { currentIteration: currentIteration, totalIterations: TOTAL_ITERATIONS, metrics: lastMetrics });
     return;
   }

@@ -813,8 +813,22 @@ socket.on('stepPaused', payload => {
   btnTrainFull.disabled = false;
   if (btnWeeklyTrainStep) btnWeeklyTrainStep.disabled = false;
   if (btnWeeklyTrainFull) btnWeeklyTrainFull.disabled = false;
-  statusText.textContent = `Pause à l'époque ${payload.currentIteration}/${payload.totalIterations}`;
+  if (!(payload && payload.currentIteration === 0 && !payload.metrics)) {
+    statusText.textContent = `Pause à l'époque ${payload.currentIteration}/${payload.totalIterations}`;
+  }
 });
+
+socket.on('trainingRefused', payload => {
+  const msg = (payload && payload.message) ? payload.message : 'Entraînement indisponible.';
+  btnTrainStep.disabled = false;
+  btnTrainFull.disabled = false;
+  if (btnWeeklyTrainStep) btnWeeklyTrainStep.disabled = false;
+  if (btnWeeklyTrainFull) btnWeeklyTrainFull.disabled = false;
+  statusText.textContent = msg;
+  displayEpochMessageWithFade(msg);
+  displayWeeklyEpochMessage(msg);
+});
+
 
 socket.on('trainingComplete', payload => {
   btnTrainStep.disabled = true;
@@ -1000,6 +1014,16 @@ socket.on('dailyStepPaused', payload => {
   if (btnDailyTrainFull) btnDailyTrainFull.disabled = false;
   renderDailyProgress(payload.currentIteration, payload.totalIterations);
 });
+
+socket.on('dailyTrainingRefused', payload => {
+  const msg = (payload && payload.message) ? payload.message : 'Entraînement daily indisponible.';
+  if (btnDailyTrainStep) btnDailyTrainStep.disabled = false;
+  if (btnDailyTrainFull) btnDailyTrainFull.disabled = false;
+  statusText.textContent = msg;
+  displayDailyEpochMessage(msg);
+  if (dailyPredictionNote) dailyPredictionNote.textContent = msg;
+});
+
 socket.on('dailyTrainingComplete', () => {
   if (btnDailyTrainStep) btnDailyTrainStep.disabled = true;
   if (btnDailyTrainFull) btnDailyTrainFull.disabled = true;
