@@ -9,7 +9,7 @@ Laboratoire d’inférence TensorFlow.js : indice **Fear & Greed** calculé en t
 ## Démo en ligne (GitHub Pages + backend Render)
 
 - [Ouvrir Neon Fear & Greed Tensor](https://kewinmarchand.github.io/neon-fear-greed-tensor/)
-- **Backend** : hébergé sur [Render](https://render.com) (`https://neon-fear-greed-tensor.onrender.com`).
+- **Backend** : hébergé sur [Render](https://render.com) (`https://fear-greed-tensor.onrender.com`).
 
 > **Note** : GitHub Pages sert le frontend (statique). Le backend Node.js (`server.js`, Socket.IO) tourne sur Render (offre gratuite) pour la collecte des données de marché, l’entraînement et les prédictions en temps réel.
 > - **Démarrage à froid** : après inactivité, le service peut mettre ~30 s à 1 min à se réveiller.

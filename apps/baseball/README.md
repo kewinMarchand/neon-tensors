@@ -9,7 +9,7 @@ Application pédagogique et interactive de **classification des lancers MLB** (d
 ## Démo en ligne (GitHub Pages + backend Render)
 
 - [Ouvrir Neon Baseball Tensor](https://kewinmarchand.github.io/neon-baseball-tensor/)
-- **Backend** : hébergé sur [Render](https://render.com) (`https://neon-baseball-tensor.onrender.com`).
+- **Backend** : hébergé sur [Render](https://render.com) (`https://baseball-tensor.onrender.com`).
 
 > **Note** : GitHub Pages sert le frontend (statique). Le backend Node.js (`server.js`, Socket.IO) tourne sur Render (offre gratuite) pour les fonctionnalités serveur (entraînement/données selon configuration).
 > - **Démarrage à froid** : après inactivité, le service peut mettre ~30 s à 1 min à se réveiller.
