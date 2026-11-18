@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Neon Tensors — Applications Tensor</title>
+    <meta
+      name="description"
+      content="Neon Tensors : portail et applications Tensor (machine learning interactive) regroupés dans un monorepo, avec socle commun, thème Neon et backends Render."
+    />
+    <meta name="theme-color" content="#071018" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #071018;
+        --surface: #0c1a22;
+        --line: #253842;
+        --text: #f2f7f5;
+        --muted: #a9bab8;
+        --lime: #bada55;
+        --lime-ink: #17200a;
+        --mint: #69ffe1;
+        --pink: #ff72bb;
+        --violet: #c48cff;
+        --yellow: #ffd166;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(ellipse at 82% -10%, #193b3a 0, transparent 30%), var(--bg);
+        color: var(--text);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        line-height: 1.55;
+      }
+      a {
+        color: var(--lime);
+      }
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--lime);
+        color: var(--lime-ink);
+        padding: 10px 16px;
+        z-index: 50;
+      }
+      .skip-link:focus {
+        left: 12px;
+        top: 12px;
+      }
+      .container {
+        width: min(1160px, calc(100% - 40px));
+        margin-inline: auto;
+      }
+      .topbar {
+        border-bottom: 1px solid #ffffff12;
+        background: #071018d9;
+        backdrop-filter: blur(6px);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 0;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+        font: 700 0.85rem 'DM Mono', monospace;
+        letter-spacing: 0.11em;
+        text-decoration: none;
+      }
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--lime);
+        border-radius: 10px;
+        color: var(--lime);
+        font-weight: 500;
+        font-size: 1.15rem;
+      }
+      .brand-accent {
+        color: var(--lime);
+      }
+      .topbar nav {
+        display: flex;
+        gap: 26px;
+      }
+      .topbar nav a {
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+      }
+      .topbar nav a:hover {
+        color: var(--lime);
+      }
+      .repo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--muted);
+        font: 500 0.72rem 'DM Mono', monospace;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+      .repo-link:hover {
+        color: var(--lime);
+      }
+      .repo-link svg {
+        width: 16px;
+        height: 16px;
+      }
+      main {
+        display: block;
+      }
+      .hero {
+        padding: 72px 0 56px;
+      }
+      .kicker {
+        margin: 0 0 18px;
+        color: var(--lime);
+        font: 500 0.7rem 'DM Mono', monospace;
+        letter-spacing: 0.13em;
+      }
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(3rem, 7.2vw, 6.4rem);
+        line-height: 0.98;
+        letter-spacing: -0.075em;
+      }
+      .hero h1 span {
+        color: var(--lime);
+      }
+      .lead {
+        max-width: 680px;
+        margin: 24px 0 30px;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 28px;
+        border-radius: 12px;
+        background: var(--lime);
+        color: var(--lime-ink);
+        font: 700 0.8rem 'DM Mono', monospace;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+      .button:hover {
+        filter: brightness(1.08);
+      }
+      .button--ghost {
+        background: transparent;
+        color: var(--lime);
+        border: 1px solid var(--lime);
+      }
+      .collection {
+        padding: 18px 0 70px;
+      }
+      .section-title {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+      }
+      .section-title h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.1;
+        letter-spacing: -0.045em;
+      }
+      .collection-count {
+        margin: 0;
+        color: var(--muted);
+        font: 500 0.66rem 'DM Mono', monospace;
+        letter-spacing: 0.1em;
+        text-align: right;
+      }
+      .collection-count span {
+        color: var(--lime);
+        font-size: 1rem;
+      }
+      .app-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .app-card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: linear-gradient(155deg, #10212a, #0a151d);
+        color: inherit;
+        text-decoration: none;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .app-card:hover {
+        transform: translateY(-4px);
+        border-color: #bada5588;
+        box-shadow: 0 12px 35px #0005;
+      }
+      .app-card h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+      }
+      .app-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .app-card .play {
+        margin-top: auto;
+        color: var(--lime);
+        font: 500 0.7rem 'DM Mono', monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .societe {
+        padding: 0 0 80px;
+      }
+      .societe h2 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+        letter-spacing: -0.04em;
+      }
+      .societe > p {
+        max-width: 720px;
+        color: var(--muted);
+      }
+      .societe-grid {
+        list-style: none;
+        margin: 26px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .societe-card {
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+      .societe-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+        color: var(--lime);
+      }
+      .societe-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      footer {
+        border-top: 1px solid #ffffff12;
+        padding: 26px 0 40px;
+        color: var(--muted);
+        font: 500 0.65rem 'DM Mono', monospace;
+        letter-spacing: 0.06em;
+      }
+      footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--lime);
+      }
+      a:focus-visible {
+        outline: 3px solid var(--lime);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      @media (max-width: 900px) {
+        .app-list,
+        .societe-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 620px) {
+        .topbar nav {
+          gap: 14px;
+        }
+        .topbar nav a {
+          font-size: 0.78rem;
+        }
+        .app-list,
+        .societe-grid {
+          grid-template-columns: 1fr;
+        }
+        .section-title {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="https://kewinmarchand.github.io/neon-tensors/">
+          <span class="brand-mark" aria-hidden="true">N</span>
+          <span><span class="brand-accent">NEON</span> TENSORS</span>
+        </a>
+        <nav aria-label="Navigation principale">
+          <a href="#applications">Applications</a>
+          <a href="#portail">Portail</a>
+          <a href="https://github.com/kewinMarchand/neon-tensors" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+          <p class="kicker">MONOREPO · TENSORS NEON</p>
+          <h1 id="hero-title">Neon <span>Tensors</span></h1>
+          <p class="lead">
+            Le portail et les applications <strong>Tensor</strong> de la collection Neon : indices et
+            modèles de machine learning interactifs jouables dans le navigateur, regroupés dans un même
+            monorepo. Socle commun, thème <strong>Neon</strong> attaché, backends <strong>Render</strong>
+            conservés.
+          </p>
+          <div class="actions">
+            <a class="button" href="https://kewinmarchand.github.io/neon-tensors/apps/portal/">Accéder au portail</a>
+            <a
+              class="button button--ghost"
+              href="https://github.com/kewinMarchand/neon-tensors"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Code source sur GitHub</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="collection" id="applications" aria-labelledby="applications-title">
+        <div class="container">
+          <div class="section-title">
+            <div>
+              <p class="kicker">LES APPLICATIONS</p>
+              <h2 id="applications-title">La collection</h2>
+            </div>
+            <p class="collection-count"><span>03</span> APPLICATIONS / PORTAIL</p>
+          </div>
+          <ul class="app-list">
+            <li>
+              <a class="app-card" href="https://kewinmarchand.github.io/neon-tensors/apps/portal/">
+                <h3>Portail Tensor</h3>
+                <p>
+                  Vue d’ensemble des expériences Tensor : accès aux applications, aux indices et aux
+                  entraînements.
+                </p>
+                <span class="play">Accéder ↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="app-card" href="https://kewinmarchand.github.io/neon-tensors/apps/fear-greed/">
+                <h3>Fear &amp; Greed</h3>
+                <p>
+                  Indice Fear &amp; Greed BTC/USD : collecte des marchés, entraînement TensorFlow.js
+                  pas-à-pas, prévisions.
+                </p>
+                <span class="play">Explorer ↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="app-card" href="https://kewinmarchand.github.io/neon-tensors/apps/baseball/">
+                <h3>Baseball</h3>
+                <p>
+                  Application Tensor Baseball : entraînement et inférence de modèles interactifs.
+                </p>
+                <span class="play">Explorer ↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="societe" id="portail" aria-labelledby="societe-title">
+        <div class="container">
+          <h2 id="societe-title">Le socle technique</h2>
+          <p>
+            Chaque application repose sur la même architecture : front web et code serveur
+            <strong>TensorFlow.js</strong> mutualisés via un socle commun, branchés sur les backends
+            <strong>Render</strong>, illustrés par le <strong>thème Neon</strong>.
+          </p>
+          <ul class="societe-grid">
+            <li class="societe-card">
+              <h3>Socle commun</h3>
+              <p>
+                Composants communs et thème <strong>Neon</strong> attaché (tokens <code>--bui-*</code>),
+                sans composant métier « Neon ».
+              </p>
+            </li>
+            <li class="societe-card">
+              <h3>Frontière front/back</h3>
+              <p>
+                Serveurs Node/Socket.IO sur Render pour la diffusion temps réel, fronts HTML/CSS/JS
+                connectés aux backends.
+              </p>
+            </li>
+            <li class="societe-card">
+              <h3>Données &amp; entraînement</h3>
+              <p>
+                Datasets persistés (seed, historiques), entraînement manuel ou automatique des
+                modèles, inférence temps réel.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <span><span class="brand-accent">NEON</span> TENSORS · UNE COLLECTION D’APPS INDEPENDANTE</span>
+        <span>
+          <a href="https://kewinmarchand.github.io/neon-tensors/apps/portal/">Portail</a>
+          ·
+          <a href="https://github.com/kewinMarchand/neon-tensors" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>
