@@ -1,6 +1,6 @@
 # Neon Baseball Tensor
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/neon-baseball-tensor)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/neon-tensors/tree/main/apps/baseball)
 
 ![Aperçu de Neon Baseball Tensor](preview.svg)
 
@@ -38,4 +38,4 @@ Ouvrir http://localhost:8080 dans le navigateur.
 
 ## Thème
 
-Thème **Boilerplate Neon** partagé (`neon/neon-tokens.css`, `neon-base.css`, `neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Neon Tensor](https://github.com/kewinMarchand/neon-tensor).
+Thème **Boilerplate Neon** partagé (`neon/neon-tokens.css`, `neon-base.css`, `neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Neon Tensor](https://github.com/kewinMarchand/neon-tensors).
