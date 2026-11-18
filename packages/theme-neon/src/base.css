@@ -1,7 +1,5 @@
 /*
- * Theme Neon — base (reset visuel + fond + cadre de jeu).
- * Le theme n'introduit aucune brique Neon metier : le cadre (.neon-frame--game) est
- * defini ici, de facon generique, et consomme les tokens `--bui-*`.
+ * Base (thème Graphite) : styles globaux et cadre générique.
  */
 
 * {
@@ -15,140 +13,265 @@ body {
 
 body {
   margin: 0;
-  background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), #071018;
-  color: var(--bui-color-text);
-  font-family: var(--bui-font-family, 'Space Grotesk', system-ui, sans-serif);
-  line-height: 1.55;
+  font-family: var(--bui-font-family, "Space Grotesk", system-ui, -apple-system, sans-serif);
+  color: var(--bui-color-text, #e6edf3);
+  background: radial-gradient(ellipse at 80% 0%, #16202b 0, transparent 40%), var(--bui-color-surface, #0b1117);
 }
 
 body.game {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.neon-app {
-  min-height: 100vh;
+#shell-mount {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
 }
+
+a {
+  color: var(--bui-color-primary, #6f93b8);
+}
+
+/* ----- Composant générique : cadre de jeu (contenu central + panneaux latéraux) ----- */
 
 .neon-frame {
-  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--bui-space-6, 24px);
+  gap: 24px;
+  padding: 16px 20px 16px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Cadre de jeu commun a tous les jeux (ADR-004) : 100vh, pas de scroll de page. */
 .neon-frame--game {
-  height: 100vh;
   height: 100dvh;
+  max-height: 100dvh;
+  min-height: 0;
   overflow: hidden;
 }
 
 .neon-frame__header {
+  flex: 0 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--bui-space-4, 16px);
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  min-height: 0;
+  text-align: center;
+  padding-bottom: 0;
 }
 
-.neon-frame__brand {
+.neon-frame__actions {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.neon-frame__brand {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
   gap: 12px;
+  min-width: 0;
+}
+
+.neon-frame__titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  text-align: center;
 }
 
 .neon-frame__mark {
-  color: var(--bui-color-secondary, #ff72bb);
-  font-size: 1.15rem;
-  text-shadow: 0 0 16px var(--bui-color-primary, #69ffe1);
+  color: var(--bui-color-secondary, #8fb3cc);
+  font-size: 0.95rem;
+  line-height: 1;
+  flex: 0 0 auto;
+  margin-top: 0.55em;
 }
 
 .neon-frame__title {
   margin: 0;
-  color: var(--bui-color-primary, #69ffe1);
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 900;
-  letter-spacing: 0.19em;
+  color: var(--bui-color-primary, #6f93b8);
+  font-size: clamp(1.25rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1.1;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--bui-color-primary, #69ffe1) 53%, transparent), 0 0 36px color-mix(in srgb, var(--bui-color-primary, #69ffe1) 43%, transparent);
+  text-align: center;
 }
 
 .neon-frame__subtitle {
-  margin: 10px 0 0;
-  color: var(--bui-color-text-muted, #a9bab8);
+  margin: 0;
+  color: var(--bui-color-text-muted, #8b9eb3);
   font-family: var(--bui-font-family-mono, 'DM Mono', monospace);
-  font-size: 0.85rem;
-  letter-spacing: 0.22em;
+  font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .neon-frame__body {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
-  display: flex;
-  gap: var(--bui-space-4, 16px);
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) minmax(0, 1fr) minmax(200px, 280px);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  overflow: hidden;
 }
 
 .neon-side {
   display: flex;
   flex-direction: column;
-  gap: var(--bui-space-4, 16px);
+  gap: 12px;
   min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 2px 0;
 }
 
-.neon-side--left {
-  width: 280px;
-}
-
+.neon-side--left,
 .neon-side--right {
-  width: 280px;
+  width: auto;
 }
 
 .neon-screen {
   position: relative;
-  flex: 1;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--bui-color-primary, #69ffe1) 55%, transparent);
+  border: 1px solid var(--bui-color-border, #263241);
   border-radius: var(--bui-radius-md, 10px);
-  background: #04100e;
-}
-
-.neon-panel {
+  background: #0d141b;
   display: flex;
-  flex-direction: column;
-  gap: var(--bui-space-3, 12px);
-  padding: var(--bui-space-4, 16px);
-  border: 1px solid var(--bui-color-border-subtle, #182635);
-  border-radius: var(--bui-radius-md, 10px);
-  background: var(--bui-color-surface-muted, #0c1a22);
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: inset 0 0 0 1px rgba(230, 237, 243, 0.03), 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.neon-footer {
+.neon-screen > canvas,
+.neon-screen > .game-canvas,
+.neon-screen canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.neon-panel,
+.neon-panel--slot {
+  background: var(--bui-color-surface-muted, #111821);
+  border: 1px solid var(--bui-color-border, #263241);
+  border-radius: var(--bui-radius-md, 10px);
+  padding: 14px;
+  min-width: 0;
+}
+
+.neon-side > .neon-panel--slot:only-child {
+  flex: 1 1 auto;
+}
+
+.neon-frame__footer {
+  flex: 0 0 auto;
   display: flex;
   justify-content: center;
-  padding-bottom: var(--bui-space-6, 24px);
-  color: var(--bui-color-text-muted, #a9bab8);
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  color: var(--bui-color-text-muted, #8b9eb3);
   font-family: var(--bui-font-family-mono, 'DM Mono', monospace);
   font-size: var(--bui-font-size-caption, 12px);
+  min-height: 0;
 }
 
-@media (max-width: 900px) {
-  .neon-frame--game {
-    height: auto;
-    min-height: 100vh;
-  }
+.neon-frame__footer > * {
+  max-width: 100%;
+}
 
+@media (max-width: 980px) {
   .neon-frame__body {
-    flex-direction: column;
+    grid-template-columns: minmax(160px, 220px) minmax(0, 1fr) minmax(160px, 220px);
+    gap: 12px;
   }
+  .neon-frame {
+    padding: 14px 16px;
+    gap: 14px;
+  }
+}
 
-  .neon-side,
-  .neon-side--left,
+@media (max-width: 720px) {
+  body.game {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+  .neon-frame {
+    height: 100dvh;
+    max-height: 100dvh;
+    padding: 10px 12px 12px;
+    gap: 10px;
+  }
+  .neon-frame__body {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+    gap: 10px;
+    overflow: hidden;
+  }
+  .neon-side--left {
+    order: 1;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: 20vh;
+  }
+  .neon-screen {
+    order: 2;
+    min-height: 0;
+    padding: 8px;
+  }
   .neon-side--right {
-    width: 100%;
+    order: 3;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: 20vh;
+  }
+  .neon-side > .neon-panel--slot {
+    flex: 0 0 auto;
+    min-width: 160px;
+  }
+  .neon-side > .neon-panel--slot:only-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-screen,
+  .neon-frame__title {
+    animation: none !important;
   }
 }

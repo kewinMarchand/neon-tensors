@@ -3,31 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fear &amp; Greed BTC/USD — Laboratoire Néon &amp; Inférence</title>
+  <title>Fear &amp; Greed BTC/USD — Laboratoire &amp; Inférence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Thème Neon (boilerplate-neon) -->
+  <!-- Thème Graphite -->
   <link rel="stylesheet" href="./neon/neon-tokens.css">
   <link rel="stylesheet" href="./neon/neon-base.css">
   <link rel="stylesheet" href="./neon/neon-components.css">
   <style>
-    /* Styles spécifiques à l'app (complètent le thème neon) */
+    /* Styles spécifiques à l'app (complètent le thème Graphite) */
     :root {
       color-scheme: dark;
-      --bg: #071018;
-      --surface: #0c1a22;
-      --surface-card: #10212a;
-      --line: #253842;
-      --text: #f2f7f5;
-      --muted: #a9bab8;
-      --lime: #BADA55;
-      --lime-ink: #17200a;
-      --mint: #69ffe1;
-      --pink: #ff72bb;
-      --coral: #ff5f6d;
-      --violet: #c48cff;
-      --yellow: #ffd166;
+      --bg: #0b1117;
+      --bg-glow: #16202b;
+      --surface: #111821;
+      --surface-card: #151d27;
+      --surface-elevated: #1a2430;
+      --line: #263241;
+      --text: #e6edf3;
+      --muted: #8b9eb3;
+      --accent: #6f93b8;
+      --accent-ink: #0b1218;
+      --accent-soft: #8fb3cc;
+      --lime: #6f93b8;
+      --lime-ink: #0b1218;
+      --mint: #8fb3cc;
+      --pink: #b07a8f;
+      --coral: #c06b6b;
+      --violet: #8b86b8;
+      --yellow: #c4a86a;
+      --orange: #c08a5a;
+      --blue: #5f86b8;
       --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
       --mono: 'DM Mono', monospace;
     }
@@ -36,7 +43,7 @@
 
     body {
       margin: 0;
-      background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), var(--bg);
+      background: radial-gradient(ellipse at 82% 4%, #16202b 0, transparent 32%), var(--bg);
       color: var(--text);
       font-family: var(--font);
       line-height: 1.55;
@@ -53,7 +60,7 @@
 
     /* HEADER LABORATOIRE */
     header {
-      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      background: linear-gradient(155deg, #151d27 0%, #101822 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 22px 30px;
@@ -91,11 +98,11 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #5a6f6a;
+      background: #4a5568;
       transition: background 0.3s;
     }
 
-    .badge.online { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+    .badge.online { background: var(--mint); box-shadow: 0 0 0 3px rgba(143, 179, 204, 0.15); }
 
     /* BANDE DE MARCHÉ */
     .market-bar {
@@ -130,7 +137,7 @@
     }
 
     .forecast-card {
-      background: #0a151d;
+      background: #101822;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 10px 12px;
@@ -211,7 +218,7 @@
       border-radius: 50%;
       background: var(--text);
       transform: translateX(-50%);
-      box-shadow: 0 0 12px rgba(242,247,245,0.5);
+      box-shadow: 0 0 12px rgba(230,237,243,0.4);
     }
 
     .gauge-score {
@@ -245,7 +252,7 @@
 
     .bar {
       height: 8px;
-      background: #0a151d;
+      background: #101822;
       border: 1px solid var(--line);
       border-radius: 6px;
       overflow: hidden;
@@ -286,13 +293,13 @@
       border-color: var(--lime);
     }
 
-    button.primary:hover:not(:disabled) { background: #cbe96e; color: var(--lime-ink); }
+    button.primary:hover:not(:disabled) { background: #84a9cf; color: var(--lime-ink); }
 
     button:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .progress-track {
       height: 10px;
-      background: #0a151d;
+      background: #101822;
       border: 1px solid var(--line);
       border-radius: 6px;
       overflow: hidden;
@@ -317,13 +324,13 @@
     .epoch-message {
       margin-top: 16px;
       padding: 14px 16px;
-      background: #173543;
+      background: #172230;
       border-left: 4px solid var(--lime);
       border-radius: 0 var(--radius) var(--radius) 0;
       font-size: 0.9rem;
       line-height: 1.55;
       color: var(--text);
-      box-shadow: inset 0 0 0 1px #2a4a5a;
+      box-shadow: inset 0 0 0 1px #2f4356;
       min-height: 44px;
       transition: opacity 0.4s ease;
     }
@@ -354,7 +361,7 @@
     /* PRÉDICTION */
     .proba-track {
       height: 18px;
-      background: #0a151d;
+      background: #101822;
       border: 1px solid var(--line);
       border-radius: 10px;
       overflow: hidden;
@@ -388,7 +395,7 @@
     }
 
     .admin-stat {
-      background: #0a151d;
+      background: #101822;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 10px 14px;
@@ -398,7 +405,7 @@
     .admin-stat .v { font-family: var(--mono); font-size: 0.95rem; color: var(--text); font-weight: 600; }
 
     #adminTerminal {
-      background: #050b10;
+      background: #0a0f14;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 12px 14px;
@@ -434,7 +441,7 @@
     <header>
       <div>
         <h1>Fear &amp; Greed <span class="accent">BTC/USD</span> — TensorFlow.js</h1>
-        <p class="subtitle">Laboratoire Néon &amp; Inférence · Kraken / Coinbase · modèle LSTM entraîné pas-Ã -pas</p>
+        <p class="subtitle">Laboratoire &amp; Inférence · Kraken / Coinbase · modèle LSTM entraîné pas-Ã -pas</p>
       </div>
       <div class="status">
         <a class="repo-link" href="https://github.com/kewinMarchand/neon-tensors/tree/main/apps/fear-greed" target="_blank" rel="noopener noreferrer" aria-label="Voir le code source de Fear &amp; Greed Tensor sur GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="repo-link__label">Code source</span></a>
@@ -466,13 +473,13 @@
         <div class="gauge-wrap">
           <div class="gauge">
             <svg width="300" height="165" viewBox="0 0 300 165">
-              <path d="M 30 150 A 120 120 0 0 1 66 65" fill="none" stroke="#ff72bb" stroke-width="18" stroke-linecap="round"/>
-              <path d="M 70 61 A 120 120 0 0 1 128 31" fill="none" stroke="#ff9d5c" stroke-width="18"/>
-              <path d="M 133 31 A 120 120 0 0 1 195 40" fill="none" stroke="#ffd166" stroke-width="18"/>
-              <path d="M 200 44 A 120 120 0 0 1 251 89" fill="none" stroke="#a2ff8f" stroke-width="18"/>
-              <path d="M 254 93 A 120 120 0 0 1 270 150" fill="none" stroke="#BADA55" stroke-width="18" stroke-linecap="round"/>
-              <text x="22" y="163" fill="#a9bab8" font-size="10" font-family="DM Mono">0</text>
-              <text x="276" y="163" fill="#a9bab8" font-size="10" font-family="DM Mono">100</text>
+              <path d="M 30 150 A 120 120 0 0 1 66 65" fill="none" stroke="#b07a8f" stroke-width="18" stroke-linecap="round"/>
+              <path d="M 70 61 A 120 120 0 0 1 128 31" fill="none" stroke="#c08a5a" stroke-width="18"/>
+              <path d="M 133 31 A 120 120 0 0 1 195 40" fill="none" stroke="#c4a86a" stroke-width="18"/>
+              <path d="M 200 44 A 120 120 0 0 1 251 89" fill="none" stroke="#86a9a0" stroke-width="18"/>
+              <path d="M 254 93 A 120 120 0 0 1 270 150" fill="none" stroke="#6f93b8" stroke-width="18" stroke-linecap="round"/>
+              <text x="22" y="163" fill="#8b9eb3" font-size="10" font-family="DM Mono">0</text>
+              <text x="276" y="163" fill="#8b9eb3" font-size="10" font-family="DM Mono">100</text>
             </svg>
             <div class="needle" id="gaugeNeedle"></div>
             <div class="needle-pivot"></div>

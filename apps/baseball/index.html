@@ -3,30 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Baseball Tensor - Laboratoire Néon & Inférence</title>
+  <title>Neon Baseball Tensor - Laboratoire & Inférence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Thème Neon (boilerplate-neon) -->
+  <!-- Thème Graphite -->
   <link rel="stylesheet" href="./neon/neon-tokens.css">
   <link rel="stylesheet" href="./neon/neon-base.css">
   <link rel="stylesheet" href="./neon/neon-components.css">
   <style>
-    /* Styles spécifiques à l'app (complètent le thème neon) */
+    /* Styles spécifiques à l'app (complètent le thème Graphite) */
     :root {
       color-scheme: dark;
-      --bg: #071018;
-      --surface: #0c1a22;
-      --surface-card: #10212a;
-      --line: #253842;
-      --text: #f2f7f5;
-      --muted: #a9bab8;
-      --lime: #BADA55;
-      --lime-ink: #17200a;
-      --mint: #69ffe1;
-      --pink: #ff72bb;
-      --violet: #c48cff;
-      --yellow: #ffd166;
+      --bg: #0b1117;
+      --bg-glow: #16202b;
+      --surface: #111821;
+      --surface-card: #151d27;
+      --surface-elevated: #1a2430;
+      --line: #263241;
+      --text: #e6edf3;
+      --muted: #8b9eb3;
+      --accent: #6f93b8;
+      --accent-ink: #0b1218;
+      --accent-soft: #8fb3cc;
+      --lime: #6f93b8;
+      --lime-ink: #0b1218;
+      --mint: #8fb3cc;
+      --pink: #b07a8f;
+      --violet: #8b86b8;
+      --yellow: #c4a86a;
+      --orange: #c08a5a;
+      --blue: #5f86b8;
       --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
       --mono: 'DM Mono', monospace;
     }
@@ -39,7 +46,7 @@
 
     body {
       margin: 0;
-      background: radial-gradient(ellipse at 82% 4%, #193b3a 0, transparent 32%), var(--bg);
+      background: radial-gradient(ellipse at 82% 4%, #16202b 0, transparent 32%), var(--bg);
       color: var(--text);
       font-family: var(--font);
       line-height: 1.55;
@@ -56,7 +63,7 @@
 
     /* HEADER ARCADE NÉON */
     header {
-      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      background: linear-gradient(155deg, #151d27 0%, #101822 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 22px 30px;
@@ -83,8 +90,8 @@
       border-radius: 12px;
       color: var(--lime);
       font-size: 1.4rem;
-      box-shadow: 0 0 14px rgba(186, 218, 85, 0.35);
-      background: rgba(186, 218, 85, 0.08);
+      box-shadow: 0 0 14px rgba(111, 147, 184, 0.22);
+      background: rgba(111, 147, 184, 0.08);
     }
 
     .header-title h1 {
@@ -96,7 +103,7 @@
 
     .header-title h1 span {
       color: var(--lime);
-      text-shadow: 0 0 14px rgba(186, 218, 85, 0.5);
+      text-shadow: none;
     }
 
     .header-title p {
@@ -136,17 +143,17 @@
     }
 
     .status-training {
-      background: rgba(105, 255, 225, 0.12);
+      background: rgba(143, 179, 204, 0.1);
       color: var(--mint);
-      border-color: rgba(105, 255, 225, 0.4);
+      border-color: rgba(143, 179, 204, 0.25);
       box-shadow: 0 0 15px rgba(105, 255, 225, 0.2);
     }
 
     .status-ready {
-      background: rgba(186, 218, 85, 0.15);
+      background: rgba(111, 147, 184, 0.12);
       color: var(--lime);
       border-color: var(--lime);
-      box-shadow: 0 0 16px rgba(186, 218, 85, 0.35);
+      box-shadow: 0 0 16px rgba(111, 147, 184, 0.22);
     }
 
     .live-dot {
@@ -180,7 +187,7 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s ease;
-      box-shadow: 0 0 14px rgba(186, 218, 85, 0.35);
+      box-shadow: 0 0 14px rgba(111, 147, 184, 0.22);
     }
 
     .btn-action:hover {
@@ -217,7 +224,7 @@
     .badge-pill {
       background: rgba(105, 255, 225, 0.1);
       color: var(--mint);
-      border: 1px solid rgba(105, 255, 225, 0.35);
+      border: 1px solid rgba(143, 179, 204, 0.22);
       padding: 5px 14px;
       border-radius: 999px;
       font: 500 0.78rem var(--mono);
@@ -233,7 +240,7 @@
 
     /* COLLAPSIBLE CARDS */
     .collapsible-card {
-      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      background: linear-gradient(155deg, #151d27 0%, #101822 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 20px 24px;
@@ -268,7 +275,7 @@
     }
 
     .card {
-      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      background: linear-gradient(155deg, #151d27 0%, #101822 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 24px;
@@ -289,8 +296,8 @@
 
     /* FADE-IN FADE-OUT ANNOUNCEMENT BOX NÉON */
     .epoch-message-box {
-      background: linear-gradient(90deg, rgba(105, 255, 225, 0.12) 0%, rgba(186, 218, 85, 0.08) 100%);
-      border: 1px solid rgba(105, 255, 225, 0.35);
+      background: linear-gradient(90deg, rgba(143, 179, 204, 0.1) 0%, rgba(111, 147, 184, 0.08) 100%);
+      border: 1px solid rgba(143, 179, 204, 0.22);
       border-left: 4px solid var(--mint);
       border-radius: 12px;
       padding: 14px 18px;
@@ -332,7 +339,7 @@
     .progress-bar-container {
       width: 100%;
       height: 10px;
-      background: #060e15;
+      background: #0d141b;
       border-radius: 999px;
       overflow: hidden;
       border: 1px solid var(--line);
@@ -344,7 +351,7 @@
       background: linear-gradient(90deg, var(--mint), var(--lime));
       border-radius: 999px;
       transition: width 0.35s ease;
-      box-shadow: 0 0 10px var(--lime);
+      box-shadow: 0 2px 8px rgba(111, 147, 184, 0.25);
     }
 
     /* TABLE PRÉCISION NÉON */
@@ -357,7 +364,7 @@
     .accuracy-table th {
       text-align: left;
       padding: 10px 12px;
-      background: #08131a;
+      background: #101923;
       color: var(--muted);
       font: 500 0.72rem var(--mono);
       letter-spacing: 0.08em;
@@ -379,7 +386,7 @@
     .bar-bg {
       flex: 1;
       height: 7px;
-      background: #08131a;
+      background: #101923;
       border-radius: 4px;
       overflow: hidden;
       border: 1px solid #162a34;
@@ -410,7 +417,7 @@
     }
 
     .btn-preset {
-      background: #08131a;
+      background: #101923;
       border: 1px solid var(--line);
       color: var(--text);
       padding: 10px 12px;
@@ -433,14 +440,14 @@
 
     .btn-preset:hover {
       border-color: var(--mint);
-      background: rgba(105, 255, 225, 0.08);
+      background: rgba(143, 179, 204, 0.08);
     }
 
     .btn-preset.active {
       border-color: var(--lime);
-      background: rgba(186, 218, 85, 0.12);
+      background: rgba(111, 147, 184, 0.1);
       color: var(--lime);
-      box-shadow: 0 0 12px rgba(186, 218, 85, 0.3);
+      box-shadow: 0 0 12px rgba(111, 147, 184, 0.2);
     }
 
     /* SENSORS DETAILS */
@@ -454,7 +461,7 @@
     }
 
     .sensor-item {
-      background: #08131a;
+      background: #101923;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 8px 12px;
@@ -477,14 +484,14 @@
 
     /* RESULT NÉON */
     .result-box {
-      background: #08131a;
+      background: #101923;
       border: 2px solid var(--mint);
       border-radius: 14px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      box-shadow: 0 0 25px rgba(105, 255, 225, 0.25);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
     .result-hero {
@@ -497,7 +504,7 @@
       font-size: 1.55rem;
       font-weight: 800;
       color: var(--mint);
-      text-shadow: 0 0 12px rgba(105, 255, 225, 0.5);
+      text-shadow: none;
     }
 
     .confidence-badge {
@@ -505,10 +512,10 @@
       font-weight: 700;
       padding: 4px 14px;
       border-radius: 8px;
-      background: rgba(186, 218, 85, 0.15);
+      background: rgba(111, 147, 184, 0.12);
       color: var(--lime);
       border: 1px solid var(--lime);
-      box-shadow: 0 0 12px rgba(186, 218, 85, 0.35);
+      box-shadow: 0 0 12px rgba(111, 147, 184, 0.22);
       font-family: var(--mono);
     }
 
@@ -529,7 +536,7 @@
     .dist-bar-track {
       flex: 1;
       height: 8px;
-      background: #0c1a22;
+      background: #111821;
       border-radius: 4px;
       overflow: hidden;
       border: 1px solid var(--line);
@@ -558,7 +565,7 @@
     }
 
     .guide-box {
-      background: #08131a;
+      background: #101923;
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 16px;
@@ -597,7 +604,7 @@
     .dict-table th {
       text-align: left;
       padding: 9px 12px;
-      background: #08131a;
+      background: #101923;
       color: var(--mint);
       font: 500 0.75rem var(--mono);
       letter-spacing: 0.06em;
@@ -612,7 +619,7 @@
 
     /* 3D BASEBALL SCENE SVG NÉON */
     .baseball-3d-card {
-      background: linear-gradient(155deg, #10212a 0%, #0a151d 100%);
+      background: linear-gradient(155deg, #151d27 0%, #101822 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 20px 24px;
@@ -624,7 +631,7 @@
 
     .svg-scene-container {
       width: 100%;
-      background: #050d13;
+      background: #0d141b;
       border: 1px solid var(--line);
       border-radius: 14px;
       overflow: hidden;
@@ -660,7 +667,7 @@
     }
 
     .btn-traj-pill {
-      background: #08131a;
+      background: #101923;
       border: 1px solid var(--line);
       color: var(--muted);
       padding: 7px 14px;
@@ -682,8 +689,8 @@
     .btn-traj-pill.active {
       color: #fff;
       border-color: currentColor;
-      background: rgba(105, 255, 225, 0.12);
-      box-shadow: 0 0 14px rgba(105, 255, 225, 0.25);
+      background: rgba(143, 179, 204, 0.1);
+      box-shadow: 0 0 14px rgba(143, 179, 204, 0.18);
     }
 
     .pill-dot {
@@ -701,7 +708,7 @@
     }
 
     .admin-stat-card {
-      background: #08131a;
+      background: #101923;
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 12px 16px;
@@ -713,11 +720,11 @@
       font-weight: 700;
       color: var(--mint);
       margin-top: 4px;
-      text-shadow: 0 0 10px rgba(105, 255, 225, 0.4);
+      text-shadow: none;
     }
 
     .terminal-window {
-      background: #04090e;
+      background: #0a0f14;
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 12px 16px;
@@ -833,7 +840,7 @@
       </div>
 
       <div id="varsContent" style="display:none; margin-top:18px; border-top:1px solid var(--line); padding-top:18px;">
-        <div style="background:#08131a; padding:16px; border-radius:12px; border:1px solid var(--line); font-size:0.85rem; line-height:1.6; margin-bottom:14px;">
+        <div style="background:#101923; padding:16px; border-radius:12px; border:1px solid var(--line); font-size:0.85rem; line-height:1.6; margin-bottom:14px;">
           <strong style="color:var(--mint);">🎯 Le Repère 3D Statcast de la MLB :</strong><br>
           L'origine $(0,0,0)$ est fixée au niveau du marbre (*Home Plate*), où se tient le receveur. Le monticule du lanceur est situé à 18,44 mètres (60,5 pieds).<br>
           • <strong>Axe Y (Distance) :</strong> Orienté du marbre vers le lanceur. Comme la balle vole <em>du lanceur vers le marbre</em>, <strong>sa vitesse $v_y$ est toujours négative</strong> (entre $-86$ et $-152$ ft/s). La résistance de l'air freine la balle, d'où une décélération $a_y &gt; 0$.<br>
@@ -962,8 +969,8 @@
               </feMerge>
             </filter>
             <radialGradient id="fieldGrad" cx="50%" cy="50%" r="70%">
-              <stop offset="0%" stop-color="#0f2b1d" />
-              <stop offset="100%" stop-color="#04120b" />
+              <stop offset="0%" stop-color="#152534" />
+              <stop offset="100%" stop-color="#0b1117" />
             </radialGradient>
             <linearGradient id="dirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#78350f" />
@@ -995,7 +1002,7 @@
           <text x="665" y="365" fill="#f8fafc" font-size="11" font-weight="700">Marbre (Y = 0)</text>
 
           <!-- Zone de Prises (Strike Zone Box) -->
-          <rect x="685" y="235" width="50" height="85" fill="rgba(105, 255, 225, 0.08)" stroke="var(--mint)" stroke-width="1.5" stroke-dasharray="3,3" rx="4" />
+          <rect x="685" y="235" width="50" height="85" fill="rgba(143, 179, 204, 0.08)" stroke="var(--mint)" stroke-width="1.5" stroke-dasharray="3,3" rx="4" />
           <text x="745" y="280" fill="var(--mint)" font-size="10" font-family="'DM Mono', monospace">Zone de Prises</text>
 
           <!-- Repère 3D d'axes Statcast (Origine au marbre) -->
@@ -1029,7 +1036,7 @@
       </div>
 
       <!-- LEGENDE DYNAMIQUE DE LA TRAJECTOIRE SELECTIONNEE -->
-      <div id="trajPhysicsLegend" style="background:#08131a; border:1px solid var(--line); border-radius:12px; padding:12px 16px; font-size:0.83rem; line-height:1.5;">
+      <div id="trajPhysicsLegend" style="background:#101923; border:1px solid var(--line); border-radius:12px; padding:12px 16px; font-size:0.83rem; line-height:1.5;">
         <strong id="legendTitle" style="color:var(--mint);">⚡ Fastball 4-seam (94,5 mph) :</strong>
         <span id="legendDesc">Trajectoire tendue et directe. La rotation arrière rapide (backspin) crée une portance aérodynamique (effet Magnus vers le haut, $a_z \approx -14\text{ ft/s}^2$) qui compense la gravité : la balle semble défier la pesanteur et reste en haut de la zone de prises.</span>
       </div>
@@ -1293,7 +1300,7 @@
                 <p>91 à 96 mph. Tenue le long des coutures. Plonge et s'enfonce au dernier instant pour forcer un coup de batte mou au sol.</p>
               </div>
               <div>
-                <strong style="color:#d9f99d;">3. Fastball (Cutter) :</strong>
+                <strong style="color:#9fb3c8;">3. Fastball (Cutter) :</strong>
                 <p>88 à 93 mph. Balle rapide coupée qui bifurque latéralement de 10 à 20 cm juste avant la batte, brisant souvent le manche.</p>
               </div>
               <div>

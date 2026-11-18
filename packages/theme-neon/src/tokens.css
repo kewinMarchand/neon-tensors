@@ -1,48 +1,44 @@
 /*
- * Theme Neon — tokens et overrides.
+ * Theme Graphite — tokens et overrides.
  *
- * Le theme Neon n'est PAS une brique de composants : il attache un theme
- * (tokens / variables CSS / overrides) aux composants commons de
+ * Thème sombre sobre (accent bleu acier) attaché aux composants commons de
  * `boilerplates-ui` (`--bui-*`, classes `bui-*`).
- *
- * Tout identite visuelle Neon est portee par ce theme ; toute brique UI reutilise
- * un composant commun.
  */
 
 :root {
   color-scheme: dark;
 
-  /* Neutres / surfaces (Neon) */
-  --bui-color-text: #f2f7f5;
-  --bui-color-text-muted: #a9bab8;
-  --bui-color-surface: #071018;
-  --bui-color-surface-muted: #0c1a22;
-  --bui-color-border: #253842;
-  --bui-color-border-subtle: #182635;
-  --bui-color-backdrop: rgb(4 16 18 / 0.7);
+  /* Neutres / surfaces (Graphite) */
+  --bui-color-text: #e6edf3;
+  --bui-color-text-muted: #8b9eb3;
+  --bui-color-surface: #0b1117;
+  --bui-color-surface-muted: #111821;
+  --bui-color-border: #263241;
+  --bui-color-border-subtle: #1d2a38;
+  --bui-color-backdrop: rgb(11 17 23 / 0.72);
 
-  /* Couleurs d'accent Neon */
-  --bui-color-primary: #69ffe1;
-  --bui-color-primary-dark: #3fe6cb;
-  --bui-color-on-primary: #061412;
-  --bui-color-primary-surface-subtle: #0e2a28;
-  --bui-color-primary-surface: #123a37;
-  --bui-color-primary-surface-strong: #185049;
-  --bui-color-secondary: #ff72bb;
-  --bui-color-secondary-dark: #d95ba8;
-  --bui-color-on-secondary: #14060f;
-  --bui-color-secondary-surface-subtle: #31101f;
-  --bui-color-secondary-surface: #3d1528;
-  --bui-color-secondary-surface-strong: #4c1a33;
+  /* Couleurs d'accent (bleu acier sobre) */
+  --bui-color-primary: #6f93b8;
+  --bui-color-primary-dark: #5a7fa6;
+  --bui-color-on-primary: #0b1218;
+  --bui-color-primary-surface-subtle: #162230;
+  --bui-color-primary-surface: #1b2a3a;
+  --bui-color-primary-surface-strong: #24364a;
+  --bui-color-secondary: #8fb3cc;
+  --bui-color-secondary-dark: #769cb8;
+  --bui-color-on-secondary: #0b1218;
+  --bui-color-secondary-surface-subtle: #16232d;
+  --bui-color-secondary-surface: #1c2d3a;
+  --bui-color-secondary-surface-strong: #243848;
 
-  --bui-color-error: #ff5f6d;
-  --bui-color-error-surface: #33121a;
-  --bui-color-success: #BADA55;
-  --bui-color-success-surface: #1c2410;
-  --bui-color-info: #3a86ff;
-  --bui-color-info-surface: #101f3d;
-  --bui-color-warning: #ffd166;
-  --bui-color-warning-surface: #2c2210;
+  --bui-color-error: #c06b6b;
+  --bui-color-error-surface: #2a171a;
+  --bui-color-success: #7fa98a;
+  --bui-color-success-surface: #17231b;
+  --bui-color-info: #5f86b8;
+  --bui-color-info-surface: #152236;
+  --bui-color-warning: #c4a86a;
+  --bui-color-warning-surface: #262013;
 
   /* Typographie */
   --bui-font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
@@ -80,9 +76,9 @@
   --bui-size-icon-lg: 24px;
   --bui-radius-md: 10px;
   --bui-radius-full: 9999px;
-  --bui-shadow-sm: 0 8px 30px rgba(0, 0, 0, 0.45);
-  --bui-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.45);
-  --bui-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --bui-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --bui-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --bui-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.45);
   --bui-focus-width: 3px;
   --bui-focus-offset: 2px;
   --bui-motion-duration: 180ms;
@@ -112,8 +108,8 @@
   --bui-font-size-body-sm: 18px;
   --bui-font-size-caption: 15px;
   --bui-font-size-overline: 18px;
-  --bui-color-primary: #3fe6cb;
-  --bui-color-on-primary: #061412;
+  --bui-color-primary: #84a9cf;
+  --bui-color-on-primary: #0b1218;
   --bui-focus-width: 4px;
   --bui-motion-duration: 0s;
   --bui-motion-duration-slow: 0s;
