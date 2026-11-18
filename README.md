@@ -2,7 +2,6 @@
 
 Portail des applications de machine learning interactives (TensorFlow.js), avec le thème **Graphite** (sombre, accent bleu acier).
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/tensor-lab)
 
 ## Ouvrir Tensor Lab
 
