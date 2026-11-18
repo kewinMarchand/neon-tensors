@@ -1,30 +1,21 @@
 <a class="skip-link" href="#main">Aller au contenu principal</a>
 <header class="site-header" data-site-header>
   <div class="container site-header-inner">
-    <!--# if expr="$page = accueil" -->
-    <a class="logo" href="/" data-testid="layout-logo" aria-current="page">
-      <img src="/logo-mark.svg" alt="" width="32" height="32" />
-      <span>Boilerplate HTML</span>
-    </a>
-    <!--# else -->
+    
     <a class="logo" href="/" data-testid="layout-logo">
       <img src="/logo-mark.svg" alt="" width="32" height="32" />
       <span>Boilerplate HTML</span>
     </a>
-    <!--# endif -->
+    
     <nav class="main-nav" aria-label="Navigation principale">
       <ul class="main-nav-list">
-        <!--# if expr="$page = accueil" -->
-        <li><a href="/" aria-current="page">Accueil</a></li>
-        <!--# else -->
+        
         <li><a href="/">Accueil</a></li>
-        <!--# endif -->
+        
         <li class="category-menu" data-category-menu>
-          <!--# if expr="$page = catalogue" -->
-          <a class="category-menu-fallback" href="/catalogue" aria-current="page">Catalogue</a>
-          <!--# else -->
+          
           <a class="category-menu-fallback" href="/catalogue">Catalogue</a>
-          <!--# endif -->
+          
           <button
             type="button"
             class="category-menu-toggle"
@@ -230,46 +221,18 @@
             </div>
           </div>
         </li>
-        <!--# if expr="$page = blog" -->
-        <li><a href="/blog" aria-current="page">Blog</a></li>
-        <!--# else -->
+        
         <li><a href="/blog">Blog</a></li>
-        <!--# endif -->
-        <!--# if expr="$page = taches" -->
-        <li><a href="/taches" aria-current="page">Tâches</a></li>
-        <!--# else -->
+        
+        
         <li><a href="/taches">Tâches</a></li>
-        <!--# endif -->
-        <!--# if expr="$page = contact" -->
-        <li><a href="/contact" aria-current="page">Contact</a></li>
-        <!--# else -->
+        
+        
         <li><a href="/contact">Contact</a></li>
-        <!--# endif -->
+        
       </ul>
     </nav>
-    <!--# if expr="$page = panier" -->
-    <a
-      class="cart-link"
-      href="/panier"
-      data-sales
-      aria-current="page"
-      data-cart-link
-      data-testid="cart-link"
-      data-label-items-one=" article"
-      data-label-items-other=" articles"
-    >
-      <svg
-        class="bui-icon bui-icon--md"
-        aria-hidden="true"
-        focusable="false"
-        width="20"
-        height="20"
-      >
-        <use href="/icons.svg#shopping-cart"></use>
-      </svg>
-      <span class="cart-link-label">Panier</span>
-    </a>
-    <!--# else -->
+    
     <a
       class="cart-link"
       href="/panier"
@@ -290,7 +253,7 @@
       </svg>
       <span class="cart-link-label">Panier</span>
     </a>
-    <!--# endif -->
+    
     <button
       type="button"
       class="bui-button bui-button--outline header-icon-button mobile-menu-toggle"
