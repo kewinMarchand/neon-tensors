@@ -41,7 +41,7 @@ a {
 
 /* ----- Composant générique : cadre de jeu (contenu central + panneaux latéraux) ----- */
 
-.neon-frame {
+.tl-frame {
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -54,14 +54,14 @@ a {
   box-sizing: border-box;
 }
 
-.neon-frame--game {
+.tl-frame--game {
   height: 100dvh;
   max-height: 100dvh;
   min-height: 0;
   overflow: hidden;
 }
 
-.neon-frame__header {
+.tl-frame__header {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@ a {
   padding-bottom: 0;
 }
 
-.neon-frame__actions {
+.tl-frame__actions {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,7 +81,7 @@ a {
   gap: 8px 12px;
 }
 
-.neon-frame__brand {
+.tl-frame__brand {
   display: inline-flex;
   align-items: flex-start;
   justify-content: center;
@@ -89,7 +89,7 @@ a {
   min-width: 0;
 }
 
-.neon-frame__titles {
+.tl-frame__titles {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,7 +99,7 @@ a {
   text-align: center;
 }
 
-.neon-frame__mark {
+.tl-frame__mark {
   color: var(--bui-color-secondary, #8fb3cc);
   font-size: 0.95rem;
   line-height: 1;
@@ -107,7 +107,7 @@ a {
   margin-top: 0.55em;
 }
 
-.neon-frame__title {
+.tl-frame__title {
   margin: 0;
   color: var(--bui-color-primary, #6f93b8);
   font-size: clamp(1.25rem, 3vw, 2.1rem);
@@ -117,7 +117,7 @@ a {
   text-align: center;
 }
 
-.neon-frame__subtitle {
+.tl-frame__subtitle {
   margin: 0;
   color: var(--bui-color-text-muted, #8b9eb3);
   font-family: var(--bui-font-family-mono, 'DM Mono', monospace);
@@ -127,7 +127,7 @@ a {
   text-align: center;
 }
 
-.neon-frame__body {
+.tl-frame__body {
   flex: 1 1 0;
   min-height: 0;
   display: grid;
@@ -138,7 +138,7 @@ a {
   overflow: hidden;
 }
 
-.neon-side {
+.tl-side {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -148,12 +148,12 @@ a {
   padding: 2px 0;
 }
 
-.neon-side--left,
-.neon-side--right {
+.tl-side--left,
+.tl-side--right {
   width: auto;
 }
 
-.neon-screen {
+.tl-screen {
   position: relative;
   min-width: 0;
   min-height: 0;
@@ -168,9 +168,9 @@ a {
   box-shadow: inset 0 0 0 1px rgba(230, 237, 243, 0.03), 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.neon-screen > canvas,
-.neon-screen > .game-canvas,
-.neon-screen canvas {
+.tl-screen > canvas,
+.tl-screen > .game-canvas,
+.tl-screen canvas {
   display: block;
   max-width: 100%;
   max-height: 100%;
@@ -179,8 +179,8 @@ a {
   object-fit: contain;
 }
 
-.neon-panel,
-.neon-panel--slot {
+.tl-panel,
+.tl-panel--slot {
   background: var(--bui-color-surface-muted, #111821);
   border: 1px solid var(--bui-color-border, #263241);
   border-radius: var(--bui-radius-md, 10px);
@@ -188,11 +188,11 @@ a {
   min-width: 0;
 }
 
-.neon-side > .neon-panel--slot:only-child {
+.tl-side > .tl-panel--slot:only-child {
   flex: 1 1 auto;
 }
 
-.neon-frame__footer {
+.tl-frame__footer {
   flex: 0 0 auto;
   display: flex;
   justify-content: center;
@@ -205,16 +205,16 @@ a {
   min-height: 0;
 }
 
-.neon-frame__footer > * {
+.tl-frame__footer > * {
   max-width: 100%;
 }
 
 @media (max-width: 980px) {
-  .neon-frame__body {
+  .tl-frame__body {
     grid-template-columns: minmax(160px, 220px) minmax(0, 1fr) minmax(160px, 220px);
     gap: 12px;
   }
-  .neon-frame {
+  .tl-frame {
     padding: 14px 16px;
     gap: 14px;
   }
@@ -226,19 +226,19 @@ a {
     max-height: 100dvh;
     overflow: hidden;
   }
-  .neon-frame {
+  .tl-frame {
     height: 100dvh;
     max-height: 100dvh;
     padding: 10px 12px 12px;
     gap: 10px;
   }
-  .neon-frame__body {
+  .tl-frame__body {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
     gap: 10px;
     overflow: hidden;
   }
-  .neon-side--left {
+  .tl-side--left {
     order: 1;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -246,12 +246,12 @@ a {
     overflow-y: hidden;
     max-height: 20vh;
   }
-  .neon-screen {
+  .tl-screen {
     order: 2;
     min-height: 0;
     padding: 8px;
   }
-  .neon-side--right {
+  .tl-side--right {
     order: 3;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -259,19 +259,19 @@ a {
     overflow-y: hidden;
     max-height: 20vh;
   }
-  .neon-side > .neon-panel--slot {
+  .tl-side > .tl-panel--slot {
     flex: 0 0 auto;
     min-width: 160px;
   }
-  .neon-side > .neon-panel--slot:only-child {
+  .tl-side > .tl-panel--slot:only-child {
     flex: 1 1 auto;
     min-width: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .neon-screen,
-  .neon-frame__title {
+  .tl-screen,
+  .tl-frame__title {
     animation: none !important;
   }
 }

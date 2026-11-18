@@ -4,7 +4,7 @@
  *
  * - Compile `client.js` et la bibliothèque `socket.io-client` en un bundle unique exécutable par le navigateur.
  * - Sert les fichiers statiques (`index.html`, `dist/bundle.js`) sur le port 8082 avec rechargement à chaud.
- * - Ports décalés par rapport à neon-baseball-tensor (8080/8001) pour pouvoir lancer les deux projets simultanément.
+ * - Ports décalés par rapport à baseball-tensor (8080/8001) pour pouvoir lancer les deux projets simultanément.
  */
 
 const path = require('path');

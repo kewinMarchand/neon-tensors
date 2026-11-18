@@ -1,7 +1,7 @@
 {
   "name": "@kewinmarchand/ui",
   "version": "0.1.0",
-  "description": "Composants commons generiques (layout/shell de jeu, carte, lien, repo-link, panneaux) pour les monorepos Neon",
+  "description": "Composants commons generiques (layout/shell de jeu, carte, lien, repo-link, panneaux) pour les monorepos",
   "license": "MIT",
   "type": "module",
   "private": true,

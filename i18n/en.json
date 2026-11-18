@@ -216,7 +216,7 @@
   "tasks.noMatch": "No task matches “{query}”.",
   "tasks.visibleOne": "{count} task shown out of {total}",
   "tasks.visibleOther": "{count} tasks shown out of {total}",
-  "tasks.doneOne": "{count} task done out of {total}",
+  "tasks.doneSingle": "{count} task done out of {total}",
   "tasks.doneOther": "{count} tasks done out of {total}",
   "tasks.loading": "Loading tasks…",
   "tasks.noscript": "This demo loads tasks with JavaScript. Enable it to display the list.",

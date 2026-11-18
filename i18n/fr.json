@@ -216,7 +216,7 @@
   "tasks.noMatch": "Aucune tâche ne correspond à « {query} ».",
   "tasks.visibleOne": "{count} tâche affichée sur {total}",
   "tasks.visibleOther": "{count} tâches affichées sur {total}",
-  "tasks.doneOne": "{count} tâche terminée sur {total}",
+  "tasks.doneSingle": "{count} tâche terminée sur {total}",
   "tasks.doneOther": "{count} tâches terminées sur {total}",
   "tasks.loading": "Chargement des tâches…",
   "tasks.noscript": "Cette démo charge les tâches en JavaScript. Activez-le pour afficher la liste.",

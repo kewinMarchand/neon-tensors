@@ -7,9 +7,9 @@ import io from 'socket.io-client';
 
 // Connexion WebSocket vers le backend.
 // - En local (dev) : http://localhost:8001 par défaut.
-// - Sur GitHub Pages : définir window.NEON_BACKEND_URL dans index.html (URL du service Render).
-const BACKEND_URL = (typeof window !== 'undefined' && (window.NEON_BACKEND_URL || '').trim())
-  ? window.NEON_BACKEND_URL.trim().replace(/\/$/, '')
+// - Sur GitHub Pages : définir window.TENSOR_BACKEND_URL dans index.html (URL du service Render).
+const BACKEND_URL = (typeof window !== 'undefined' && (window.TENSOR_BACKEND_URL || '').trim())
+  ? window.TENSOR_BACKEND_URL.trim().replace(/\/$/, '')
   : 'http://localhost:8001';
 const socket = io(BACKEND_URL, {
   reconnectionDelay: 400,

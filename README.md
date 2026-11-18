@@ -4,9 +4,9 @@ Portail des applications de machine learning interactives (TensorFlow.js), avec 
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/tensor-lab)
 
-## Ouvrir Neon Tensors
+## Ouvrir Tensor Lab
 
-[Ouvrir Neon Tensors](https://kewinmarchand.github.io/tensor-lab/)
+[Ouvrir Tensor Lab](https://kewinmarchand.github.io/tensor-lab/)
 
 ## Les applications
 
@@ -31,6 +31,6 @@ Les applications utilisent un backend Node.js (Socket.IO) pour les données/entr
 
 ## Thème
 
-Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu acier) via les fichiers de thème partagés (`neon/neon-tokens.css`, `neon/neon-base.css`, `neon/neon-components.css`) et les styles propres à chaque app.
+Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu acier) via les fichiers de thème partagés (`theme/tokens.css`, `theme/base.css`, `theme/components.css`) et les styles propres à chaque app.
 
 Ce dépôt (monorepo `tensor-lab`) regroupe le portail et les applications de la collection.

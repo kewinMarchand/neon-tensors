@@ -1,8 +1,8 @@
 /*
- * UI commons Neon — composants + shell de jeu.
+ * UI commons — composants + shell de jeu.
  *
- * Règle du domaine : pas de composant « Neon ». Le shell de jeu est un COMPOSANT
- * générique (contenu central + panneaux latéraux) rendu avec le theme Neon.
+ * Règle du domaine : pas de composant thématique. Le shell de jeu est un COMPOSANT
+ * générique (contenu central + panneaux latéraux) rendu avec le thème Graphite.
  */
 
 const FRAME_TESTIDS = {
@@ -36,27 +36,27 @@ export function mountGameFrame({ mount, config }) {
   if (mount.firstChild) mount.replaceChildren();
 
   const frame = document.createElement('main');
-  frame.className = 'neon-frame neon-frame--game';
+  frame.className = 'tl-frame tl-frame--game';
   frame.dataset.testid = FRAME_TESTIDS.frame;
   frame.setAttribute('data-title', title);
 
   const header = document.createElement('header');
-  header.className = 'neon-frame__header';
+  header.className = 'tl-frame__header';
   header.dataset.testid = FRAME_TESTIDS.header;
   const brand = document.createElement('div');
-  brand.className = 'neon-frame__brand';
+  brand.className = 'tl-frame__brand';
   const mark = document.createElement('span');
-  mark.className = 'neon-frame__mark';
+  mark.className = 'tl-frame__mark';
   mark.setAttribute('aria-hidden', 'true');
   mark.textContent = '✦';
   const h1 = document.createElement('h1');
-  h1.className = 'neon-frame__title';
+  h1.className = 'tl-frame__title';
   h1.textContent = title;
   const markClose = mark.cloneNode(true);
   brand.append(mark, h1, markClose);
   if (subtitle) {
     const p = document.createElement('p');
-    p.className = 'neon-frame__subtitle';
+    p.className = 'tl-frame__subtitle';
     p.textContent = subtitle;
     header.append(brand, p);
   } else {
@@ -65,16 +65,16 @@ export function mountGameFrame({ mount, config }) {
   if (typeof config.renderHeader === 'function') header.append(config.renderHeader());
 
   const body = document.createElement('div');
-  body.className = 'neon-frame__body';
+  body.className = 'tl-frame__body';
   const left = document.createElement('aside');
-  left.className = 'neon-side neon-side--left';
+  left.className = 'tl-side tl-side--left';
   left.dataset.testid = FRAME_TESTIDS.panelLeft;
   const right = document.createElement('aside');
-  right.className = 'neon-side neon-side--right';
+  right.className = 'tl-side tl-side--right';
   right.dataset.testid = FRAME_TESTIDS.panelRight;
 
   const screenEl = document.createElement('section');
-  screenEl.className = 'neon-screen';
+  screenEl.className = 'tl-screen';
   screenEl.dataset.testid = FRAME_TESTIDS.screen;
   if (screen && typeof screen.mount === 'function') screen.mount(screenEl);
 
@@ -82,7 +82,7 @@ export function mountGameFrame({ mount, config }) {
   frame.append(header, body);
 
   const footerEl = document.createElement('footer');
-  footerEl.className = 'neon-frame__footer';
+  footerEl.className = 'tl-frame__footer';
   footerEl.dataset.testid = FRAME_TESTIDS.footer;
   if (typeof footer === 'function') footerEl.append(footer());
 
@@ -92,7 +92,7 @@ export function mountGameFrame({ mount, config }) {
   for (const panel of panels) {
     const slot = panel.side === 'left' ? left : right;
     const el = document.createElement('div');
-    el.className = `neon-panel neon-panel--${panel.side}`;
+    el.className = `tl-panel tl-panel--${panel.side}`;
     el.dataset.testid = `game-panel-${panel.side}`;
     if (typeof panel.render === 'function') el.append(panel.render());
     slot.append(el);

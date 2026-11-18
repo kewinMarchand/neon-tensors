@@ -32,4 +32,4 @@ Les applications utilisent un backend Node.js (Socket.IO) pour les données/entr
 
 ## Thème
 
-Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu acier) via les fichiers de thème partagés (`neon/neon-tokens.css`, `neon/neon-base.css`, `neon/neon-components.css`) et les styles propres à chaque app.
+Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu acier) via les fichiers de thème partagés (`theme/tokens.css`, `theme/base.css`, `theme/components.css`) et les styles propres à chaque app.

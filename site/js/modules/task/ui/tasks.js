@@ -16,7 +16,7 @@ const visibleCount = (visible, total) =>
   })
 
 const doneCount = (done, total) =>
-  countLabel(done, { one: labels.labelDoneOne, other: labels.labelDoneOther }, locale, { total })
+  countLabel(done, { one: labels.labelDoneSingle, other: labels.labelDoneOther }, locale, { total })
 
 const render = (templateId) => {
   state.replaceChildren(document.getElementById(templateId).content.cloneNode(true))

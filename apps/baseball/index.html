@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Thème Graphite -->
-  <link rel="stylesheet" href="./neon/neon-tokens.css">
-  <link rel="stylesheet" href="./neon/neon-base.css">
-  <link rel="stylesheet" href="./neon/neon-components.css">
+  <link rel="stylesheet" href="./theme/tokens.css">
+  <link rel="stylesheet" href="./theme/base.css">
+  <link rel="stylesheet" href="./theme/components.css">
   <style>
     /* Styles spécifiques à l'app (complètent le thème Graphite) */
     :root {
@@ -1426,7 +1426,7 @@
   </div>
 
   <!-- Configuration backend (Render). Sur GitHub Pages -> Render, sinon localhost (dev). -->
-  <script>window.NEON_BACKEND_URL = (location.hostname.endsWith('github.io'))
+  <script>window.TENSOR_BACKEND_URL = (location.hostname.endsWith('github.io'))
     ? 'https://baseball-tensor.onrender.com'
     : '';</script>
   <script src="dist/bundle.js"></script>

@@ -38,4 +38,4 @@ Ouvrir http://localhost:8080 dans le navigateur.
 
 ## Thème
 
-Thème **Graphite** (sombre, sobre, accent bleu acier) partagé (`neon/neon-tokens.css`, `neon/neon-base.css`, `neon/neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Tensor Lab](https://github.com/kewinMarchand/tensor-lab).
+Thème **Graphite** (sombre, sobre, accent bleu acier) partagé (`theme/tokens.css`, `theme/base.css`, `theme/components.css`) avec styles propres à l’application. Fait partie de la collection [Tensor Lab](https://github.com/kewinMarchand/tensor-lab).
