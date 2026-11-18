@@ -1,4 +1,4 @@
-# Décisions d'architecture (neon-tensors)
+# Décisions d'architecture (tensor-lab)
 
 | N° | Titre | Statut |
 |---|---|---|

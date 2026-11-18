@@ -1,6 +1,6 @@
 # @kewinmarchand/ui
 
-Composants commons **génériques** pour les monorepos Neon (`neon-games`, `neon-tensors`).
+Composants commons **génériques** pour les monorepos Neon (`neon-games`, `tensor-lab`).
 
 - **Shell de jeu** (`mountGameFrame`) : cadre identique pour tous les jeux — header / zone centrale (jeu) / panneaux latéraux, viewport `100vh`, zone centrale centrée, options spécifiques dans les panneaux latéraux.
 - Composants utilitaires : `createRepoLink`.

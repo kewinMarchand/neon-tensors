@@ -6,7 +6,7 @@
 
 ## Contexte
 
-Les applications Tensor (`neon-fear-greed-tensor`, `neon-baseball-tensor`) et leur portail (`neon-tensor`) doivent migrer dans le monorepo `neon-tensors`, avec un front (GitHub Pages) et des backends (Render) qui restent opérationnels.
+Les applications Tensor (`neon-fear-greed-tensor`, `neon-baseball-tensor`) et leur portail (`neon-tensor`) doivent migrer dans le monorepo `tensor-lab`, avec un front (GitHub Pages) et des backends (Render) qui restent opérationnels.
 
 ## Décision
 
