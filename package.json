@@ -42,6 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "@kewinmarchand/boilerplates-ui": "github:kewinMarchand/boilerplates-ui#v0.13.0",
+    "@tensorflow-models/face-landmarks-detection": "^1.0.6",
     "embla-carousel": "^8"
   },
   "resolutions": {

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face & Hand Tracking - TensorFlow.js + MediaPipe</title>
+  <link rel="stylesheet" href="styles.css">
+  <!--
+    Suivant l'article TensorFlow blog 2020 :
+    - MediaPipe Solutions pour la détection (plus léger que tf-models)
+    - Scripts CDN qui deviennent des globals automatiquement
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic"></script>
+  <!-- TensorFlow.js optionnel pour du traitement additionnel -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+  <header>
+    <h1>Suivi Visage & Mains - MediaPipe + TensorFlow.js</h1>
+    <p>Basé sur l'article blog TensorFlow (mars 2020)</p>
+  </header>
+
+  <main>
+    <div class="upload-section">
+      <div id="loading" style="padding: 2rem; text-align: center;">
+        <div class="spinner" style="width: 40px; height: 40px; margin: 0 auto;"></div>
+        <p>Chargement des modules MediaPipe...</p>
+      </div>
+      <div id="error" style="padding: 2rem; text-align: center; color: red; display: none;"></div>
+      <div id="ready" style="padding: 2rem; text-align: center; display: none;">
+        <p>Prêt - sélectionnez une image ou autorisez la webcam</p>
+      </div>
+      <div id="dropZone" style="padding: 2rem; text-align: center; display: none;">
+        <input type="file" id="fileInput" accept="image/*">
+        <p>Ou glissez une image ici</p>
+        <button id="webcamBtn" style="margin-top: 0.5rem; padding: 0.5rem 1rem;">Utiliser la webcam</button>
+      </div>
+    </div>
+  </main>
+
+  <section class="results-section" id="resultsSection" style="display: none;">
+    <h2>Résultats du suivi</h2>
+    <div class="canvas-container">
+      <canvas id="resultCanvas"></canvas>
+    </div>
+    <div class="landmarks-info" id="landmarksInfo">
+      <p>Déplacez l'image pour voir les repères</p>
+    </div>
+    <button class="reset-btn" id="resetBtn">Nouvelle détection</button>
+  </section>
+
+  <script>
+    // Attendre que MediaPipe soit chargé via les scripts CDN
+    // Ces scripts rendent 'mp' disponible en global
+    console.log('Attente du chargement MediaPipe...');
+    
+    let holistic = null;
+    let video = null;
+    let canvasCtx = null;
+    
+    // Vérifier la disponibilité
+    const checkMpAvailability = setInterval(() => {
+      if (typeof mp !== 'undefined' && typeof mp.holistic !== 'undefined') {
+        console.log('MediaPipe holistic chargé !');
+        clearInterval(checkMpAvailability);
+        initHolistic();
+      }
+    }, 500);
+    
+    setTimeout(() => {
+      clearInterval(checkMpAvailability);
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('error').innerHTML = 'Timeout: MediaPipe non chargé après 30s';
+    }, 30000);
+    
+    function initHolistic() {
+      holistic = new mp.holistic.Holistic({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`
+      });
+      
+      holistic.setOptions({
+        modelComplexity: 1,
+        smoothLandmarks: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+      });
+      
+      // Interface utilisateur
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('ready').style.display = 'block';
+      document.getElementById('dropZone').style.display = 'block';
+      
+      // Gestion du fichier
+      const fileInput = document.getElementById('fileInput');
+      const canvas = document.getElementById('resultCanvas');
+      const ctx = canvas.getContext ? canvas.getContext('2d') : null;
+      const landmarksInfo = document.getElementById('landmarksInfo');
+      const resetBtn = document.getElementById('resetBtn');
+      
+      if (ctx) {
+        canvas.width = 720;
+        canvas.height = 540;
+        
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              // Dessiner l'image sur canvas
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              
+              // Traiter avec MediaPipe
+              processImageWithMediaPipe(img);
+            };
+            img.onerror = (err) => {
+              console.error('Erreur image:', err);
+              alert('Erreur lecture image');
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+      
+      resetBtn.addEventListener('click', () => {
+        document.getElementById('resultsSection').style.display = 'none';
+        canvas.style.display = 'none';
+        landmarksInfo.innerHTML = '<p>Chargez une image ou activez la webcam</p>';
+        fileInput.value = '';
+      });
+    }
+    
+    // Fonction pour traiter une image avec MediaPipe
+    async function processImageWithMediaPipe(imgElement) {
+      if (!holistic) {
+        alert('Module MediaPipe non initialisé');
+        return;
+      }
+      
+      document.getElementById('resultsSection').style.display = 'block';
+      canvas.style.display = 'block';
+      landmarksInfo.innerHTML = '<p>Analyse en cours...</p>';
+      
+      try {
+        // MediaPipe attend un objet vidéo ou image
+        const results = await holistic.detect(imgElement);
+        
+        // Canvas de dessin
+        const drawCtx = canvas.getContext('2d');
+        if (!drawCtx) return;
+        
+        // Réinitialiser le canvas
+        drawCtx.clearRect(0, 0, canvas.width, canvas.height);
+        drawCtx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+        
+        // Dessiner les repères faciaux
+        if (results.faceLandmarks) {
+          const faceLandmarks = results.faceLandmarks;
+          const drawOptions = { color: 'red', lineWidth: 2 };
+          
+          // Dessiner le contour du visage
+          if (results.faceLandmarks) {
+            // MediaPipe fournit les landmarks du visage
+            drawFaceLandmarks(drawCtx, faceLandmarks, canvas.width, canvas.height);
+          }
+          
+          // Informations texte
+          landmarksInfo.innerHTML = '<p>Visage détecté - ' + (results.faceLandmarks ? faceLandmarks.length : 0) + ' points repère</p>';
+        }
+        
+        if (results.leftHandLandmarks) {
+          landmarksInfo.innerHTML += '<p>Mains détectées</p>';
+        }
+        
+      } catch (err) {
+        console.error('Erreur MediaPipe:', err);
+        landmarksInfo.innerHTML = '<p>Erreur analyse: ' + err.message + '</p>';
+      }
+    }
+    
+    function drawFaceLandmarks(ctx, landmarks, imgWidth, imgHeight) {
+      if (!landmarks || landmarks.length === 0) return;
+      
+      // MediaPipe face landmarks sont déjà en coordonnées normalisées [0,1]
+      // On les convertit en pixels
+      
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 2;
+      
+      // Dessiner les connexions faciales
+      // Les connexions MediaPipe face sont définies dans mp.faceConnections
+      if (mp.faceConnections) {
+        const connections = mp.faceConnections.FACEMESH_TESSELATION;
+        
+        for (let i = 0; i < connections.length; i++) {
+          const connection = connections[i];
+          let startIdx = connection[0];
+          let endIdx = connection[1];
+          
+          let startLandmark = landmarks[startIdx];
+          let endLandmark = landmarks[endIdx];
+          
+          if (startLandmark && endLandmark) {
+            const startX = startLandmark.x * imgWidth;
+            const startY = startLandmark.y * imgHeight;
+            const endX = endLandmark.x * imgWidth;
+            const endY = endLandmark.y * imgHeight;
+            
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+          }
+        }
+      } else {
+        // Sinon dessiner les points individuels
+        landmarks.forEach((landmark, idx) => {
+          const x = landmark.x * canvas.width;
+          const y = landmark.y * canvas.height;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = 'red';
+          ctx.fill();
+        });
+      }
+    }
+    
+    // tentative webcam (optionnel - nécessite permissions)
+    const webcamBtn = document.getElementById('webcamBtn');
+    webcamBtn.addEventListener('click', () => {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          // Créer un élément vidéo
+          video = document.createElement('video');
+          video.srcObject = stream;
+          video.play();
+          
+          // Bouton pour arrêter
+          const stopBtn = document.createElement('button');
+          stopBtn.textContent = 'Arrêter la webcam';
+          stopBtn.onclick = () => {
+            stream.getTracks().forEach(track => track.stop());
+            video.remove();
+            document.body.removeChild(stopBtn);
+          };
+          document.body.appendChild(stopBtn);
+        })
+        .catch(err => {
+          alert('Impossible d\'accéder à la webcam: ' + err.message);
+          console.error(err);
+        });
+    });
+    
+    // Démarrage
+    initHolistic();
+    
+    // Gestion fichier
+    const fileInput = document.getElementById('fileInput');
+    const canvas = document.getElementById('resultCanvas');
+    const landmarksInfo = document.getElementById('landmarksInfo');
+    const resetBtn = document.getElementById('resetBtn');
+    
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      if (!file.type.startsWith('image/')) {
+        alert('Veuillez sélectionner un fichier image.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          processImageWithMediaPipe(img);
+        };
+        img.onerror = (err) => {
+          console.error('Erreur image:', err);
+          alert('Erreur lecture image');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    resetBtn.addEventListener('click', () => {
+      document.getElementById('resultsSection').style.display = 'none';
+      canvas.style.display = 'none';
+      landmarksInfo.innerHTML = '<p>Chargez une image ou activez la webcam</p>';
+      fileInput.value = '';
+    });
+  </script>
+</body>
+</html>

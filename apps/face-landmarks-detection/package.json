@@ -1,0 +1,15 @@
+{
+  "name": "neon-face-landmarks-detection",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Face landmarks detection using TensorFlow.js",
+  "scripts": {
+    "dev": "node scripts/serve.js 4099",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@tensorflow-models/face-landmarks-detection": "^1.0.6",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0"
+  }
+}

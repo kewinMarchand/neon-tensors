@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modélisation Faciale 3D - MediaPipe + Three.js</title>
+  <link rel="stylesheet" href="styles.css">
+  <!--
+    Basé sur l'article TensorFlow Blog 2020 :
+    "Face and hand tracking in browser with mediapipe and tensorflowjs"
+    Adapté pour génération de modèle 3D exportable.
+  -->
+  <!-- MediaPipe (via CDN - fonctionnera sur le laptop de l'utilisateur) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic"></script>
+  <!-- Three.js pour le 3D -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <!-- TensorFlow.js optionnel pour traitement additionnel -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+  <header>
+    <h1>Modélisation Faciale 3D en Temps Réel</h1>
+    <div class="version-info">
+      Version: 2.0.0 <span title="Basé sur l'article TensorFlow Blog mars 2020">TF MediaPipe</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button id="startCam">Activer la Webcam</button>
+      <button id="stopCam" style="display: none;">Désactiver</button>
+      <button id="captureBtn">Capturer le Visage</button>
+      <button id="resetBtn">Réinitialiser</button>
+    </div>
+
+    <div class="panels">
+      <!-- Panneau gauche: Vidéo + Canvas -->
+      <div class="panel panel-left">
+        <div class="panel-header">Flux Webcam</div>
+        <video id="webcamVideo" width="640" height=480 autoplay muted playsinline></video>
+        <canvas id="videoCanvas" width="640" height="480" style="display: none;"></canvas>
+        <div id="statusPanel" style="padding: 1rem; background: #e0e0e0; margin-top: 1rem; display: none;">
+          <p>Status: <span id="statusText">Initialisation...</span></p>
+          <p>Points faciaux: <span id="pointCount">0</span></p>
+        </div>
+      </div>
+
+      <!-- Panneau droit: 3D Model -->
+      <div class="panel panel-right">
+        <div class="panel-header">Modèle 3D Facial</div>
+        <div id="viewerContainer">
+          <div id="loading3D" style="padding: 2rem; text-align: center; display: block;">
+            Chargement du visualiseur 3D...
+          </div>
+          <div id="threeContainer" style="display: none; height: 400px; width: 100%;"></div>
+          <div id="noModel" style="padding: 2rem; text-align: center; display: none; color: red;">
+            Aucun modèle 3D disponible
+          </div>
+        </div>
+        <div id="exportPanel" style="margin-top: 1rem; display: none; padding: 1rem; background: #f0f0f0; border-radius: 8;">
+          <h4>Export du Modèle</h4>
+          <textarea id="modelJson" rows="4" cols="50" readonly style="width: 100%; padding: 0.5rem; font-family: monospace;"></textarea>
+          <div style="margin-top: 0.5rem;">
+            <button id="copyBtn">Copier vers Presse-papiers</button>
+            <button id="downloadBtn">Télécharger JSON</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="results-section" id="resultsSection" style="display: none;">
+    <h2>Résultats Détaillés</h2>
+    <div class="canvas-container">
+      <canvas id="resultCanvas" width="720" height="540"></canvas>
+    </div>
+    <div class="landmarks-info" id="landmarksInfo">
+      <p>Aucun visage détecté</p>
+    </div>
+    <button class="reset-btn" id="resetBtn2">Nouvelle Captura</button>
+  </section>
+
+  <script>
+    // ==========================================
+    // CONFIGURATION & VERSIONNING
+    // ==========================================
+    const APP_VERSION = "2.0.0";
+    const MODEL_VERSION = "MediaPipe holistic 0.4.0";
+    const LANDMARK_COUNT = 468; // Visage MediaPipe
+
+    // Styles injectés
+    const style = document.createElement('style');
+    style.textContent = `
+      :root { --primary: #1976d2; --success: #4caf50; --error: #f44336; --bg: #f5f5f7; --card: #ffffff; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: #333; }
+      .header { padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+      .version-info { font-size: 0.8rem; color: #666; }
+      .controls { padding: 1rem; background: var(--card); border-bottom: 1px solid #eee; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+      .controls button { padding: 0.5rem 1rem; font-size: 0.8rem; }
+      .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; }
+      .panel { background: var(--card); border: 1px solid #ddd; border-radius: 8; overflow: hidden; }
+      .panel-header { padding: 0.5rem 0.8rem; border-bottom: 1px solid #eee; font-size: 0.8rem; font-weight: 600; color: #555; }
+      .panel-left { display: flex; flex-direction: column; }
+      .panel-right { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+      video, canvas { width: 100%; height: auto; max-height: 480px; }
+      #threeContainer { width: 100%; }
+      .panel #statusPanel { display: block; }
+      .results-section { padding: 1rem; background: var(--card); margin: 1rem; border-radius: 8; display: none; }
+      textarea { width: 100%; font-size: 0.7rem; }
+      button#copyBtn, button#downloadBtn { margin-right: 0.5rem; padding: 0.3rem 0.5rem; font-size: 0.7rem; }
+    `;
+    document.head.appendChild(style);
+
+    // ==========================================
+    // INITIALISATION THREE.js
+    // ==========================================
+    let scene, camera, renderer, hemisphereLight, ambientLight;
+    let faceMesh = null; // Three.js Mesh pour le visage
+    let currentLandmarks = []; // MediaPipe landmarks
+    let isWebcamRunning = false;
+    let videoElement = null;
+    let canvasElement = null;
+    let ctx = null;
+
+    // Initialisation Three.js
+    function initThree() {
+      const threeContainer = document.getElementById('threeContainer');
+      if (!threeContainer) return;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xeeeeee);
+
+      camera = new THREE.PerspectiveCamera(45, threeContainer.clientWidth / threeContainer.clientHeight, 0.1, 1000);
+      camera.position.set(0, 1.6, 3);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(threeContainer.clientWidth, threeContainer.clientHeight);
+      threeContainer.appendChild(renderer.domElement);
+
+      // Lumières
+      hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+      scene.add(hemisphereLight);
+      ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambientLight);
+
+      // Coordinate axes helper pour debug
+      const axesHelper = new THREE.AxesHelper(0.5);
+      scene.add(axesHelper);
+    }
+
+    // Redimensionnement Three.js
+    window.addEventListener('resize', () => {
+      const container = document.getElementById('threeContainer');
+      if (container && renderer) {
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+    });
+
+    // ==========================================
+    // INITIALISATION MediaPipe
+    // ==========================================
+    let holistic = null;
+
+    function initMediaPipe() {
+      if (typeof mp === 'undefined') {
+        showStatus('MediaPipe non disponible', 'error');
+        return false;
+      }
+
+      holistic = new mp.holistic.Holistic({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`
+      });
+
+      holistic.setOptions({
+        modelComplexity: 1,
+        smoothLandmarks: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+      });
+
+      // Evenements MediaPipe
+      holistic.onResults = (results) => {
+        handleMediaPipeResults(results);
+      };
+
+      showStatus('MediaPipe prêt', 'success');
+      return true;
+    }
+
+    // ==========================================
+    // GESTION WEBRTC / Webcam
+    // ==========================================
+    async function startWebcam() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+          audio: false
+        });
+        videoElement.srcObject = stream;
+        isWebcamRunning = true;
+        showStatus('Webcam active', 'success');
+        document.getElementById('startCam').style.display = 'none';
+        document.getElementById('stopCam').style.display = 'inline';
+      } catch (err) {
+        showError('Impossible d\'accéder à la webcam: ' + err.message);
+        showStatus('Erreur webcam', 'error');
+      }
+    }
+
+    function stopWebcam() {
+      if (videoElement && videoElement.srcObject) {
+        const tracks = videoElement.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      isWebcamRunning = false;
+      document.getElementById('startCam').style.display = 'inline';
+      document.getElementById('stopCam').style.display = 'none';
+    }
+
+    // ==========================================
+    // TRAITEMENT MediaPipe RESULTS
+    // ==========================================
+    function handleMediaPipeResults(results) {
+      if (!results || !results.faceLandmarks) {
+        // Pas de visage détecté
+        if (ctx) {
+          ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        }
+        update3DModel([]); // Vide
+        return;
+      }
+
+      currentLandmarks = results.faceLandmarks;
+      const landmarks = currentLandmarks;
+
+      // Affichage sur canvas 2D
+      if (ctx) {
+        ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+        // Dessiner les repères
+        ctx.strokeStyle = 'rgba(255, 0, 0, 0.8)';
+        ctx.lineWidth = 1;
+
+        // Dessiner les connexions faciales MediaPipe
+        if (mp.faceConnections) {
+          const connections = mp.faceConnections.FACEMESH_TESSELATION;
+          for (let i = 0; i < connections.length; i++) {
+            const connection = connections[i];
+            const startIdx = connection[0];
+            const endIdx = connection[1];
+            const startLandmark = landmarks[startIdx];
+            const endLandmark = landmarks[endIdx];
+            if (startLandmark && endLandmark) {
+              const x1 = startLandmark.x * canvasElement.width;
+              const y1 = startLandmark.y * canvasElement.height;
+              const x2 = endLandmark.x * canvasElement.width;
+              const y2 = endLandmark.y * canvasElement.height;
+              ctx.beginPath();
+              ctx.moveTo(x1, y1);
+              ctx.lineTo(x2, y2);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Dessiner les points individuels
+        landmarks.forEach((landmark, idx) => {
+          const x = landmark.x * canvasElement.width;
+          const y = landmark.y * canvasElement.height;
+          ctx.beginPath();
+          ctx.arc(x, y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = 'red';
+          ctx.fill();
+        });
+      }
+
+      // Mise à jour du compteur
+      document.getElementById('pointCount').innerText = landmarks.length;
+
+      // Mise à jour du modèle 3D
+      update3DModel(landmarks);
+
+      // Afficher les résultats
+      document.getElementById('resultsSection').style.display = 'block';
+    }
+
+    // ==========================================
+    // MISE À JOUR Modèle 3D Three.js
+    // ==========================================
+    function update3DModel(landmarks) {
+      // Cacher le chargement, montrer le container
+      document.getElementById('loading3D').style.display = 'none';
+      document.getElementById('noModel').style.display = 'none';
+      document.getElementById('threeContainer').style.display = 'block';
+
+      if (!scene || !camera || !renderer) initThree();
+
+      // Si pas encore de mesh facial, le créer
+      if (!faceMesh) {
+        createFaceMesh();
+      }
+
+      if (landmarks && landmarks.length > 0) {
+        // Mettre à jour les positions du visage
+        updateFaceMeshPositions(landmarks);
+        showStatus(`${landmarks.length} points détectés`, 'success');
+      } else {
+        showStatus('Aucun visage détecté', 'error');
+      }
+    }
+
+    function createFaceMesh() {
+      // Créer une sphère de base que l'on déformera selon les landmarks
+      const geometry = new THREE.SphereGeometry(1, 32, 32);
+      const material = new THREE.MeshStandardMaterial({ color: 0xfff0f0, transparent: true, opacity: 0.8 });
+      faceMesh = new THREE.Mesh(geometry, material);
+      scene.add(faceMesh);
+    }
+
+    function updateFaceMeshPositions(landmarks) {
+      if (!faceMesh) return;
+
+      // MediaPipe landmarks sont en coordonnées normalisées [0, 1]
+      // On doit les mapper sur notre sphère de rayon ~1
+      // Pour simplifier, on crée une déformation basée sur les points clés
+
+      const positions = faceMesh.geometry.attributes.position;
+
+      // Mapping des landmarks MediaPipe vers les vertices de la sphère
+      // Les landmarks MediaPipe sont 468 points sur le visage
+      // On va déplacer les vertices vers ces positions
+
+      // Vecteurs temporaires
+      const tempVectors = [];
+
+      // Pour chaque landmark, trouver le vertex correspondant (approximatif)
+      // MediaPipe landmarks sont en espaces image normalisés
+      // On utilise une simple interpollation: les landmarks controls les vertices voisins
+
+      // Points clés du visage MediaPipe (indices)
+      const keyIndices = [33, 263, 1, 61, 291, 199, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 172, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 333, 334, 335, 336, 337, 338, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468];
+
+      // Pour chaque vertex de la sphère, calculer sa nouvelle position
+      // en étant influencé par les landmarks proches
+      for (let i = 0; i < positions.count; i++) {
+        const vec = new THREE.Vector3();
+        vec.fromBufferAttribute(positions, i);
+
+        // Influence simple: prendre la moyenne des landmarks "proches"
+        // Pour un prototype, on utilise une approche directe:
+        // Mapping naive: on scale le positionnement
+
+        // Approche: mapper les landmarks vers la sphère
+        // On crée une cible pour chaque landmark
+        let targetX = 0, targetY = 0, targetZ = 0;
+        let count = 0;
+
+        // Pour chaque landmark MediaPipe, affecter une influence sur la sphère
+        landmarks.forEach((landmark, idx) => {
+          // Normaliser vers [-1, 1]
+          const nx = (landmark.x - 0.5) * 2; // -1 à 1
+          const ny = -(landmark.y - 0.5) * 2; // Inverter Y
+          const nz = 0; // Plan Z approximatif
+
+          // Placer le point sur la sphère
+          const radius = 1;
+          targetX += nx * radius;
+          targetY += ny * radius;
+          targetZ += nz * radius;
+          count++;
+        });
+
+        if (count > 0) {
+          targetX /= count;
+          targetY /= count;
+          targetZ /= count;
+        }
+
+        // Appliquer la position (interpolation légère pour fluidité)
+        vec.x += (targetX - vec.x) * 0.1;
+        vec.y += (targetY - vec.y) * 0.1;
+        vec.z += (targetZ - vec.z) * 0.1;
+
+        tempVectors.push(vec);
+      }
+
+      // Appliquer les nouvelles positions
+      const dummy = new THREE.Object3D();
+      dummy.position.set(0, 0, 0);
+      faceMesh.geometry.dispose();
+      faceMesh.geometry = new THREE.SphereGeometry(1, 32, 32); // Reset
+      // Note: dans une vraie app, on stockerait les positions modifiées
+      // Pour l'instant, on réinitialise simplement
+      faceMesh.geometry.attributes.position.needsUpdate = true;
+    }
+
+    // ==========================================
+    // EXPORT & JSON
+    // ==========================================
+    function exportModelJson() {
+      if (!currentLandmarks || currentLandmarks.length === 0) {
+        alert('Aucun modèle à exporter');
+        return;
+      }
+
+      // Créer le modèle JSON structuré
+      const modelData = {
+        version: APP_VERSION,
+        modelVersion: MODEL_VERSION,
+        landmarkCount: currentLandmarks.length,
+        generated: new Date().toISOString(),
+        landmarks: currentLandmarks.map((landmark, idx) => ({
+          id: idx,
+          name: `landmark_${idx}`,
+          x: landmark.x,
+          y: landmark.y,
+          z: landmark.z || 0,
+          visibility: landmark.visibility || 1
+        })),
+        metadata: {
+          app: 'Face-3D-Modeler',
+          tensorRepo: 'neon-tensors',
+          description: 'Modélisation faciale MediaPipe vers Three.js'
+        }
+      };
+
+      // Afficher dans le textarea
+      const jsonText = JSON.stringify(modelData, null, 2);
+      document.getElementById('modelJson').value = jsonText;
+
+      // Afficher le panneau d'export
+      document.getElementById('exportPanel').style.display = 'block';
+    }
+
+    // Copier dans le presse-papiers
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const textarea = document.getElementById('modelJson');
+      textarea.select();
+      document.execCommand('copy');
+      showStatus('Modèle copié !', 'success');
+    });
+
+    // Télécharger le JSON
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const textarea = document.getElementById('modelJson');
+      const text = textarea.value;
+      const blob = new Blob([text], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `face-model-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // ==========================================
+    // UTILITAIRES UI
+    // ==========================================
+    function showStatus(message, type) {
+      const statusText = document.getElementById('statusText');
+      statusText.innerText = message;
+      statusText.style.color = type === 'success' ? '#2e7d32' : '#d32f2f';
+      document.getElementById('statusPanel').style.display = 'block';
+    }
+
+    function showError(message) {
+      showStatus(message, 'error');
+    }
+
+    // ==========================================
+    // BOUTONS & ÉVÉNEMENTS
+    // ==========================================
+    document.getElementById('startCam').addEventListener('click', startWebcam);
+    document.getElementById('stopCam').addEventListener('click', stopWebcam);
+    document.getElementById('captureBtn').addEventListener('click', () => {
+      if (currentLandmarks && currentLandmarks.length > 0) {
+        exportModelJson();
+      } else {
+        alert('Aucun visage capturé pour l\'instant');
+      }
+    });
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      stopWebcam();
+      document.getElementById('resultsSection').style.display = 'none';
+      document.getElementById('exportPanel').style.display = 'none';
+      document.getElementById('modelJson').value = '';
+      update3DModel([]);
+    });
+
+    // Initialisation au chargement
+    document.addEventListener('DOMContentLoaded', () => {
+      // Injecter les éléments canvas/video s'ils n'existent pas
+      if (!document.getElementById('webcamVideo')) {
+        // Les éléments sont déjà dans le HTML, on initialise juste
+      }
+
+      // Initialiser MediaPipe
+      const mpLoaded = initMediaPipe();
+
+      // Si MediaPipe chargé, initialiser Three.js
+      if (mpLoaded) {
+        // Attendre que le video element soit prêt
+        const checkVideo = setInterval(() => {
+          if (videoElement && videoElement.readyState >= 2) {
+            clearInterval(checkVideo);
+            // Initialiser le canvas 2d
+            canvasElement = document.getElementById('videoCanvas');
+            ctx = canvasElement.getContext('2d');
+
+            // Initialiser Three.js
+            initThree();
+
+            // Démarrer le rendu loop
+            animate();
+          }
+        }, 200);
+
+        // Timeout après 15s
+        setTimeout(() => clearInterval(checkVideo), 15000);
+      }
+    });
+
+    // ==========================================
+    // ANIMATION LOOP
+    // ==========================================
+    function animate() {
+      if (!isWebcamRunning || !videoElement) {
+        requestAnimationFrame(animate);
+        return;
+      }
+
+      // Mettre à jour le renderer Three.js
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+
+      // Reboucler
+      requestAnimationFrame(animate);
+    }
+  </script>
+</body>
+</html>
