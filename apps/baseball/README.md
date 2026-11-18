@@ -1,14 +1,14 @@
-# Neon Baseball Tensor
+# Baseball Tensor
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/tensor-lab/tree/main/apps/baseball)
 
-![Aperçu de Neon Baseball Tensor](preview.svg)
+![Aperçu de Baseball Tensor](preview.svg)
 
 Application pédagogique et interactive de **classification des lancers MLB** (données Statcast) par réseau de neurones avec **TensorFlow.js**.
 
 ## Démo en ligne (GitHub Pages + backend Render)
 
-- [Ouvrir Neon Baseball Tensor](https://kewinmarchand.github.io/neon-baseball-tensor/)
+- [Ouvrir l’app](https://kewinmarchand.github.io/tensor-lab/apps/baseball/)
 - **Backend** : hébergé sur [Render](https://render.com) (`https://baseball-tensor.onrender.com`).
 
 > **Note** : GitHub Pages sert le frontend (statique). Le backend Node.js (`server.js`, Socket.IO) tourne sur Render (offre gratuite) pour les fonctionnalités serveur (entraînement/données selon configuration).
@@ -18,7 +18,7 @@ Application pédagogique et interactive de **classification des lancers MLB** (d
 
 ## Lancer en local
 
-Prérequis : Node.js + npm.
+Prérequis : Node.js + npm. Depuis ce dossier (`apps/baseball`) :
 
 ```bash
 npm install
@@ -38,4 +38,4 @@ Ouvrir http://localhost:8080 dans le navigateur.
 
 ## Thème
 
-Thème **Boilerplate Neon** partagé (`neon/neon-tokens.css`, `neon-base.css`, `neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Neon Tensor](https://github.com/kewinMarchand/tensor-lab).
+Thème **Graphite** (sombre, sobre, accent bleu acier) partagé (`neon/neon-tokens.css`, `neon/neon-base.css`, `neon/neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Tensor Lab](https://github.com/kewinMarchand/tensor-lab).

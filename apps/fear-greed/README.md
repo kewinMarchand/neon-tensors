@@ -1,14 +1,14 @@
-# Neon Fear & Greed Tensor
+# Fear & Greed Tensor
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/tensor-lab/tree/main/apps/fear-greed)
 
-![Aperçu de Neon Fear & Greed Tensor](preview.svg)
+![Aperçu de Fear & Greed Tensor](preview.svg)
 
 Laboratoire d’inférence TensorFlow.js : indice **Fear & Greed** calculé en temps réel sur **BTC/USD**, avec modèles LSTM entraînés pas-à-pas (biais de direction et prévisions multi-horizons).
 
 ## Démo en ligne (GitHub Pages + backend Render)
 
-- [Ouvrir Neon Fear & Greed Tensor](https://kewinmarchand.github.io/neon-fear-greed-tensor/)
+- [Ouvrir l’app](https://kewinmarchand.github.io/tensor-lab/apps/fear-greed/)
 - **Backend** : hébergé sur [Render](https://render.com) (`https://fear-greed-tensor.onrender.com`).
 
 > **Note** : GitHub Pages sert le frontend (statique). Le backend Node.js (`server.js`, Socket.IO) tourne sur Render (offre gratuite) pour la collecte des données de marché, l’entraînement et les prédictions en temps réel.
@@ -18,7 +18,7 @@ Laboratoire d’inférence TensorFlow.js : indice **Fear & Greed** calculé en t
 
 ## Lancer en local
 
-Prérequis : Node.js + npm.
+Prérequis : Node.js + npm. Depuis ce dossier (`apps/fear-greed`) :
 
 ```bash
 npm install
@@ -45,4 +45,4 @@ Ouvrir http://localhost:8082 dans le navigateur (ne pas ouvrir `index.html` en `
 
 ## Thème
 
-Thème **Boilerplate Neon** partagé (`neon/neon-tokens.css`, `neon-base.css`, `neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Neon Tensor](https://github.com/kewinMarchand/tensor-lab).
+Thème **Graphite** (sombre, sobre, accent bleu acier) partagé (`neon/neon-tokens.css`, `neon/neon-base.css`, `neon/neon-components.css`) avec styles propres à l’application. Fait partie de la collection [Tensor Lab](https://github.com/kewinMarchand/tensor-lab).
