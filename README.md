@@ -4,10 +4,9 @@ Portail des applications de machine learning interactives (TensorFlow.js), avec 
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/kewinMarchand/tensor-lab)
 
-## Ouvrir le portail
+## Ouvrir Neon Tensors
 
-- **En ligne (GitHub Pages)** : [https://kewinmarchand.github.io/tensor-lab/](https://kewinmarchand.github.io/tensor-lab/)
-- **Local** : ouvrir `index.html` à la racine du dépôt.
+[Ouvrir Neon Tensors](https://kewinmarchand.github.io/tensor-lab/)
 
 ## Les applications
 

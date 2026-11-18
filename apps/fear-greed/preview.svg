@@ -1,77 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-labelledby="title desc">
+  <title id="title">Fear &amp; Greed Tensor</title>
+  <desc id="desc">Indice Fear &amp; Greed BTC/USD, jauge et graphique de prix avec TensorFlow.js</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0a151d"/>
-      <stop offset="1" stop-color="#071018"/>
+      <stop offset="0" stop-color="#111821"/>
+      <stop offset="1" stop-color="#0b1117"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6f93b8"/>
+      <stop offset="1" stop-color="#8fb3cc"/>
     </linearGradient>
   </defs>
   <rect width="800" height="420" fill="url(#bg)"/>
-  <rect x="8" y="8" width="784" height="404" rx="18" fill="#10212a" stroke="#253842"/>
+  <rect x="12" y="12" width="776" height="396" rx="18" fill="#151d27" stroke="#263241"/>
 
-  <!-- Titre -->
-  <text x="40" y="52" fill="#f2f7f5" font-size="20" font-weight="bold">Fear &amp; Greed <tspan fill="#BADA55">BTC/USD</tspan> — TensorFlow.js</text>
-  <text x="40" y="74" fill="#a9bab8" font-size="11">Laboratoire Néon &amp; Inférence · Kraken / Coinbase · LSTM pas-à-pas</text>
-  <circle cx="740" cy="48" r="5" fill="#69ffe1"/>
-  <text x="640" y="52" fill="#a9bab8" font-size="11">connecté</text>
+  <text x="36" y="50" fill="#e6edf3" font-family="'Space Grotesk', system-ui, sans-serif" font-size="22" font-weight="700">Fear &amp; Greed <tspan fill="#6f93b8">BTC/USD</tspan></text>
+  <text x="36" y="72" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="12">Laboratoire d&#39;inférence · TensorFlow.js · séries temporelles</text>
+  <circle cx="742" cy="46" r="5" fill="#8fb3cc"/>
+  <text x="706" y="50" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="11" text-anchor="end">live</text>
 
-  <!-- Jauge -->
-  <g transform="translate(400,240)">
-    <path d="M -150 0 A 150 150 0 0 1 -93 -117" fill="none" stroke="#ff72bb" stroke-width="24" stroke-linecap="round"/>
-    <path d="M -86 -122 A 150 150 0 0 1 -13 -149" fill="none" stroke="#ff9d5c" stroke-width="24"/>
-    <path d="M -6 -150 A 150 150 0 0 1 63 -136" fill="none" stroke="#ffd166" stroke-width="24"/>
-    <path d="M 70 -133 A 150 150 0 0 1 128 -78" fill="none" stroke="#a2ff8f" stroke-width="24"/>
-    <path d="M 132 -73 A 150 150 0 0 1 150 0" fill="none" stroke="#BADA55" stroke-width="24" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="-64" y2="-92" stroke="#f2f7f5" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="0" cy="0" r="9" fill="#f2f7f5"/>
-  </g>
-  <text x="400" y="300" text-anchor="middle" fill="#ffd166" font-size="34" font-weight="bold">42</text>
-  <text x="400" y="324" text-anchor="middle" fill="#ff9d5c" font-size="13" letter-spacing="2">PEUR</text>
-
-  <!-- Composantes -->
-  <g font-size="10" fill="#a9bab8">
-    <text x="60" y="130">Momentum 24 h</text>
-    <rect x="60" y="138" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
-    <rect x="60" y="138" width="66" height="7" rx="4" fill="url(#bg)"/>
-    <text x="60" y="168">Tendance EMA</text>
-    <rect x="60" y="176" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
-    <text x="60" y="206">Volatilité</text>
-    <rect x="60" y="214" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
-    <text x="60" y="244">Volume</text>
-    <rect x="60" y="252" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
-    <text x="60" y="282">RSI (14)</text>
-    <rect x="60" y="290" width="160" height="7" rx="4" fill="#0a151d" stroke="#253842"/>
-  </g>
-  <g font-size="10" fill="#69ffe1" font-weight="bold">
-    <text x="230" y="146">35</text>
-    <text x="230" y="184">48</text>
-    <text x="230" y="222">52</text>
-    <text x="230" y="260">40</text>
-    <text x="230" y="298">38</text>
+  <g transform="translate(36,96)">
+    <rect width="250" height="286" rx="14" fill="#111821" stroke="#263241"/>
+    <text x="20" y="30" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="11" letter-spacing="1">INDICE FEAR &amp; GREED</text>
+    <g transform="translate(125,150)">
+      <path d="M -86 0 A 86 86 0 0 1 -53 -67" fill="none" stroke="#c06b6b" stroke-width="14" stroke-linecap="round"/>
+      <path d="M -47 -72 A 86 86 0 0 1 0 -86" fill="none" stroke="#c08a5a" stroke-width="14"/>
+      <path d="M 8 -86 A 86 86 0 0 1 53 -67" fill="none" stroke="#c4a86a" stroke-width="14"/>
+      <path d="M 59 -62 A 86 86 0 0 1 86 0" fill="none" stroke="#6f93b8" stroke-width="14" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="34" y2="-58" stroke="#e6edf3" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="7" fill="#e6edf3"/>
+      <circle cx="0" cy="0" r="3" fill="#151d27"/>
+      <text x="0" y="46" fill="#e6edf3" font-family="'Space Grotesk', system-ui, sans-serif" font-size="34" font-weight="700" text-anchor="middle">62</text>
+      <text x="0" y="66" fill="#8fb3cc" font-family="'DM Mono', monospace" font-size="12" text-anchor="middle">GREED</text>
+    </g>
+    <g font-family="'DM Mono', monospace" font-size="10" fill="#8b9eb3">
+      <text x="20" y="246">Biais modèle</text><text x="230" y="246" text-anchor="end" fill="#8fb3cc">+0.12</text>
+      <text x="20" y="266">BTC</text><text x="230" y="266" text-anchor="end" fill="#e6edf3">$67 420</text>
+    </g>
   </g>
 
-  <!-- Prix -->
-  <g font-family="monospace">
-    <text x="560" y="140" fill="#f2f7f5" font-size="22" font-weight="bold">97 432.10 $</text>
-    <text x="560" y="162" fill="#69ffe1" font-size="12">▲ 1.24 % / 24 h</text>
+  <g transform="translate(302,96)">
+    <rect width="462" height="286" rx="14" fill="#111821" stroke="#263241"/>
+    <text x="20" y="30" fill="#8b9eb3" font-family="'DM Mono', monospace" font-size="11" letter-spacing="1">PRIX &amp; PRÉVISIONS</text>
+    <g stroke="#263241" stroke-width="1">
+      <line x1="20" y1="70" x2="442" y2="70"/>
+      <line x1="20" y1="120" x2="442" y2="120"/>
+      <line x1="20" y1="170" x2="442" y2="170"/>
+      <line x1="20" y1="220" x2="442" y2="220"/>
+    </g>
+    <polyline points="20,200 70,188 120,194 170,160 220,150 270,132 320,140 370,110 420,98 442,88" fill="none" stroke="url(#line)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="442,88 442,220 20,220 20,200 70,188 120,194 170,160 220,150 270,132 320,140 370,110 420,98" fill="#6f93b8" fill-opacity="0.08" stroke="none"/>
+    <polyline points="370,110 400,104 430,92 442,84" fill="none" stroke="#8fb3cc" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
+    <g font-family="'DM Mono', monospace" font-size="10">
+      <rect x="20" y="240" width="130" height="30" rx="8" fill="#151d27" stroke="#263241"/>
+      <text x="34" y="259" fill="#8b9eb3">+1h</text><text x="140" y="259" text-anchor="end" fill="#8fb3cc">$67 910</text>
+      <rect x="160" y="240" width="130" height="30" rx="8" fill="#151d27" stroke="#263241"/>
+      <text x="174" y="259" fill="#8b9eb3">+4h</text><text x="280" y="259" text-anchor="end" fill="#8fb3cc">$68 240</text>
+      <rect x="300" y="240" width="142" height="30" rx="8" fill="#151d27" stroke="#263241"/>
+      <text x="314" y="259" fill="#8b9eb3">+12h</text><text x="432" y="259" text-anchor="end" fill="#8fb3cc">$68 780</text>
+    </g>
   </g>
-
-  <!-- Courbe -->
-  <g>
-    <rect x="560" y="185" width="190" height="120" rx="10" fill="#0a151d" stroke="#253842"/>
-    <polyline points="570,280 590,262 608,270 626,240 644,250 662,225 680,235 700,210 718,222 740,200" fill="none" stroke="#69ffe1" stroke-width="2.5" stroke-linejoin="round"/>
-    <rect x="575" y="295" width="6" height="5" fill="#69ffe1" opacity="0.4"/>
-    <rect x="597" y="295" width="6" height="9" fill="#ff72bb" opacity="0.4"/>
-    <rect x="619" y="295" width="6" height="6" fill="#69ffe1" opacity="0.4"/>
-    <rect x="641" y="295" width="6" height="12" fill="#ff72bb" opacity="0.4"/>
-    <rect x="663" y="295" width="6" height="7" fill="#69ffe1" opacity="0.4"/>
-    <rect x="685" y="295" width="6" height="10" fill="#69ffe1" opacity="0.4"/>
-    <rect x="707" y="295" width="6" height="5" fill="#ff72bb" opacity="0.4"/>
-    <rect x="729" y="295" width="6" height="8" fill="#69ffe1" opacity="0.4"/>
-  </g>
-
-  <!-- Terminal -->
-  <rect x="60" y="330" width="680" height="62" rx="10" fill="#050b10" stroke="#253842"/>
-  <text x="76" y="352" fill="#a9bab8" font-size="10">[10:12:33] Marché rafraîchi (Kraken) : 720 bougies, indice 42/100 (Peur)</text>
-  <text x="76" y="368" fill="#a9bab8" font-size="10">[10:12:34] Époque 3/10 terminée ➔ loss 0.6831 | test 51.2%</text>
-  <text x="76" y="384" fill="#c48cff" font-size="10">[10:12:35] Époque 3/10 : Détection du momentum. Suites de bougies vertes...</text>
 </svg>
