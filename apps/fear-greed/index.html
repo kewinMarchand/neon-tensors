@@ -23,12 +23,12 @@
       --line: #263241;
       --text: #e6edf3;
       --muted: #8b9eb3;
-      --accent: #6f93b8;
+      --accent: #38bdf8;
       --accent-ink: #0b1218;
-      --accent-soft: #8fb3cc;
-      --lime: #6f93b8;
+      --accent-soft: #7dd3fc;
+      --lime: #38bdf8;
       --lime-ink: #0b1218;
-      --mint: #8fb3cc;
+      --mint: #7dd3fc;
       --pink: #b07a8f;
       --coral: #c06b6b;
       --violet: #8b86b8;
@@ -433,6 +433,7 @@
       .market-meta { margin-left: 0; width: 100%; }
     }
   </style>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
 <body>
   <div class="container">
@@ -444,7 +445,7 @@
         <p class="subtitle">Laboratoire &amp; Inférence · Kraken / Coinbase · modèle LSTM entraîné pas-à-pas</p>
       </div>
       <div class="status">
-        <a class="repo-link repo-link--icon" href="https://github.com/kewinMarchand/tensor-lab/tree/main/apps/fear-greed" target="_blank" rel="noopener noreferrer" aria-label="Code source de Fear &amp; Greed Tensor sur GitHub" title="Code source"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a class="repo-link repo-link--icon" href="https://github.com/kewinMarchand/tensor-lab/tree/main/apps/fear-greed" target="_blank" rel="noopener noreferrer" aria-label="Code source de Fear &amp; Greed Tensor sur GitHub" title="Code source"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
         <span class="badge" id="statusBadge"></span>
         <span id="statusText">Connexion au serveur...</span>
       </div>
@@ -477,7 +478,7 @@
               <path d="M 70 61 A 120 120 0 0 1 128 31" fill="none" stroke="#c08a5a" stroke-width="18"/>
               <path d="M 133 31 A 120 120 0 0 1 195 40" fill="none" stroke="#c4a86a" stroke-width="18"/>
               <path d="M 200 44 A 120 120 0 0 1 251 89" fill="none" stroke="#86a9a0" stroke-width="18"/>
-              <path d="M 254 93 A 120 120 0 0 1 270 150" fill="none" stroke="#6f93b8" stroke-width="18" stroke-linecap="round"/>
+              <path d="M 254 93 A 120 120 0 0 1 270 150" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round"/>
               <text x="22" y="163" fill="#8b9eb3" font-size="10" font-family="DM Mono">0</text>
               <text x="276" y="163" fill="#8b9eb3" font-size="10" font-family="DM Mono">100</text>
             </svg>

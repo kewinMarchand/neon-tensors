@@ -17,19 +17,19 @@
   --bui-color-border-subtle: #1d2a38;
   --bui-color-backdrop: rgb(11 17 23 / 0.72);
 
-  /* Couleurs d'accent (bleu acier sobre, titres plus lisibles) */
-  --bui-color-primary: #9fc9ea;
-  --bui-color-primary-dark: #7fb2db;
-  --bui-color-on-primary: #0b1218;
-  --bui-color-primary-surface-subtle: #172635;
-  --bui-color-primary-surface: #1d3042;
-  --bui-color-primary-surface-strong: #274255;
-  --bui-color-secondary: #c3ddf2;
-  --bui-color-secondary-dark: #a3cae8;
-  --bui-color-on-secondary: #0b1218;
-  --bui-color-secondary-surface-subtle: #172734;
-  --bui-color-secondary-surface: #1e3344;
-  --bui-color-secondary-surface-strong: #294357;
+  /* Couleurs d'accent (bleu vif plus tranchant) */
+  --bui-color-primary: #38bdf8;
+  --bui-color-primary-dark: #0ea5e9;
+  --bui-color-on-primary: #041018;
+  --bui-color-primary-surface-subtle: #082333;
+  --bui-color-primary-surface: #0b3045;
+  --bui-color-primary-surface-strong: #10455f;
+  --bui-color-secondary: #7dd3fc;
+  --bui-color-secondary-dark: #38bdf8;
+  --bui-color-on-secondary: #041018;
+  --bui-color-secondary-surface-subtle: #08283a;
+  --bui-color-secondary-surface: #0c354d;
+  --bui-color-secondary-surface-strong: #124a68;
 
   --bui-color-error: #c06b6b;
   --bui-color-error-surface: #2a171a;
@@ -108,8 +108,8 @@
   --bui-font-size-body-sm: 18px;
   --bui-font-size-caption: 15px;
   --bui-font-size-overline: 18px;
-  --bui-color-primary: #84a9cf;
-  --bui-color-on-primary: #0b1218;
+  --bui-color-primary: #38bdf8;
+  --bui-color-on-primary: #041018;
   --bui-focus-width: 4px;
   --bui-motion-duration: 0s;
   --bui-motion-duration-slow: 0s;

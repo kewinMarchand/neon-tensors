@@ -21,20 +21,20 @@
   }
 
   .bui-link {
-    color: var(--bui-color-primary, #6f93b8);
+    color: var(--bui-color-primary, #38bdf8);
   }
 
   .bui-badge,
   .bui-chip {
-    background: var(--bui-color-primary-surface-subtle, #162230);
-    color: var(--bui-color-secondary, #8fb3cc);
+    background: var(--bui-color-primary-surface-subtle, #0b3045);
+    color: var(--bui-color-secondary, #7dd3fc);
     border: 1px solid var(--bui-color-primary-surface-strong, #24364a);
     border-radius: var(--bui-radius-full, 9999px);
   }
 
   .tl-panel__title {
     margin: 0;
-    color: var(--bui-color-primary, #6f93b8);
+    color: var(--bui-color-primary, #38bdf8);
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -72,14 +72,14 @@
 
   .panel-stat {
     padding: 10px 12px;
-    border: 1px solid rgba(111, 147, 184, 0.22);
+    border: 1px solid rgba(56, 189, 248, 0.28);
     border-radius: 9px;
-    background: #101923;
+    background: #0d1e2b;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .panel-stat:hover {
-    border-color: rgba(111, 147, 184, 0.4);
+    border-color: rgba(56, 189, 248, 0.55);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
   }
 
@@ -111,9 +111,9 @@
   .actions button,
   .game-footer button {
     padding: 10px 14px;
-    border: 1px solid rgba(111, 147, 184, 0.35);
+    border: 1px solid rgba(56, 189, 248, 0.45);
     border-radius: 8px;
-    background: #162230;
+    background: #0b3045;
     color: #e6edf3;
     font: 700 0.9rem inherit;
     cursor: pointer;
@@ -123,8 +123,8 @@
   .panel-actions button.primary,
   .actions button.primary,
   .game-footer button.primary {
-    background: linear-gradient(135deg, #5a7fa6, #4a6d93);
-    border-color: #6f93b8;
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    border-color: #38bdf8;
     color: #0b1218;
   }
 
@@ -134,7 +134,7 @@
   .panel-actions button:focus-visible,
   .actions button:focus-visible,
   .game-footer button:focus-visible {
-    border-color: var(--bui-color-primary, #6f93b8);
+    border-color: var(--bui-color-primary, #38bdf8);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
     transform: translateY(-1px);
     filter: brightness(1.04);
@@ -169,17 +169,17 @@
     align-items: center;
     gap: 8px;
     padding: 7px 12px;
-    border: 1px solid rgba(111, 147, 184, 0.22);
+    border: 1px solid rgba(56, 189, 248, 0.28);
     border-radius: 8px;
-    background: #101923;
+    background: #0d1e2b;
     color: var(--bui-color-text-muted, #8b9eb3);
     font-size: 0.82rem;
     transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   }
 
   .game-options .option:hover {
-    border-color: rgba(111, 147, 184, 0.4);
-    background: #14202c;
+    border-color: rgba(56, 189, 248, 0.55);
+    background: #10283a;
   }
 
   .game-options select {
@@ -197,7 +197,7 @@
   }
 
   .game-options .toggle {
-    accent-color: #6f93b8;
+    accent-color: #38bdf8;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -207,7 +207,7 @@
     display: grid;
     place-items: center;
     min-height: 110px;
-    border: 1px solid rgba(111, 147, 184, 0.22);
+    border: 1px solid rgba(56, 189, 248, 0.28);
     border-radius: 8px;
     background: #0d141b;
     padding: 8px;
@@ -244,9 +244,9 @@
 
   .game-footer kbd {
     padding: 2px 6px;
-    border: 1px solid rgba(111, 147, 184, 0.35);
+    border: 1px solid rgba(56, 189, 248, 0.45);
     border-radius: 6px;
-    background: #101923;
+    background: #0d1e2b;
     color: #e6edf3;
     font: 700 0.78rem inherit;
   }
@@ -276,9 +276,9 @@
     gap: 6px;
     min-height: 34px;
     padding: 0 12px;
-    border: 1px solid rgba(111, 147, 184, 0.35);
+    border: 1px solid rgba(56, 189, 248, 0.45);
     border-radius: 8px;
-    background: #101923;
+    background: #0d1e2b;
     color: var(--bui-color-text-muted, #8b9eb3);
     font: 700 0.78rem var(--bui-font-family-mono, 'DM Mono', monospace);
     letter-spacing: 0.04em;
@@ -289,8 +289,8 @@
 
   .tl-frame__action:hover,
   .tl-frame__action:focus-visible {
-    border-color: var(--bui-color-primary, #6f93b8);
-    color: var(--bui-color-secondary, #8fb3cc);
+    border-color: var(--bui-color-primary, #38bdf8);
+    color: var(--bui-color-secondary, #7dd3fc);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
     transform: translateY(-1px);
   }

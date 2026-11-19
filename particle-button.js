@@ -14,8 +14,8 @@
  */
 
 const ATTACHED = new WeakSet();
-const PAD = 24;
-const DEFAULTS = { count: 18, color: null, duration: 620, hover: false };
+const PAD = 40;
+const DEFAULTS = { count: 28, color: null, duration: 700, hover: false };
 
 function prefersReducedMotion() {
   return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -38,10 +38,10 @@ function makeCanvas(el) {
     position: 'absolute',
     left: `-${PAD}px`,
     top: `-${PAD}px`,
-    width: '100%',
-    height: '100%',
+    width: `calc(100% + ${PAD * 2}px)`,
+    height: `calc(100% + ${PAD * 2}px)`,
     pointerEvents: 'none',
-    zIndex: '2',
+    zIndex: '3',
   });
   if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
   el.appendChild(canvas);
@@ -63,14 +63,19 @@ function burst(el, canvas, state, options) {
   const count = Number(el.dataset.particlesCount) || options.count;
   const particles = Array.from({ length: count }, () => {
     const angle = Math.random() * Math.PI * 2;
-    const speed = 1.2 + Math.random() * 3.2;
+    const speed = 1.8 + Math.random() * 4.8;
+    const edge = Math.floor(Math.random() * 4);
+    const x = edge === 0 ? 0 : edge === 1 ? rect.width : Math.random() * rect.width;
+    const y = edge === 2 ? 0 : edge === 3 ? rect.height : Math.random() * rect.height;
     return {
-      x: PAD + Math.random() * rect.width,
-      y: PAD + Math.random() * rect.height,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 1,
-      size: 1.5 + Math.random() * 3.5,
-      life: 1,
+      x: PAD + x,
+      y: PAD + y,
+      vx: Math.cos(angle) * speed + (x - rect.width / 2) / rect.width * 1.2,
+      vy: Math.sin(angle) * speed + (y - rect.height / 2) / rect.height * 1.2 - 0.8,
+      size: 2.2 + Math.random() * 5.2,
+      rot: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.25,
+      shape: Math.random() < 0.35 ? 'circle' : 'rect',
     };
   });
 
@@ -79,18 +84,35 @@ function burst(el, canvas, state, options) {
   function frame(now) {
     const t = (now - start) / options.duration;
     ctx.clearRect(0, 0, w, h);
-    ctx.globalAlpha = Math.max(0, 1 - t);
-    ctx.fillStyle = color;
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
     for (const p of particles) {
       p.x += p.vx;
       p.y += p.vy;
       p.vy += 0.06;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * (1 - t * 0.5), 0, Math.PI * 2);
-      ctx.fill();
+      p.vx *= 0.985;
+      p.rot += p.spin;
+      const alpha = Math.max(0, 1 - t);
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 14;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      const s = p.size * (1 - t * 0.3);
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, s * 0.45, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-s / 2, -s / 2, s, s * 0.55);
+      }
+      ctx.restore();
     }
+    ctx.restore();
     if (t < 1) requestAnimationFrame(frame);
-    else { ctx.clearRect(0, 0, w, h); ctx.globalAlpha = 1; state.running = false; }
+    else { ctx.clearRect(0, 0, w, h); state.running = false; }
   }
   requestAnimationFrame(frame);
 }
@@ -110,7 +132,7 @@ export function attachParticleButtons(root = document, options = {}) {
     el.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') run();
     });
-    if (opts.hover || el.dataset.particles === 'hover') {
+    if (opts.hover || el.dataset.particles === 'hover' || el.dataset.particles === '' || el.hasAttribute('data-particles')) {
       el.addEventListener('pointerenter', run);
     }
     attached.push(el);

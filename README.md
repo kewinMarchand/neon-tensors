@@ -1,7 +1,6 @@
 # Tensor Lab
 
-Portail des applications de machine learning interactives (TensorFlow.js), avec le thème **Graphite** (sombre, accent bleu acier).
-
+Portail des applications de machine learning interactives (TensorFlow.js), avec le thème **Graphite** (sombre, accent bleu vif).
 
 ## Ouvrir Tensor Lab
 
@@ -30,6 +29,6 @@ Les applications utilisent un backend Node.js (Socket.IO) pour les données/entr
 
 ## Thème
 
-Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu acier) via les fichiers de thème partagés (`theme/tokens.css`, `theme/base.css`, `theme/components.css`) et les styles propres à chaque app.
+Le portail et les applications utilisent le thème **Graphite** (sombre, sobre, accent bleu vif) via les fichiers de thème partagés (`packages/theme-graphite`, thèmes d’app) et les styles propres à chaque app.
 
 Ce dépôt (monorepo `tensor-lab`) regroupe le portail et les applications de la collection.

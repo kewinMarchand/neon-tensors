@@ -36,7 +36,7 @@ body.game {
 }
 
 a {
-  color: var(--bui-color-primary, #6f93b8);
+  color: var(--bui-color-primary, #38bdf8);
 }
 
 /* ----- Composant générique : cadre de jeu (contenu central + panneaux latéraux) ----- */
@@ -109,7 +109,7 @@ a {
 
 .tl-frame__title {
   margin: 0;
-  color: var(--bui-color-primary, #9fc9ea);
+  color: var(--bui-color-primary, #38bdf8);
   font-size: clamp(1.25rem, 3vw, 2.1rem);
   font-weight: 700;
   letter-spacing: 0.08em;
