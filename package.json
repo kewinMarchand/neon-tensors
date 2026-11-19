@@ -1,51 +1,41 @@
 {
-  "name": "boilerplate-html",
+  "name": "tensor-lab",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Boilerplate HTML, CSS et JavaScript natifs, sans framework ni build, avec validation, tests e2e, accessibilité et Lighthouse",
+  "description": "Applications de machine learning interactives (TensorFlow.js) pour GitHub Pages.",
   "scripts": {
     "postinstall": "node scripts/vendor.js",
     "dev": "node scripts/serve.js 4098",
-    "lint": "yarn lint:html && yarn lint:css && yarn lint:js && yarn lint:arch",
-    "lint:html": "node scripts/render-pages.js .cache/rendered && html-validate \".cache/rendered/**/*.html\"",
-    "lint:css": "stylelint \"site/**/*.css\"",
+    "lint": "yarn lint:html && yarn lint:css && yarn lint:js",
+    "lint:html": "node scripts/lint-html.js",
+    "lint:css": "stylelint \"**/*.css\" --ignore-path .stylelintignore",
     "lint:js": "eslint .",
-    "lint:arch": "depcruise site/js lib --config .dependency-cruiser.cjs",
-    "lint:fix": "stylelint \"site/**/*.css\" --fix && eslint . --fix",
+    "lint:fix": "stylelint \"**/*.css\" --ignore-path .stylelintignore --fix && eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:unit": "node --import ./tests/unit/siteResolver.js --test \"tests/unit/**/*.test.js\"",
+    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
     "test:e2e": "playwright test tests/e2e",
     "test:a11y": "playwright test tests/a11y",
-    "lhci": "lhci autorun",
-    "lhci:sombre": "lhci autorun --collect.settings.chromeFlags=\"--headless=new --no-sandbox --blink-settings=preferredColorScheme=0\" --upload.outputDir=.lighthouseci/reports-sombre"
+    "test": "yarn test:unit && yarn test:e2e && yarn test:a11y"
+  },
+  "dependencies": {
+    "@kewinmarchand/boilerplates-ui": "github:kewinMarchand/boilerplates-ui#v0.13.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@iconify-json/lucide": "^1.2.143",
-    "@lhci/cli": "^0.16.0",
     "@playwright/test": "1.64.1",
-    "dependency-cruiser": "^18.7.2",
     "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "^14.0.0",
-    "html-validate": "^11.16.2",
-    "prettier": "^3.9.9",
-    "stylelint": "^17.16.0",
-    "stylelint-config-standard": "^40.0.0",
-    "svgstore": "^3.0.1"
+    "globals": "^17.13.0",
+    "html-validate": "^10.11.2",
+    "prettier": "^3.9.10",
+    "stylelint": "^17.8.0",
+    "stylelint-config-standard": "^41.0.0"
   },
   "packageManager": "yarn@1.22.22",
   "engines": {
     "node": ">=26.13.0"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@kewinmarchand/boilerplates-ui": "github:kewinMarchand/boilerplates-ui#v0.13.0",
-    "@tensorflow-models/face-landmarks-detection": "^1.0.6",
-    "embla-carousel": "^8"
-  },
-  "resolutions": {
-    "**/@sentry/bundler-plugins/glob": "^14.0.3"
   }
 }

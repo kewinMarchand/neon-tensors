@@ -100,7 +100,7 @@ a {
 }
 
 .tl-frame__mark {
-  color: var(--bui-color-secondary, #8fb3cc);
+  color: var(--bui-color-secondary, #c3ddf2);
   font-size: 0.95rem;
   line-height: 1;
   flex: 0 0 auto;
@@ -109,7 +109,7 @@ a {
 
 .tl-frame__title {
   margin: 0;
-  color: var(--bui-color-primary, #6f93b8);
+  color: var(--bui-color-primary, #9fc9ea);
   font-size: clamp(1.25rem, 3vw, 2.1rem);
   font-weight: 700;
   letter-spacing: 0.08em;

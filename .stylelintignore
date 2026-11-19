@@ -1,1 +1,7 @@
-site/vendor/
+node_modules/
+.cache/
+vendor/
+playwright-report/
+test-results/
+**/*.min.css
+apps/**/vendor/

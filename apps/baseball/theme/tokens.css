@@ -8,13 +8,13 @@
   --line: #263241;
   --text: #e6edf3;
   --muted: #8b9eb3;
-  --accent: #6f93b8;
+  --accent: #9fc9ea;
   --accent-ink: #0b1218;
-  --accent-soft: #8fb3cc;
+  --accent-soft: #c3ddf2;
   /* Compatibility aliases (mapped to Graphite palette) */
-  --lime: #6f93b8;
+  --lime: #9fc9ea;
   --lime-ink: #0b1218;
-  --mint: #8fb3cc;
+  --mint: #c3ddf2;
   --pink: #b07a8f;
   --coral: #c06b6b;
   --violet: #8b86b8;

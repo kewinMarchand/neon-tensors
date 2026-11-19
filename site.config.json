@@ -1,56 +1,5 @@
 {
-  "name": "Boilerplate HTML",
-  "description": "Boilerplate HTML, CSS et JavaScript natifs, sans framework ni étape de build, outillé pour la validation, les tests end-to-end et l'accessibilité.",
-  "url": "https://www.example.com",
-  "locale": "fr_FR",
-  "themeColor": "#1d4ed8",
-  "navigation": [
-    {
-      "href": "/",
-      "label": "Accueil"
-    },
-    {
-      "href": "/catalogue",
-      "label": "Catalogue"
-    },
-    {
-      "href": "/blog",
-      "label": "Blog"
-    },
-    {
-      "href": "/taches",
-      "label": "Tâches"
-    },
-    {
-      "href": "/contact",
-      "label": "Contact"
-    }
-  ],
-  "legalNavigation": [
-    {
-      "href": "/mentions-legales",
-      "label": "Mentions légales"
-    },
-    {
-      "href": "/donnees-personnelles",
-      "label": "Données personnelles"
-    },
-    {
-      "href": "/accessibilite",
-      "label": "Accessibilité : non conforme"
-    },
-    {
-      "href": "/plan-du-site",
-      "label": "Plan du site"
-    }
-  ],
-  "publisher": {
-    "companyName": "Exemple SAS",
-    "email": "contact@example.com"
-  },
-  "accessibility": {
-    "auditDate": null,
-    "complianceRate": null,
-    "auditor": null
-  }
+  "name": "Tensor Lab",
+  "description": "Applications de machine learning interactives (TensorFlow.js), déployées sur GitHub Pages.",
+  "apps": ["baseball", "face-3d-model", "face-landmarks-detection", "fear-greed"]
 }

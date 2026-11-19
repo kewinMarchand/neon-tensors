@@ -17,19 +17,19 @@
   --bui-color-border-subtle: #1d2a38;
   --bui-color-backdrop: rgb(11 17 23 / 0.72);
 
-  /* Couleurs d'accent (bleu acier sobre) */
-  --bui-color-primary: #6f93b8;
-  --bui-color-primary-dark: #5a7fa6;
+  /* Couleurs d'accent (bleu acier sobre, titres plus lisibles) */
+  --bui-color-primary: #9fc9ea;
+  --bui-color-primary-dark: #7fb2db;
   --bui-color-on-primary: #0b1218;
-  --bui-color-primary-surface-subtle: #162230;
-  --bui-color-primary-surface: #1b2a3a;
-  --bui-color-primary-surface-strong: #24364a;
-  --bui-color-secondary: #8fb3cc;
-  --bui-color-secondary-dark: #769cb8;
+  --bui-color-primary-surface-subtle: #172635;
+  --bui-color-primary-surface: #1d3042;
+  --bui-color-primary-surface-strong: #274255;
+  --bui-color-secondary: #c3ddf2;
+  --bui-color-secondary-dark: #a3cae8;
   --bui-color-on-secondary: #0b1218;
-  --bui-color-secondary-surface-subtle: #16232d;
-  --bui-color-secondary-surface: #1c2d3a;
-  --bui-color-secondary-surface-strong: #243848;
+  --bui-color-secondary-surface-subtle: #172734;
+  --bui-color-secondary-surface: #1e3344;
+  --bui-color-secondary-surface-strong: #294357;
 
   --bui-color-error: #c06b6b;
   --bui-color-error-surface: #2a171a;

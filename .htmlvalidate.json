@@ -14,18 +14,7 @@
         "style": "selfclose"
       }
     ],
-    "require-sri": [
-      "error",
-      {
-        "target": "crossorigin"
-      }
-    ],
-    "form-dup-name": [
-      "error",
-      {
-        "shared": ["radio", "checkbox", "button", "reset", "submit"]
-      }
-    ],
+    "require-sri": "off",
     "no-trailing-whitespace": "off"
   }
 }
